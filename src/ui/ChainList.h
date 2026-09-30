@@ -5,15 +5,16 @@
 
 namespace awchain
 {
-// The chain, top to bottom, the way the audio runs through it. Click to select,
-// drag to reorder, flip the switch to bypass.
+// The chain, top to bottom, the way the audio runs through it. Eight slots are
+// always on show; more appear as they fill, up to sixteen. Click to select,
+// drag to reorder, flip the switch to bypass, click an empty slot to add.
 class ChainList : public juce::Component, private juce::Timer
 {
   public:
     explicit ChainList(ChainProcessor &);
 
     void rebuild();    // the chain changed shape
-    void pollStates(); // bypass and mix can be automated
+    void pollStates(); // bypass, mix and levels move on their own
     void setSelectedSlot(int);
     int getSelectedSlot() const { return selected; }
     int preferredHeight() const;
@@ -35,8 +36,8 @@ class ChainList : public juce::Component, private juce::Timer
 
     static constexpr int rowHeight = 56;
     static constexpr int topPad = 48;
-    static constexpr int addHeight = 52;
     static constexpr int bottomPad = 52;
+    static constexpr int alwaysShown = 8;
     static constexpr float spineX = 30.f;
 
   private:
@@ -51,11 +52,11 @@ class ChainList : public juce::Component, private juce::Timer
     };
 
     ChainProcessor &proc;
-    std::vector<Row> rows;
+    std::vector<Row> rows; // filled slots only
     int selected{-1};
-    int hoverRow{-1};
+    int hoverIndex{-1}; // any visible slot, filled or empty
+    bool hoverToggle{false};
     float inputLevel{0.f}, outputLevel{0.f};
-    bool hoverAdd{false}, hoverToggle{false};
 
     int pressedRow{-1};
     bool dragging{false};
@@ -63,15 +64,17 @@ class ChainList : public juce::Component, private juce::Timer
     int dropIndex{-1};
     juce::Point<float> pressPoint;
 
+    int visibleSlots() const;
     float slotTop(int index) const { return (float)(topPad + index * rowHeight); }
-    int rowAt(float y) const;
+    int indexAt(float y) const;
     juce::Rectangle<float> toggleBounds(float rowY) const;
-    juce::Rectangle<float> addBounds() const;
+    juce::Rectangle<float> meterBounds(float centreY, float height) const;
     float targetY(int index) const;
     bool settle(); // one animation step; true while anything still moves
     void timerCallback() override;
     void showMenu(int rowIndex);
     void drawRow(juce::Graphics &, const Row &, int number, bool lifted) const;
-    void drawMeter(juce::Graphics &, float level, float x, float y, float width, bool dim) const;
+    void drawEmpty(juce::Graphics &, int index) const;
+    void drawMeter(juce::Graphics &, float level, juce::Rectangle<float>, bool dim) const;
 };
 } // namespace awchain

@@ -8,10 +8,13 @@ using namespace theme;
 
 ChainList::ChainList(ChainProcessor &p) : proc(p) {}
 
-int ChainList::preferredHeight() const
+int ChainList::visibleSlots() const
 {
-    return topPad + (int)rows.size() * rowHeight + addHeight + bottomPad;
+    // At least eight, always one empty one to add into, never more than the chain holds.
+    return juce::jmin(kMaxSlots, juce::jmax(alwaysShown, (int)rows.size() + 1));
 }
+
+int ChainList::preferredHeight() const { return topPad + visibleSlots() * rowHeight + bottomPad; }
 
 void ChainList::rebuild()
 {
@@ -42,7 +45,7 @@ void ChainList::rebuild()
     dragging = false;
     pressedRow = -1;
     dropIndex = -1;
-    hoverRow = -1;
+    hoverIndex = -1;
     setSize(getWidth(), preferredHeight());
     if (settle())
         startTimerHz(60);
@@ -78,17 +81,6 @@ void ChainList::pollStates()
         repaint();
 }
 
-void ChainList::drawMeter(juce::Graphics &g, float level, float x, float y, float width, bool dim) const
-{
-    if (level <= 0.f || width <= 0.f)
-        return;
-    // -60 dB .. 0 dB across the bar; anything over full scale shows hot.
-    const float db = 20.f * std::log10(juce::jmax(level, 1.0e-6f));
-    const float fraction = juce::jlimit(0.f, 1.f, (db + 60.f) / 60.f);
-    g.setColour(level > 1.f ? colour::hot : (dim ? colour::text3 : colour::accent.withAlpha(0.55f)));
-    g.fillRoundedRectangle(x, y, juce::jmax(2.f, width * fraction), 2.f, 1.f);
-}
-
 void ChainList::setSelectedSlot(int slot)
 {
     if (selected != slot)
@@ -99,9 +91,9 @@ void ChainList::setSelectedSlot(int slot)
 }
 
 //==============================================================================
-int ChainList::rowAt(float y) const
+int ChainList::indexAt(float y) const
 {
-    for (int i = 0; i < (int)rows.size(); ++i)
+    for (int i = 0; i < visibleSlots(); ++i)
         if (y >= slotTop(i) && y < slotTop(i) + (float)rowHeight)
             return i;
     return -1;
@@ -109,12 +101,12 @@ int ChainList::rowAt(float y) const
 
 juce::Rectangle<float> ChainList::toggleBounds(float rowY) const
 {
-    return {(float)getWidth() - 18.f - 30.f, rowY + (float)rowHeight * 0.5f - 8.f, 30.f, 16.f};
+    return {(float)getWidth() - 26.f - 30.f, rowY + (float)rowHeight * 0.5f - 8.f, 30.f, 16.f};
 }
 
-juce::Rectangle<float> ChainList::addBounds() const
+juce::Rectangle<float> ChainList::meterBounds(float centreY, float height) const
 {
-    return {0.f, slotTop((int)rows.size()), (float)getWidth(), (float)addHeight};
+    return {(float)getWidth() - 16.f, centreY - height * 0.5f, 3.f, height};
 }
 
 float ChainList::targetY(int index) const
@@ -155,13 +147,26 @@ void ChainList::timerCallback()
 }
 
 //==============================================================================
+void ChainList::drawMeter(juce::Graphics &g, float level, juce::Rectangle<float> r, bool dim) const
+{
+    // A small channel meter, bottom up: -60 dB to full scale, red when over.
+    g.setColour(colour::track.withAlpha(dim ? 0.5f : 0.9f));
+    g.fillRoundedRectangle(r, 1.5f);
+    if (level <= 0.f)
+        return;
+    const float db = 20.f * std::log10(juce::jmax(level, 1.0e-6f));
+    const float fraction = juce::jlimit(0.f, 1.f, (db + 60.f) / 60.f);
+    const float h = juce::jmax(2.f, r.getHeight() * fraction);
+    g.setColour(level > 1.f ? colour::hot : (dim ? colour::text3 : colour::accent.withAlpha(0.85f)));
+    g.fillRoundedRectangle(r.withTop(r.getBottom() - h), 1.5f);
+}
+
 void ChainList::paint(juce::Graphics &g)
 {
     const float inY = 26.f;
-    const auto add = addBounds();
-    const float outY = add.getBottom() + 22.f;
+    const float outY = slotTop(visibleSlots()) + 22.f;
 
-    // The signal path: one line from input to output through every effect.
+    // The signal path: one line from input to output through every slot.
     g.setColour(colour::line);
     g.fillRect(juce::Rectangle<float>(spineX - 0.75f, inY, 1.5f, outY - inY));
 
@@ -173,7 +178,7 @@ void ChainList::paint(juce::Graphics &g)
         g.setFont(sans(12.5f));
         g.drawText(label, juce::Rectangle<float>(56.f, y - 10.f, 160.f, 20.f),
                    juce::Justification::centredLeft, false);
-        drawMeter(g, level, 56.f, y + 12.f, (float)getWidth() - 56.f - 48.f, false);
+        drawMeter(g, level, meterBounds(y, 22.f), false);
     };
     terminal(inY, "Input", inputLevel);
 
@@ -191,29 +196,8 @@ void ChainList::paint(juce::Graphics &g)
         drawRow(g, rows[(size_t)i], visual + 1, false);
     }
 
-    // Add
-    const bool full = (int)rows.size() >= kMaxSlots;
-    if (hoverAdd && !full && !dragging)
-    {
-        g.setColour(colour::hover);
-        g.fillRect(add);
-    }
-    const auto disc = juce::Rectangle<float>(22.f, 22.f).withCentre({spineX, add.getCentreY()});
-    g.setColour(hoverAdd && !full ? colour::hover : colour::side);
-    g.fillEllipse(disc);
-    g.setColour(full ? colour::line : (hoverAdd ? colour::text2 : colour::text3));
-    g.drawEllipse(disc.reduced(0.5f), 1.f);
-    if (!full)
-    {
-        const auto c = disc.getCentre();
-        g.fillRect(juce::Rectangle<float>(c.x - 4.5f, c.y - 0.6f, 9.f, 1.2f));
-        g.fillRect(juce::Rectangle<float>(c.x - 0.6f, c.y - 4.5f, 1.2f, 9.f));
-    }
-    g.setFont(sans(14.f));
-    g.setColour(full ? colour::text3 : (hoverAdd ? colour::text : colour::text2));
-    g.drawText(full ? juce::String("The chain is full") : juce::String("Add effect"),
-               juce::Rectangle<float>(54.f, add.getY(), add.getWidth() - 60.f, add.getHeight()),
-               juce::Justification::centredLeft, false);
+    for (int i = (int)rows.size(); i < visibleSlots(); ++i)
+        drawEmpty(g, i);
 
     terminal(outY, "Output", outputLevel);
 
@@ -225,13 +209,53 @@ void ChainList::paint(juce::Graphics &g)
     }
 }
 
+void ChainList::drawEmpty(juce::Graphics &g, int index) const
+{
+    const float w = (float)getWidth();
+    const auto area = juce::Rectangle<float>(0.f, slotTop(index), w, (float)rowHeight);
+    const bool first = index == (int)rows.size();
+    const bool isHover = !dragging && hoverIndex == index;
+
+    if (isHover)
+    {
+        g.setColour(colour::hover);
+        g.fillRect(area);
+    }
+
+    const auto disc = juce::Rectangle<float>(24.f, 24.f).withCentre({spineX, area.getCentreY()});
+    g.setColour(isHover ? colour::hover : colour::side);
+    g.fillEllipse(disc);
+    g.setColour(isHover ? colour::text2 : colour::line.brighter(colour::light ? -0.05f : 0.12f));
+    g.drawEllipse(disc.reduced(0.5f), 1.f);
+
+    if (first || isHover)
+    {
+        const auto c = disc.getCentre();
+        g.setColour(isHover ? colour::text2 : colour::text3);
+        g.fillRect(juce::Rectangle<float>(c.x - 4.5f, c.y - 0.6f, 9.f, 1.2f));
+        g.fillRect(juce::Rectangle<float>(c.x - 0.6f, c.y - 4.5f, 1.2f, 9.f));
+    }
+    else
+    {
+        g.setFont(mono(11.5f));
+        g.setColour(colour::text3.withAlpha(0.6f));
+        g.drawText(juce::String(index + 1), disc.translated(0.f, -0.5f), juce::Justification::centred, false);
+    }
+
+    g.setFont(sans(14.f, first ? Weight::medium : Weight::regular));
+    g.setColour(isHover ? colour::text : (first ? colour::text2 : colour::text3.withAlpha(0.75f)));
+    g.drawText(first ? juce::String("Add effect") : juce::String("Empty"),
+               juce::Rectangle<float>(56.f, area.getY(), w - 100.f, area.getHeight()),
+               juce::Justification::centredLeft, false);
+}
+
 void ChainList::drawRow(juce::Graphics &g, const Row &row, int number, bool lifted) const
 {
     const float w = (float)getWidth();
     const auto area = juce::Rectangle<float>(0.f, row.y, w, (float)rowHeight);
     const bool isSelected = row.slot == selected;
-    const bool isHover = !dragging && hoverRow >= 0 && hoverRow < (int)rows.size() &&
-                         rows[(size_t)hoverRow].slot == row.slot;
+    const bool isHover = !dragging && hoverIndex >= 0 && hoverIndex < (int)rows.size() &&
+                         rows[(size_t)hoverIndex].slot == row.slot;
 
     auto background = colour::side;
     if (lifted)
@@ -294,9 +318,6 @@ void ChainList::drawRow(juce::Graphics &g, const Row &row, int number, bool lift
                    juce::Justification::centredRight, false);
     }
 
-    // Level after this effect
-    drawMeter(g, row.level, textX, row.y + (float)rowHeight - 6.f, textRight - textX, row.bypassed);
-
     // On / bypass. Neutral on purpose: the list's one accent is the selection.
     const bool on = !row.bypassed;
     if (on)
@@ -314,30 +335,31 @@ void ChainList::drawRow(juce::Graphics &g, const Row &row, int number, bool lift
                         : toggle.getX() + toggle.getHeight() * 0.5f;
     g.setColour(on ? (colour::light ? colour::window : colour::text) : colour::text3);
     g.fillEllipse(juce::Rectangle<float>(k, k).withCentre({kx, toggle.getCentreY()}));
+
+    // Level after this effect
+    drawMeter(g, row.level, meterBounds(area.getCentreY(), 34.f), row.bypassed);
 }
 
 //==============================================================================
 void ChainList::mouseMove(const juce::MouseEvent &e)
 {
-    const int r = rowAt(e.position.y);
-    const bool overAdd = addBounds().contains(e.position);
-    const bool overToggle = r >= 0 && toggleBounds(slotTop(r)).expanded(6.f).contains(e.position);
-    if (r != hoverRow || overAdd != hoverAdd || overToggle != hoverToggle)
+    const int i = indexAt(e.position.y);
+    const bool filled = i >= 0 && i < (int)rows.size();
+    const bool overToggle = filled && toggleBounds(slotTop(i)).expanded(6.f).contains(e.position);
+    if (i != hoverIndex || overToggle != hoverToggle)
     {
-        hoverRow = r;
-        hoverAdd = overAdd;
+        hoverIndex = i;
         hoverToggle = overToggle;
         repaint();
     }
-    setMouseCursor(overToggle || (overAdd && (int)rows.size() < kMaxSlots)
-                       ? juce::MouseCursor::PointingHandCursor
-                       : juce::MouseCursor::NormalCursor);
+    setMouseCursor(overToggle || (i >= 0 && !filled) ? juce::MouseCursor::PointingHandCursor
+                                                     : juce::MouseCursor::NormalCursor);
 }
 
 void ChainList::mouseExit(const juce::MouseEvent &)
 {
-    hoverRow = -1;
-    hoverAdd = hoverToggle = false;
+    hoverIndex = -1;
+    hoverToggle = false;
     repaint();
 }
 
@@ -346,25 +368,26 @@ void ChainList::mouseDown(const juce::MouseEvent &e)
     pressedRow = -1;
     dragging = false;
 
-    if (addBounds().contains(e.position))
+    const int i = indexAt(e.position.y);
+    if (i < 0)
+        return;
+
+    if (i >= (int)rows.size())
     {
-        if ((int)rows.size() < kMaxSlots && onAdd && !e.mods.isPopupMenu())
+        // An empty slot: the next effect goes at the end of the chain.
+        if (!e.mods.isPopupMenu() && onAdd)
             onAdd();
         return;
     }
 
-    const int r = rowAt(e.position.y);
-    if (r < 0)
-        return;
-    const int slot = rows[(size_t)r].slot;
-
+    const int slot = rows[(size_t)i].slot;
     if (e.mods.isPopupMenu())
     {
-        showMenu(r);
+        showMenu(i);
         return;
     }
 
-    if (toggleBounds(slotTop(r)).expanded(6.f).contains(e.position))
+    if (toggleBounds(slotTop(i)).expanded(6.f).contains(e.position))
     {
         auto &b = proc.bypassParam(slot);
         b.beginChangeGesture();
@@ -374,9 +397,9 @@ void ChainList::mouseDown(const juce::MouseEvent &e)
         return;
     }
 
-    pressedRow = r;
+    pressedRow = i;
     pressPoint = e.position;
-    grabOffset = e.position.y - rows[(size_t)r].y;
+    grabOffset = e.position.y - rows[(size_t)i].y;
     if (slot != selected)
     {
         setSelectedSlot(slot);
@@ -435,11 +458,11 @@ void ChainList::mouseUp(const juce::MouseEvent &)
 
 void ChainList::mouseDoubleClick(const juce::MouseEvent &e)
 {
-    const int r = rowAt(e.position.y);
-    if (r < 0 || toggleBounds(slotTop(r)).expanded(6.f).contains(e.position))
+    const int i = indexAt(e.position.y);
+    if (i < 0 || i >= (int)rows.size() || toggleBounds(slotTop(i)).expanded(6.f).contains(e.position))
         return;
     if (onReplace)
-        onReplace(rows[(size_t)r].slot);
+        onReplace(rows[(size_t)i].slot);
 }
 
 void ChainList::showMenu(int rowIndex)
@@ -449,6 +472,7 @@ void ChainList::showMenu(int rowIndex)
     const bool bypassed = rows[(size_t)rowIndex].bypassed;
 
     juce::PopupMenu m;
+    m.addSectionHeader(rows[(size_t)rowIndex].name);
     m.addItem("Replace...", [this, slot] {
         if (onReplace)
             onReplace(slot);
@@ -479,6 +503,9 @@ void ChainList::showMenu(int rowIndex)
     });
 
     const auto area = localAreaToGlobal(juce::Rectangle<int>(0, (int)slotTop(rowIndex), getWidth(), rowHeight));
-    m.showMenuAsync(juce::PopupMenu::Options().withTargetScreenArea(area).withMinimumWidth(180));
+    m.showMenuAsync(juce::PopupMenu::Options()
+                        .withTargetScreenArea(area)
+                        .withMinimumWidth(220)
+                        .withStandardItemHeight(28));
 }
 } // namespace awchain

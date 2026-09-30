@@ -26,7 +26,7 @@ listed under Kani.
 
 | Where | What |
 |---|---|
-| Chain list | Click to select. Drag to reorder. The switch bypasses. Double-click to replace. Right-click for duplicate, move, remove. |
+| Chain list | Eight slots on show, more as they fill, up to sixteen. Click an empty one to add. Click to select. Drag to reorder. The switch bypasses. Double-click to replace. |
 | Add effect | Opens the browser. Type to search names, categories and descriptions. Hover to read, click or Enter to add. Esc closes. |
 | Effect panel | Drag a control, or click its track to jump. Shift drags finely. Double-click a control to reset it, or its value to type one. The arrows step through the effect's category. |
 | Mix | Blends each effect with what went into it. |
@@ -34,7 +34,7 @@ listed under Kani.
 | Undo | Next to the chain name after any edit. Covers add, remove, replace, move, duplicate, clear and open, forty steps deep. |
 | Star | Marks a favourite. Favourites get their own list in the browser, first in line. |
 | Right-click a row | Replace, duplicate, add an effect after this one, bypass, move, remove. |
-| Meters | The bar under each effect is the level after it, from -60 dB to full scale. Red means it went over. Input and Output have one too. |
+| Meters | The small meter at the right edge of each effect is the level after it, from -60 dB to full scale. Red means it went over. Input and Output have one too. |
 | Theme | Warm, Cool, Black or Light, with an amber, coral, mint, sky, lilac or plain accent. Remembered for every instance. |
 
 The host sees sixteen fixed blocks of parameters, named after whatever sits in
