@@ -599,6 +599,8 @@ void snapshots(const juce::File &folder)
         editor.openPickerToAdd();
         editor.getPicker()->setQuery("tape");
         writePng(editor, folder.getChildFile("browser@2x.png"), 2.f);
+        editor.getPicker()->setQuery({});
+        writePng(editor, folder.getChildFile("picker@2x.png"), 2.f);
         editor.closePicker();
 
         editor.showAbout();
@@ -608,6 +610,7 @@ void snapshots(const juce::File &folder)
         editor.setKnobs(true);
         editor.select(p->getOrder()[2]);
         writePng(editor, folder.getChildFile("knobs.png"), 1.f);
+        writePng(editor, folder.getChildFile("knobs@2x.png"), 2.f);
         editor.setSize(760, 500);
         writePng(editor, folder.getChildFile("knobs-small.png"), 1.f);
         editor.setKnobs(false);
@@ -657,6 +660,7 @@ void snapshots(const juce::File &folder)
         ed->setSize(940, 620);
         dynamic_cast<ChainEditor &>(*ed).syncNow();
         writePng(*ed, folder.getChildFile("empty.png"), 1.f);
+        writePng(*ed, folder.getChildFile("empty@2x.png"), 2.f);
     }
     {
         ChainProcessor p;

@@ -67,11 +67,29 @@ headless:
 
 ## Screenshots
 
+The chain and the selected effect, with Chris's notes underneath:
+
 ![The chain and the selected effect](docs/chain.png)
 
-![The effect browser](docs/browser.png)
+The browser: Chris's recommended list, every category, and the write-up for whatever you hover:
 
-![Warm, Cool, Black and Light themes](docs/themes.png)
+![Browsing the recommended list](docs/browse.png)
+
+Searching:
+
+![Searching for tape](docs/browser.png)
+
+Knobs, if you prefer them:
+
+![Knob layout](docs/knobs.png)
+
+A new instance, eight slots ready:
+
+![A new chain](docs/start.png)
+
+Warm, Cool, Black and Light, each with six accents:
+
+![Themes](docs/themes.png)
 
 ## Licence
 
