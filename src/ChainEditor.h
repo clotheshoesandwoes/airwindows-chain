@@ -1,0 +1,69 @@
+#pragma once
+
+#include <juce_audio_processors/juce_audio_processors.h>
+
+#include "ChainProcessor.h"
+#include "ui/ChainList.h"
+#include "ui/Picker.h"
+#include "ui/SlotPanel.h"
+#include "ui/Theme.h"
+
+namespace awchain
+{
+class ChainEditor : public juce::AudioProcessorEditor, private juce::Timer
+{
+  public:
+    explicit ChainEditor(ChainProcessor &);
+    ~ChainEditor() override;
+
+    void paint(juce::Graphics &) override;
+    void resized() override;
+
+    // Also used by the test harness
+    void syncNow();
+    void select(int slot);
+    void openPickerToAdd();
+    void openPickerToReplace(int slot);
+    void closePicker();
+    Picker *getPicker() { return picker.get(); }
+    void pollNow(); // what the timer does, for tests
+
+    static constexpr int headerHeight = 56;
+
+  private:
+    class ChainMenuButton : public juce::Button
+    {
+      public:
+        ChainMenuButton();
+        void setChainName(const juce::String &);
+        int idealWidth() const;
+        void paintButton(juce::Graphics &, bool highlighted, bool down) override;
+
+      private:
+        juce::String shown{"Untitled chain"};
+    };
+
+    ChainProcessor &proc;
+    theme::LookAndFeel lookAndFeel;
+    juce::TooltipWindow tooltips{this, 700};
+    ChainMenuButton chainMenu;
+    juce::Viewport listViewport;
+    ChainList chainList;
+    SlotPanel slotPanel;
+    std::unique_ptr<Picker> picker;
+    std::unique_ptr<juce::FileChooser> chooser;
+
+    uint32_t seenVersion{0};
+    int selectedSlot{-1}, selectedPosition{0};
+    int shownSlot{-2}, shownEffect{-2};
+
+    void timerCallback() override;
+    void showSelected();
+    void layoutList();
+    void showChainMenu();
+    void saveChainAs();
+    void openChainFile();
+    Picker &ensurePicker();
+    int listWidth() const;
+};
+} // namespace awchain

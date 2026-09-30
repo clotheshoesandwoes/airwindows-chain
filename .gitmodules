@@ -1,0 +1,9 @@
+[submodule "libs/airwin2rack"]
+	path = libs/airwin2rack
+	url = https://github.com/baconpaul/airwin2rack
+[submodule "libs/JUCE"]
+	path = libs/JUCE
+	url = https://github.com/juce-framework/JUCE
+[submodule "libs/clap-juce-extensions"]
+	path = libs/clap-juce-extensions
+	url = https://github.com/free-audio/clap-juce-extensions
