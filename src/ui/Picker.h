@@ -20,6 +20,7 @@ class Picker : public juce::Component, private juce::ListBoxModel, private juce:
 
     // For tests and screenshots
     void setQuery(const juce::String &);
+    void setVocalsOnly(bool); // the "For vocals" switch, as a click on it would
     void highlightRow(int row);
     int getNumResults() const { return (int)items.size(); }
 
@@ -44,6 +45,7 @@ class Picker : public juce::Component, private juce::ListBoxModel, private juce:
         juce::String key, label;
         int count{0};
         bool gapBefore{false};
+        bool toggle{false}, on{false}; // a switch drawn among the sources, not a list
     };
 
     class SourceList : public juce::Component
@@ -108,6 +110,7 @@ class Picker : public juce::Component, private juce::ListBoxModel, private juce:
 
     std::vector<int> items;
     juce::String source{"recommended"};
+    bool vocalsOnly{false}; // the "For vocals" switch; kept in the shared settings
     juce::String rememberedSource; // where browsing was before a replace took over
     int replacingSlot{-1};
     std::map<int, juce::StringArray> controlCache;
@@ -120,5 +123,6 @@ class Picker : public juce::Component, private juce::ListBoxModel, private juce:
     void updatePreview();
     juce::StringArray controlNames(int registryIndex);
     bool searching() const;
+    int countShown(std::vector<int> list) const; // a list's size, after the vocals switch
 };
 } // namespace awchain

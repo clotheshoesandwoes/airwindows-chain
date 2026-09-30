@@ -44,6 +44,7 @@ zip and the installer (the installer needs NSIS).
 | Chain name | Save and open chains. They are small files in `Documents\Airwindows Chain`. Also holds Undo, the theme and accent choices, and About. |
 | Undo | Next to the chain name after any edit. Covers add, remove, replace, move, duplicate, clear and open, forty steps deep. |
 | Star | Marks a favourite. Favourites get their own list in the browser, first in line. |
+| For vocals | A switch under All effects in the browser. On, every list, the categories and search included, shows only the effects that suit a voice: compressors and gates, de-essers, air, channel strips, tape, plates and rooms, doublers. The list is mine, not Chris's, and lives in `src/VocalList.h`. |
 | Right-click a row | Replace, duplicate, add an effect after this one, bypass, move, remove. |
 | Meters | The small meter at the right edge of each effect is the level after it, from -60 dB to full scale. Red means it went over. Input and Output have one too. |
 | Theme | Warm, Cool, Black or Light, with an amber, coral, mint, sky, lilac or plain accent. Remembered for every instance. |
@@ -83,6 +84,10 @@ The chain and the selected effect, with Chris's notes underneath:
 The browser: Chris's recommended list, every category, and the write-up for whatever you hover:
 
 ![Browsing the recommended list](docs/browse.png)
+
+The For vocals switch on: the same lists, narrowed to what suits a voice:
+
+![The For vocals switch](docs/browser-vocals.png)
 
 Searching:
 

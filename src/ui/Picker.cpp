@@ -49,9 +49,20 @@ void Picker::SourceList::paint(juce::Graphics &g)
             g.setColour(isSelected ? colour::raised : colour::hover);
             g.fillRoundedRectangle(r, 6.f);
         }
-        g.setFont(sans(13.5f, isSelected ? Weight::medium : Weight::regular));
-        g.setColour(isSelected ? colour::text : (i == hover ? colour::text : colour::text2));
-        g.drawText(s.label, r.withTrimmedLeft(10.f).withTrimmedRight(40.f), juce::Justification::centredLeft, true);
+        auto labelArea = r.withTrimmedLeft(10.f).withTrimmedRight(40.f);
+        if (s.toggle)
+        {
+            const auto dot = juce::Rectangle<float>(8.f, 8.f).withCentre({r.getX() + 15.f, r.getCentreY()});
+            g.setColour(s.on ? colour::accent : colour::text3);
+            if (s.on)
+                g.fillEllipse(dot);
+            else
+                g.drawEllipse(dot, 1.2f);
+            labelArea = labelArea.withTrimmedLeft(16.f);
+        }
+        g.setFont(sans(13.5f, isSelected || s.on ? Weight::medium : Weight::regular));
+        g.setColour(isSelected || s.on ? colour::text : (i == hover ? colour::text : colour::text2));
+        g.drawText(s.label, labelArea, juce::Justification::centredLeft, true);
         g.setFont(mono(11.5f));
         g.setColour(colour::text3);
         g.drawText(juce::String(s.count), r.withTrimmedRight(10.f), juce::Justification::centredRight, false);
@@ -232,7 +243,13 @@ Picker::Picker(ChainProcessor &p) : proc(p), results("Effects", this)
     };
     addAndMakeVisible(cancel);
 
+    vocalsOnly = proc.getSetting("vocalsOnly", "0") == "1";
     sourceList.onPick = [this](const juce::String &key) {
+        if (key == "vocals")
+        {
+            setVocalsOnly(!vocalsOnly);
+            return;
+        }
         search.setText({}, false);
         setSource(key);
         search.grabKeyboardFocus();
@@ -295,7 +312,8 @@ void Picker::open()
     const auto total = (int)Catalog::get().all().size();
     const auto *current = Catalog::get().find(proc.getSlotInfo(replacingSlot).registryIndex);
     search.setTextToShowWhenEmpty(current != nullptr ? "Replace " + current->name + " with..."
-                                                     : "Search " + juce::String(total) + " effects",
+                                  : vocalsOnly     ? "Search " + juce::String(Catalog::get().vocalCount()) + " effects for vocals"
+                                                   : "Search " + juce::String(total) + " effects",
                                   colour::text3);
     preview.setUseLabel(current != nullptr ? "Replace" : "Add to chain",
                         current != nullptr ? juce::String() : juce::String("Shift keeps it open"));
@@ -334,12 +352,13 @@ void Picker::buildSources()
         recentCount += cat.indexOf(r) >= 0 ? 1 : 0;
     if (recentCount > 0)
         list.push_back({"recent", "Recent", recentCount, false});
-    list.push_back({"recommended", "Chris recommends", (int)cat.recommended().size(), false});
-    list.push_back({"all", "All effects", (int)cat.all().size(), false});
+    list.push_back({"recommended", "Chris recommends", countShown(cat.recommended()), false});
+    list.push_back({"all", "All effects", countShown(cat.alphabetical()), false});
+    list.push_back({"vocals", "For vocals", cat.vocalCount(), false, true, vocalsOnly});
     bool first = true;
     for (const auto &c : cat.categories())
     {
-        list.push_back({"cat:" + c, c, (int)cat.inCategory(c).size(), first});
+        list.push_back({"cat:" + c, c, countShown(cat.inCategory(c)), first});
         first = false;
     }
     if ((source == "recent" && recentCount == 0) || (source == "favourites" && favouriteCount == 0))
@@ -349,6 +368,25 @@ void Picker::buildSources()
 }
 
 bool Picker::searching() const { return search.getText().trim().isNotEmpty(); }
+
+void Picker::setVocalsOnly(bool on)
+{
+    vocalsOnly = on;
+    proc.setSetting("vocalsOnly", on ? "1" : "0");
+    if (replacingSlot < 0)
+        search.setTextToShowWhenEmpty(on ? "Search " + juce::String(Catalog::get().vocalCount()) + " effects for vocals"
+                                         : "Search " + juce::String((int)Catalog::get().all().size()) + " effects",
+                                      colour::text3);
+    buildSources();
+    refreshItems();
+}
+
+int Picker::countShown(std::vector<int> list) const
+{
+    if (vocalsOnly)
+        Catalog::get().keepVocals(list);
+    return (int)list.size();
+}
 
 void Picker::setSource(const juce::String &key)
 {
@@ -383,6 +421,8 @@ void Picker::refreshItems()
         items = cat.inCategory(source.substring(4));
     else
         items = cat.recommended();
+    if (vocalsOnly)
+        cat.keepVocals(items);
 
     sourceList.selectedKey = q.isNotEmpty() ? juce::String() : source;
     sourceList.repaint();

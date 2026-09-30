@@ -11,6 +11,7 @@
 
 #include "ChainEditor.h"
 #include "ChainProcessor.h"
+#include "VocalList.h"
 
 #include <iostream>
 #include <thread>
@@ -217,6 +218,15 @@ void testCatalog()
     check(c.all().size() >= 500, "catalog has " + juce::String((int)c.all().size()) + " effects");
     check(c.categories().size() >= 20, juce::String(c.categories().size()) + " categories");
     check(c.recommended().size() > 100, juce::String((int)c.recommended().size()) + " recommended");
+    {
+        int listed = 0;
+        for (const char *n : kForVocals)
+            ++listed;
+        check(c.vocalCount() == listed, juce::String(c.vocalCount()) + " of " + juce::String(listed) + " vocal picks found in the registry");
+        auto rec = c.recommended();
+        c.keepVocals(rec);
+        check(!rec.empty() && (int)rec.size() < c.vocalCount(), juce::String((int)rec.size()) + " recommended effects for vocals");
+    }
 
     for (const char *q : {"tape", "totape", "to tape", "reverb", "de-ess", "sat"})
     {
@@ -600,6 +610,10 @@ void snapshots(const juce::File &folder)
         editor.getPicker()->setQuery("tape");
         writePng(editor, folder.getChildFile("browser@2x.png"), 2.f);
         editor.getPicker()->setQuery({});
+        // the For vocals switch on: Chris's list, narrowed
+        editor.getPicker()->setVocalsOnly(true);
+        writePng(editor, folder.getChildFile("browser-vocals@2x.png"), 2.f);
+        editor.getPicker()->setVocalsOnly(false);
         writePng(editor, folder.getChildFile("picker@2x.png"), 2.f);
         editor.closePicker();
 
@@ -637,7 +651,7 @@ void snapshots(const juce::File &folder)
             editor.syncNow();
             editor.pollNow();
             editor.select(p->getOrder()[2]);
-            writePng(editor, folder.getChildFile("theme-" + palette.toLowerCase() + ".png"), 1.f);
+            writePng(editor, folder.getChildFile("theme-" + palette.toLowerCase() + ".png"), 2.f);
 
             const auto img = editor.createComponentSnapshot(editor.getLocalBounds(), true, 1.f);
             juce::Graphics g(sheet);
@@ -781,6 +795,83 @@ void loadVst3(const juce::File &file)
 
     instance->releaseResources();
 }
+// Renders the editor frame by frame while real audio runs through the chain,
+// with a fader being dragged and the selection changing: material for a clip.
+//   awchain_harness frames <folder> [seconds] [fps] [scale]
+void frames(const juce::File &folder, double seconds, int fps, float scale)
+{
+    folder.createDirectory();
+    auto p = demoChain();
+    const double sr = 48000.0;
+    p->prepareToPlay(sr, 512);
+
+    std::unique_ptr<juce::AudioProcessorEditor> ed(p->createEditor());
+    auto &editor = dynamic_cast<ChainEditor &>(*ed);
+    editor.setSize(940, 620);
+    editor.syncNow();
+    const auto order = p->getOrder();
+    editor.select(order[2]); // ToTape8
+
+    const int total = (int)(seconds * fps);
+    const int perFrame = (int)(sr / fps);
+    juce::AudioBuffer<float> block(2, perFrame);
+    juce::MidiBuffer midi;
+    juce::Random rng(3);
+
+    // A beat: kick on the beat, hat between, a swell underneath (same as the site's card).
+    auto envelope = [](double t) {
+        const double beat = t * 1.75;
+        const double kick = std::pow(std::max(0.0, 1.0 - std::fmod(beat, 1.0) * 2.6), 2.0);
+        const double hat = 0.18 * std::pow(std::max(0.0, 1.0 - std::fmod(beat + 0.5, 1.0) * 4.0), 2.0);
+        const double swell = 0.28 + 0.12 * std::sin(t * 0.7);
+        return std::min(1.0, swell + kick * 0.72 + hat);
+    };
+
+    const int density = order[1], tape = order[2], galactic = order[4];
+    for (int f = 0; f < total; ++f)
+    {
+        const double t = (double)f / fps;
+
+        // audio for this frame
+        const float amp = (float)envelope(t) * 0.8f;
+        for (int i = 0; i < perFrame; ++i)
+        {
+            const double tt = (double)(f * perFrame + i) / sr;
+            const float v = amp * (float)(0.5 * std::sin(juce::MathConstants<double>::twoPi * 110.0 * tt) +
+                                          0.25 * std::sin(juce::MathConstants<double>::twoPi * 1760.0 * tt)) +
+                            amp * 0.15f * (rng.nextFloat() * 2.f - 1.f);
+            block.setSample(0, i, v);
+            block.setSample(1, i, v * 0.9f);
+        }
+        p->processBlock(block, midi);
+
+        // the story: drag Input on ToTape8, switch to Density2, bypass the reverb, come back
+        if (t >= 2.5 && t < 5.5)
+        {
+            const double k = (t - 2.5) / 3.0;                       // 0..1
+            const float v = 0.62f + 0.26f * (float)std::sin(k * juce::MathConstants<double>::pi); // out and back
+            p->fxParam(tape, 0).setValueNotifyingHost(v);
+        }
+        if (f == (int)(6.0 * fps))
+            editor.select(density);
+        if (f == (int)(7.5 * fps))
+            p->bypassParam(galactic).setValueNotifyingHost(0.f); // turn the reverb on
+        if (f == (int)(9.0 * fps))
+            editor.select(tape);
+        if (f == (int)(10.5 * fps))
+            p->bypassParam(galactic).setValueNotifyingHost(1.f);
+
+        editor.pollNow();
+        const auto image = editor.createComponentSnapshot(editor.getLocalBounds(), true, scale);
+        const auto file = folder.getChildFile(juce::String::formatted("frame%04d.png", f));
+        file.deleteFile();
+        juce::FileOutputStream out(file);
+        juce::PNGImageFormat().writeImageToStream(image, out);
+        if (f % 30 == 0)
+            std::cout << "frame " << f << " / " << total << std::endl;
+    }
+    std::cout << "wrote " << total << " frames to " << folder.getFullPathName() << std::endl;
+}
 } // namespace
 
 int main(int argc, char *argv[])
@@ -794,6 +885,10 @@ int main(int argc, char *argv[])
         snapshots(juce::File(argc > 2 ? juce::String(argv[2]) : juce::File::getCurrentWorkingDirectory().getFullPathName()));
     else if (mode == "vst3")
         loadVst3(juce::File(juce::String(argv[2])));
+    else if (mode == "frames")
+        frames(juce::File(juce::String(argv[2])), argc > 3 ? juce::String(argv[3]).getDoubleValue() : 12.0,
+               argc > 4 ? juce::String(argv[4]).getIntValue() : 30,
+               argc > 5 ? juce::String(argv[5]).getFloatValue() : 1.5f);
     else
     {
         testCatalog();

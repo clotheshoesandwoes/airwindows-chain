@@ -1,5 +1,6 @@
 #include "Catalog.h"
 #include "AirwinRegistry.h"
+#include "VocalList.h"
 
 namespace awchain
 {
@@ -77,6 +78,13 @@ Catalog::Catalog()
         e.summaryLower = e.summary.toLowerCase();
     }
 
+    for (const char *name : kForVocals)
+        if (const int i = indexOf(name); i >= 0 && !entries[(size_t)i].forVocals)
+        {
+            entries[(size_t)i].forVocals = true;
+            ++nVocal;
+        }
+
     for (const auto &c : AirwinRegistry::categories)
         categoryNames.add(fromStd(c));
 
@@ -93,6 +101,13 @@ Catalog::Catalog()
     std::sort(alpha.begin(), alpha.end(), [this](int a, int b) {
         return entries[(size_t)a].name.compareNatural(entries[(size_t)b].name) < 0;
     });
+}
+
+void Catalog::keepVocals(std::vector<int> &list) const
+{
+    list.erase(std::remove_if(list.begin(), list.end(),
+                              [this](int i) { const auto *e = find(i); return e == nullptr || !e->forVocals; }),
+               list.end());
 }
 
 const CatalogEntry *Catalog::find(int registryIndex) const

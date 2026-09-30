@@ -17,6 +17,7 @@ struct CatalogEntry
     juce::String summary; // Chris's one-liner, without the leading "Name is"
     int nParams{0};
     bool recommended{false}, basic{false}, latest{false};
+    bool forVocals{false}; // on the hand-picked list in VocalList.h
 
     juce::String nameLower, categoryLower, summaryLower;
 };
@@ -36,6 +37,9 @@ class Catalog
     std::vector<int> inCategory(const juce::String &category) const; // Chris's order
     std::vector<int> recommended() const;                            // by category, Chris's order
     std::vector<int> alphabetical() const;
+    // How many effects the "For vocals" switch keeps, and the switch itself.
+    int vocalCount() const { return nVocal; }
+    void keepVocals(std::vector<int> &list) const;
     std::vector<int> search(const juce::String &query) const;
 
     // Next or previous effect in the same category, Chris's order, wrapping.
@@ -51,5 +55,6 @@ class Catalog
     juce::StringArray categoryNames;
     std::map<juce::String, std::vector<int>> byCategory;
     std::vector<int> alpha;
+    int nVocal{0};
 };
 } // namespace awchain
