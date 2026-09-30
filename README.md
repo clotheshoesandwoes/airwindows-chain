@@ -6,21 +6,30 @@ with Chris Johnson's description of each one next to its controls.
 
 Consolidated runs one effect per instance. This runs a chain.
 
-## Install
+## Download
+
+Windows, 64-bit: [latest release](https://github.com/clotheshoesandwoes/airwindows-chain/releases/latest).
+
+- `AirwindowsChain-<version>-setup.exe` installs the VST3 and CLAP where every
+  DAW looks, and adds an uninstaller.
+- `AirwindowsChain-<version>-windows.zip` if you'd rather copy the files
+  yourself: the `.vst3` folder goes in `C:\Program Files\Common Files\VST3`,
+  the `.clap` in `C:\Program Files\Common Files\CLAP`.
+
+Then rescan plugins in your DAW once. It is listed under Kani.
+
+## Build it yourself
 
 ```
-tools\build.bat
+toolsuild.bat
 tools\install.bat
 ```
 
 `build.bat` needs Visual Studio 2022 with the C++ workload (it finds it through
 vswhere; CMake and Ninja come with it). The first build compiles all 504
-effects and takes a few minutes.
-
-`install.bat` copies the VST3 and CLAP into `C:\Program Files\Common Files\VST3`
-and `...\CLAP`. Windows asks for admin rights. Close FL Studio first, or the old
-copy is locked. Then in FL: Options, Manage plugins, Find more plugins. It is
-listed under Kani.
+effects and takes a few minutes. `install.bat` copies the result into the
+plugin folders; Windows asks for admin rights. `tools\package.py` makes the
+zip and the installer (the installer needs NSIS).
 
 ## Using it
 
