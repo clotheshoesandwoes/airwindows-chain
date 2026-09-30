@@ -5,16 +5,16 @@
 
 namespace awchain
 {
-// One control: name, a horizontal fader, and the value the effect reports.
-// Drag anywhere on the row, click the track to jump, shift for fine moves,
-// double-click to reset, double-click the value to type one.
+// One control: name, a fader (or a knob), and the value the effect reports.
+// Drag anywhere on it, click the fader track to jump, hold Ctrl or Shift for
+// fine moves, double-click to reset, double-click the value to type one.
 class ParamRow : public juce::Component
 {
   public:
     using Format = std::function<juce::String(float)>;
     using Parse = std::function<std::optional<float>(const juce::String &)>;
 
-    ParamRow(juce::RangedAudioParameter &, const juce::String &label, Format, Parse);
+    ParamRow(juce::RangedAudioParameter &, const juce::String &label, Format, Parse, bool knob = false);
     ~ParamRow() override;
 
     void paint(juce::Graphics &) override;
@@ -26,7 +26,9 @@ class ParamRow : public juce::Component
     void mouseUp(const juce::MouseEvent &) override;
     void mouseDoubleClick(const juce::MouseEvent &) override;
 
-    static constexpr int height = 40;
+    static constexpr int height = 40;      // fader row
+    static constexpr int knobWidth = 100;  // knob cell
+    static constexpr int knobHeight = 116;
 
   private:
     juce::RangedAudioParameter &param;
@@ -34,10 +36,13 @@ class ParamRow : public juce::Component
     juce::String label;
     Format format;
     Parse parse;
+    const bool knob;
     float value{0.f};
     bool hovering{false}, dragging{false};
-    float lastX{0.f};
+    float lastX{0.f}, lastY{0.f};
     std::unique_ptr<juce::TextEditor> entry;
+
+    void paintKnob(juce::Graphics &);
 
     juce::Rectangle<float> labelArea() const;
     juce::Rectangle<float> trackArea() const;
@@ -103,6 +108,7 @@ class SlotPanel : public juce::Component
         std::unique_ptr<ParamRow> mix;
         DocView docs;
         bool noControls{false};
+        bool knobs{false};
         int dividerY{0}, dividerWidth{0};
         int layoutFor(int width);
         void paint(juce::Graphics &) override;

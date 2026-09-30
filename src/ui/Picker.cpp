@@ -359,6 +359,7 @@ void Picker::setSource(const juce::String &key)
 void Picker::setQuery(const juce::String &q)
 {
     search.setText(q, false);
+    search.moveCaretToEnd();
     refreshItems();
 }
 

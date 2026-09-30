@@ -102,6 +102,7 @@ ChainEditor::ChainEditor(ChainProcessor &p)
         syncNow();
     };
 
+    setWantsKeyboardFocus(typeToSearch());
     setResizable(true, true);
     setResizeLimits(760, 500, 2400, 1600);
     setSize(juce::jlimit(760, 2400, p.editorSize.x), juce::jlimit(500, 1600, p.editorSize.y));
@@ -173,6 +174,56 @@ void ChainEditor::pollNow()
         syncNow();
     chainList.pollStates();
     slotPanel.pollBypass();
+
+    // Type to search: take the keyboard while the mouse is here, hand it back
+    // when it leaves. Keys we don't use go to the host either way.
+    const bool browsing = picker != nullptr && picker->isVisible();
+    if (typeToSearch() && !browsing && (about == nullptr || !about->isVisible()) && isShowing())
+    {
+        const bool over = isMouseOver(true);
+        if (over && !hasKeyboardFocus(true))
+            grabKeyboardFocus();
+        else if (!over && hasKeyboardFocus(false))
+            giveAwayKeyboardFocus();
+    }
+}
+
+bool ChainEditor::typeToSearch() const { return proc.getSetting("typeToSearch", "1") == "1"; }
+
+void ChainEditor::setTypeToSearch(bool on)
+{
+    proc.setSetting("typeToSearch", on ? "1" : "0");
+    setWantsKeyboardFocus(on);
+    if (!on)
+        giveAwayKeyboardFocus();
+}
+
+void ChainEditor::setKnobs(bool on)
+{
+    proc.setSetting("knobs", on ? "1" : "0");
+    shownSlot = -2;
+    showSelected();
+}
+
+bool ChainEditor::keyPressed(const juce::KeyPress &key)
+{
+    if (!typeToSearch() || (picker != nullptr && picker->isVisible()) || (about != nullptr && about->isVisible()))
+        return false;
+
+    const auto mods = key.getModifiers();
+    if (mods.isCtrlDown() || mods.isAltDown() || mods.isCommandDown())
+        return false;
+
+    const auto c = key.getTextCharacter();
+    const bool letter = c < 128 && juce::CharacterFunctions::isLetterOrDigit((char)c);
+    if (!letter && c != '/')
+        return false; // space, arrows and the rest belong to the host
+
+    openPickerToAdd();
+    if (picker == nullptr || !picker->isVisible())
+        return false;
+    picker->setQuery(letter ? juce::String::charToString(c) : juce::String());
+    return true;
 }
 
 //==============================================================================
@@ -276,6 +327,10 @@ void ChainEditor::showChainMenu()
                         [this, name = a.name] { applyTheme(theme::currentPalette(), name); });
     m.addSubMenu("Theme", themes);
     m.addSubMenu("Accent", accents);
+    const bool knobs = proc.getSetting("knobs", "0") == "1";
+    m.addItem("Knobs instead of faders", true, knobs, [this, knobs] { setKnobs(!knobs); });
+    const bool typing = typeToSearch();
+    m.addItem("Type to search", true, typing, [this, typing] { setTypeToSearch(!typing); });
     m.addItem("About Airwindows Chain", [this] { showAbout(); });
 
     m.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(&chainMenu).withMinimumWidth(240));
@@ -370,11 +425,13 @@ void ChainEditor::showAbout()
 
 void ChainEditor::closeAbout()
 {
-    if (about != nullptr)
-        juce::MessageManager::callAsync([safe = juce::Component::SafePointer<ChainEditor>(this)] {
-            if (safe != nullptr)
-                safe->about.reset();
-        });
+    if (about == nullptr)
+        return;
+    about->setVisible(false); // gone now; freed once its own click handler has returned
+    juce::MessageManager::callAsync([safe = juce::Component::SafePointer<ChainEditor>(this)] {
+        if (safe != nullptr && safe->about != nullptr && !safe->about->isVisible())
+            safe->about.reset();
+    });
 }
 
 void ChainEditor::saveChainAs()

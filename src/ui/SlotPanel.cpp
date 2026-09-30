@@ -11,13 +11,13 @@ constexpr int kTitleTop = 26;
 } // namespace
 
 //==============================================================================
-ParamRow::ParamRow(juce::RangedAudioParameter &p, const juce::String &l, Format f, Parse pa)
+ParamRow::ParamRow(juce::RangedAudioParameter &p, const juce::String &l, Format f, Parse pa, bool k)
     : param(p),
       attachment(p, [this](float v) {
           value = param.convertTo0to1(v);
           repaint();
       }),
-      label(l), format(std::move(f)), parse(std::move(pa))
+      label(l), format(std::move(f)), parse(std::move(pa)), knob(k)
 {
     attachment.sendInitialUpdate();
 }
@@ -35,6 +35,8 @@ juce::Rectangle<float> ParamRow::labelArea() const
 
 juce::Rectangle<float> ParamRow::valueArea() const
 {
+    if (knob)
+        return {0.f, (float)getHeight() - 22.f, (float)getWidth(), 20.f};
     return {(float)getWidth() - 96.f, 0.f, 96.f, (float)getHeight()};
 }
 
@@ -49,11 +51,63 @@ juce::Rectangle<float> ParamRow::trackArea() const
 void ParamRow::resized()
 {
     if (entry != nullptr)
-        entry->setBounds(valueArea().withTrimmedLeft(10.f).reduced(0.f, 6.f).toNearestInt());
+        entry->setBounds(knob ? valueArea().reduced(4.f, 0.f).toNearestInt()
+                              : valueArea().withTrimmedLeft(10.f).reduced(0.f, 6.f).toNearestInt());
+}
+
+void ParamRow::paintKnob(juce::Graphics &g)
+{
+    const bool active = hovering || dragging;
+    const auto centre = juce::Point<float>((float)getWidth() * 0.5f, 38.f);
+    const float radius = 28.f;
+    const float start = -juce::MathConstants<float>::pi * 0.75f;
+    const float sweep = juce::MathConstants<float>::pi * 1.5f;
+
+    juce::Path track;
+    track.addCentredArc(centre.x, centre.y, radius, radius, 0.f, start, start + sweep, true);
+    g.setColour(active ? colour::track.brighter(0.08f) : colour::track);
+    g.strokePath(track, juce::PathStrokeType(3.f, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
+
+    if (value > 0.001f)
+    {
+        juce::Path arc;
+        arc.addCentredArc(centre.x, centre.y, radius, radius, 0.f, start, start + sweep * value, true);
+        g.setColour(colour::accent);
+        g.strokePath(arc, juce::PathStrokeType(3.f, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
+    }
+
+    const auto body = juce::Rectangle<float>(40.f, 40.f).withCentre(centre);
+    g.setColour(active ? colour::pressed : colour::raised);
+    g.fillEllipse(body);
+    g.setColour(colour::line);
+    g.drawEllipse(body.reduced(0.5f), 1.f);
+
+    const float angle = start + sweep * value;
+    const auto inner = centre.getPointOnCircumference(7.f, angle);
+    const auto outer = centre.getPointOnCircumference(17.f, angle);
+    g.setColour(dragging ? colour::accent : colour::text);
+    g.drawLine(inner.x, inner.y, outer.x, outer.y, 2.2f);
+
+    g.setFont(sans(12.5f));
+    g.setColour(active ? colour::text : colour::text2);
+    g.drawText(label, juce::Rectangle<float>(0.f, 72.f, (float)getWidth(), 18.f), juce::Justification::centred, true);
+
+    if (entry == nullptr)
+    {
+        g.setFont(mono(12.f));
+        g.setColour(dragging ? colour::accent : colour::text);
+        g.drawText(format ? format(value) : juce::String(value, 2), valueArea(), juce::Justification::centred, true);
+    }
 }
 
 void ParamRow::paint(juce::Graphics &g)
 {
+    if (knob)
+    {
+        paintKnob(g);
+        return;
+    }
+
     const bool active = hovering || dragging;
 
     g.setFont(sans(14.f));
@@ -115,14 +169,15 @@ void ParamRow::mouseDown(const juce::MouseEvent &e)
 
     dragging = true;
     lastX = e.position.x;
+    lastY = e.position.y;
     attachment.beginGesture();
 
-    // Clicking the track away from the thumb jumps there; grabbing the thumb,
-    // or anywhere else on the row, only drags.
+    // Clicking a fader's track away from the thumb jumps there; grabbing the
+    // thumb, or anywhere else, only drags. Fine moves (Ctrl or Shift) never jump.
+    const bool fine = e.mods.isShiftDown() || e.mods.isCtrlDown();
     const auto t = trackArea();
     const float thumbX = t.getX() + t.getWidth() * value;
-    if (!e.mods.isShiftDown() && t.reduced(0.f, 8.f).contains(e.position) &&
-        std::abs(e.position.x - thumbX) > 10.f)
+    if (!knob && !fine && t.reduced(0.f, 8.f).contains(e.position) && std::abs(e.position.x - thumbX) > 10.f)
         set((e.position.x - t.getX()) / t.getWidth(), false);
     repaint();
 }
@@ -132,9 +187,15 @@ void ParamRow::mouseDrag(const juce::MouseEvent &e)
     if (!dragging)
         return;
     const float dx = e.position.x - lastX;
+    const float dy = e.position.y - lastY;
     lastX = e.position.x;
+    lastY = e.position.y;
+    // Ctrl or Shift: ten times finer.
     const float scale = e.mods.isShiftDown() || e.mods.isCtrlDown() ? 0.1f : 1.f;
-    set(value + dx / juce::jmax(40.f, trackArea().getWidth()) * scale, false);
+    if (knob)
+        set(value + (dx - dy) / 220.f * scale, false); // up or right raises it
+    else
+        set(value + dx / juce::jmax(40.f, trackArea().getWidth()) * scale, false);
 }
 
 void ParamRow::mouseUp(const juce::MouseEvent &)
@@ -163,8 +224,8 @@ void ParamRow::openEntry()
         return;
 
     entry = std::make_unique<juce::TextEditor>();
-    entry->setFont(mono(13.f));
-    entry->setJustification(juce::Justification::centredRight);
+    entry->setFont(mono(knob ? 12.f : 13.f));
+    entry->setJustification(knob ? juce::Justification::centred : juce::Justification::centredRight);
     entry->setIndents(8, 0);
     entry->setText(format ? format(value) : juce::String(value, 2), false);
     entry->selectAll();
@@ -266,6 +327,35 @@ int SlotPanel::Body::layoutFor(int width)
     int y = 6;
     if (noControls)
         y += 40;
+
+    if (knobs)
+    {
+        const int columns = juce::jmax(1, (width - kPad * 2 + 8) / (ParamRow::knobWidth + 8));
+        int i = 0;
+        for (auto &r : rows)
+        {
+            r->setBounds(kPad + (i % columns) * (ParamRow::knobWidth + 8), y + (i / columns) * (ParamRow::knobHeight + 8),
+                         ParamRow::knobWidth, ParamRow::knobHeight);
+            ++i;
+        }
+        if (!rows.empty())
+            y += ((int)(rows.size() - 1) / columns + 1) * (ParamRow::knobHeight + 8) - 8;
+        y += 16;
+        dividerY = y;
+        y += 16;
+        if (mix != nullptr)
+        {
+            mix->setBounds(kPad, y, ParamRow::knobWidth, ParamRow::knobHeight);
+            y += ParamRow::knobHeight;
+        }
+        dividerWidth = w;
+        y += 34;
+        const int docWidth = width - kPad * 2;
+        const int dh = docs.heightForWidth(docWidth);
+        docs.setBounds(kPad, y, docWidth, dh);
+        return y + dh + 36;
+    }
+
     for (auto &r : rows)
     {
         r->setBounds(kPad, y, w, ParamRow::height);
@@ -387,13 +477,14 @@ void SlotPanel::showSlot(int s)
     title = e->name;
     category = e->category;
     summary = e->summary;
+    body.knobs = proc.getSetting("knobs", "0") == "1";
 
     for (int i = 0; i < info.nParams; ++i)
     {
         auto row = std::make_unique<ParamRow>(
             proc.fxParam(s, i), info.paramNames[(size_t)i],
             [this, s, i](float v) { return proc.formatValue(s, i, v); },
-            [this, s, i](const juce::String &t) { return proc.parseValue(s, i, t); });
+            [this, s, i](const juce::String &t) { return proc.parseValue(s, i, t); }, body.knobs);
         body.addAndMakeVisible(*row);
         body.rows.push_back(std::move(row));
     }
@@ -406,7 +497,8 @@ void SlotPanel::showSlot(int s)
             if (digits.isEmpty())
                 return std::nullopt;
             return digits.getFloatValue() / 100.f;
-        });
+        },
+        body.knobs);
     body.addAndMakeVisible(*body.mix);
     body.docs.setDocument("From the Airwindopedia", Catalog::get().docParagraphs(registryIndex));
     body.addAndMakeVisible(body.docs);

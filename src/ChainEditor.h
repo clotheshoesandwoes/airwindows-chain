@@ -18,6 +18,7 @@ class ChainEditor : public juce::AudioProcessorEditor, private juce::Timer
 
     void paint(juce::Graphics &) override;
     void resized() override;
+    bool keyPressed(const juce::KeyPress &) override;
 
     // Also used by the test harness
     void syncNow();
@@ -28,6 +29,9 @@ class ChainEditor : public juce::AudioProcessorEditor, private juce::Timer
     Picker *getPicker() { return picker.get(); }
     void pollNow(); // what the timer does, for tests
     void applyTheme(const juce::String &palette, const juce::String &accent);
+    void setKnobs(bool);
+    void setTypeToSearch(bool);
+    bool typeToSearch() const;
     void showAbout();
     void closeAbout();
 

@@ -28,7 +28,9 @@ listed under Kani.
 |---|---|
 | Chain list | Eight slots on show, more as they fill, up to sixteen. Click an empty one to add. Click to select. Drag to reorder. The switch bypasses. Double-click to replace. |
 | Add effect | Opens the browser. Type to search names, categories and descriptions. Hover to read, click or Enter to add. Esc closes. |
-| Effect panel | Drag a control, or click its track to jump. Shift drags finely. Double-click a control to reset it, or its value to type one. The arrows step through the effect's category. |
+| Effect panel | Drag a control, or click a fader's track to jump. Hold Ctrl or Shift while dragging for ten times finer moves. Double-click a control to reset it, or its value to type one. The arrows step through the effect's category. |
+| Type to search | With the mouse over the window, type a letter and the browser opens with it. Keys the plugin doesn't use go to the host. Can be turned off in the chain menu. |
+| Knobs | "Knobs instead of faders" in the chain menu lays the controls out as a grid of knobs. Drag up or right to raise. |
 | Mix | Blends each effect with what went into it. |
 | Chain name | Save and open chains. They are small files in `Documents\Airwindows Chain`. Also holds Undo, the theme and accent choices, and About. |
 | Undo | Next to the chain name after any edit. Covers add, remove, replace, move, duplicate, clear and open, forty steps deep. |

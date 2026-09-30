@@ -604,6 +604,13 @@ void snapshots(const juce::File &folder)
         editor.showAbout();
         writePng(editor, folder.getChildFile("about.png"), 1.f);
         editor.closeAbout();
+
+        editor.setKnobs(true);
+        editor.select(p->getOrder()[2]);
+        writePng(editor, folder.getChildFile("knobs.png"), 1.f);
+        editor.setSize(760, 500);
+        writePng(editor, folder.getChildFile("knobs-small.png"), 1.f);
+        editor.setKnobs(false);
     }
 
     // Themes: one main view per palette, and a 2x2 sheet of them.
