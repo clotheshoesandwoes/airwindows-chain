@@ -12,6 +12,7 @@
 #include "ChainEditor.h"
 #include "ChainProcessor.h"
 #include "VocalList.h"
+#include "AirwinRegistry.h"
 
 #include <iostream>
 #include <thread>
@@ -872,6 +873,41 @@ void frames(const juce::File &folder, double seconds, int fps, float scale)
     }
     std::cout << "wrote " << total << " frames to " << folder.getFullPathName() << std::endl;
 }
+// Every effect with its category, Chris's one line, its control names and his
+// write-up, as JSON: the website's browser is built from this.
+//   awchain_harness dump <file.json>
+void dump(const juce::File &file)
+{
+    const auto &cat = Catalog::get();
+    juce::Array<juce::var> list;
+    for (const auto &e : cat.all())
+    {
+        auto *o = new juce::DynamicObject();
+        o->setProperty("name", e.name);
+        o->setProperty("category", e.category);
+        o->setProperty("summary", e.summary);
+        o->setProperty("recommended", e.recommended);
+        o->setProperty("vocals", e.forVocals);
+        o->setProperty("latest", e.latest);
+        juce::Array<juce::var> params;
+        const auto &r = AirwinRegistry::registry[(size_t)e.registryIndex];
+        if (auto fx = r.generator())
+            for (int i = 0; i < r.nParams && i < kParamsPerSlot; ++i)
+            {
+                char txt[256] = {};
+                fx->getParameterName(i, txt);
+                params.add(juce::String::fromUTF8(txt).trim());
+            }
+        o->setProperty("params", params);
+        juce::Array<juce::var> docs;
+        for (const auto &para : cat.docParagraphs(e.registryIndex))
+            docs.add(para);
+        o->setProperty("docs", docs);
+        list.add(juce::var(o));
+    }
+    file.replaceWithText(juce::JSON::toString(juce::var(list)));
+    std::cout << "wrote " << list.size() << " effects to " << file.getFullPathName() << std::endl;
+}
 } // namespace
 
 int main(int argc, char *argv[])
@@ -885,6 +921,8 @@ int main(int argc, char *argv[])
         snapshots(juce::File(argc > 2 ? juce::String(argv[2]) : juce::File::getCurrentWorkingDirectory().getFullPathName()));
     else if (mode == "vst3")
         loadVst3(juce::File(juce::String(argv[2])));
+    else if (mode == "dump")
+        dump(juce::File(juce::String(argv[2])));
     else if (mode == "frames")
         frames(juce::File(juce::String(argv[2])), argc > 3 ? juce::String(argv[3]).getDoubleValue() : 12.0,
                argc > 4 ? juce::String(argv[4]).getIntValue() : 30,

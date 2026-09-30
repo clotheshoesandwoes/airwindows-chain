@@ -116,6 +116,7 @@ tools\install.bat
 | `vst3 <path to .vst3>` | Loads the built plugin the way a DAW does: passthrough when empty, project state restore, processing, state save. |
 | `snap <folder>` | Renders the editor to PNGs: main view, small and large windows, browser, search, the vocals switch, empty and full chains, every theme, About. |
 | `frames <folder> [seconds fps scale]` | Renders the editor frame by frame with audio running and a fader moving, for clips. |
+| `dump <file.json>` | Every effect with its category, Chris's one line, its control names and his write-up, as JSON. The website's browser is built from it. |
 
 ## How it works
 
