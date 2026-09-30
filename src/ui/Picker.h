@@ -71,7 +71,9 @@ class Picker : public juce::Component, private juce::ListBoxModel, private juce:
         Preview();
         void show(int registryIndex, const juce::StringArray &controls);
         void setUseLabel(const juce::String &, const juce::String &hint);
+        void setFavourite(bool);
         std::function<void()> onUse;
+        std::function<void()> onToggleFavourite;
 
         void resized() override;
         void paint(juce::Graphics &) override;
@@ -91,6 +93,7 @@ class Picker : public juce::Component, private juce::ListBoxModel, private juce:
         int registryIndex{-1};
         juce::String summaryText, controlText, hint;
         theme::TextButton use{"Add to chain", true};
+        theme::StarButton star;
         juce::Viewport viewport;
         Body body;
     };

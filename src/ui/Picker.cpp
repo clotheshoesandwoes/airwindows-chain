@@ -140,7 +140,15 @@ Picker::Preview::Preview()
         if (onUse)
             onUse();
     };
+    star.setTooltip("Favourite");
+    addAndMakeVisible(star);
+    star.onClick = [this] {
+        if (onToggleFavourite)
+            onToggleFavourite();
+    };
 }
+
+void Picker::Preview::setFavourite(bool f) { star.setFilled(f); }
 
 void Picker::Preview::setUseLabel(const juce::String &label, const juce::String &hintText)
 {
@@ -181,6 +189,7 @@ void Picker::Preview::resized()
     const int pad = 28;
     const int bw = use.idealWidth();
     use.setBounds(getWidth() - pad - bw, getHeight() - 20 - 36, bw, 36);
+    star.setBounds(use.getX() - 8 - 36, use.getY(), 36, 36);
 
     viewport.setBounds(pad, 24, getWidth() - pad, juce::jmax(0, use.getY() - 16 - 24));
     const int w = viewport.getWidth() - pad;
@@ -195,7 +204,7 @@ void Picker::Preview::paint(juce::Graphics &g)
     {
         g.setFont(sans(12.5f));
         g.setColour(colour::text3);
-        g.drawText(hint, juce::Rectangle<float>(28.f, (float)use.getY(), (float)use.getX() - 40.f, (float)use.getHeight()),
+        g.drawText(hint, juce::Rectangle<float>(28.f, (float)use.getY(), (float)star.getX() - 40.f, (float)use.getHeight()),
                    juce::Justification::centredLeft, true);
     }
 }
@@ -240,6 +249,22 @@ Picker::Picker(ChainProcessor &p) : proc(p), results("Effects", this)
     addAndMakeVisible(results);
 
     preview.onUse = [this] { choose(results.getSelectedRow()); };
+    preview.onToggleFavourite = [this] {
+        const int row = results.getSelectedRow();
+        const auto *e = row >= 0 && row < (int)items.size() ? Catalog::get().find(items[(size_t)row]) : nullptr;
+        if (e == nullptr)
+            return;
+        const bool now = !proc.isFavourite(e->name);
+        proc.setFavourite(e->name, now);
+        preview.setFavourite(now);
+        buildSources();
+        if (source == "favourites" && !searching())
+        {
+            refreshItems();
+            auto it = std::find(items.begin(), items.end(), e->registryIndex);
+            highlightRow(it == items.end() ? 0 : (int)(it - items.begin()));
+        }
+    };
     addAndMakeVisible(preview);
 }
 
@@ -297,6 +322,12 @@ void Picker::buildSources()
     auto &list = sourceList.sources;
     list.clear();
 
+    int favouriteCount = 0;
+    for (const auto &f : proc.getFavourites())
+        favouriteCount += cat.indexOf(f) >= 0 ? 1 : 0;
+    if (favouriteCount > 0)
+        list.push_back({"favourites", "Favourites", favouriteCount, false});
+
     const auto recent = proc.getRecentEffects();
     int recentCount = 0;
     for (const auto &r : recent)
@@ -311,8 +342,9 @@ void Picker::buildSources()
         list.push_back({"cat:" + c, c, (int)cat.inCategory(c).size(), first});
         first = false;
     }
-    if (source == "recent" && recentCount == 0)
+    if ((source == "recent" && recentCount == 0) || (source == "favourites" && favouriteCount == 0))
         source = "recommended";
+    sourceList.repaint();
     resized();
 }
 
@@ -337,10 +369,10 @@ void Picker::refreshItems()
 
     if (q.isNotEmpty())
         items = cat.search(q);
-    else if (source == "recent")
+    else if (source == "recent" || source == "favourites")
     {
         items.clear();
-        for (const auto &r : proc.getRecentEffects())
+        for (const auto &r : source == "recent" ? proc.getRecentEffects() : proc.getFavourites())
             if (const int i = cat.indexOf(r); i >= 0)
                 items.push_back(i);
     }
@@ -399,6 +431,8 @@ void Picker::updatePreview()
     const int row = results.getSelectedRow();
     const int index = row >= 0 && row < (int)items.size() ? items[(size_t)row] : -1;
     preview.show(index, index >= 0 ? controlNames(index) : juce::StringArray());
+    const auto *e = Catalog::get().find(index);
+    preview.setFavourite(e != nullptr && proc.isFavourite(e->name));
 }
 
 void Picker::choose(int row, bool keepOpen)

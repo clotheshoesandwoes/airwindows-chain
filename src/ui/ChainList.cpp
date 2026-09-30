@@ -235,7 +235,7 @@ void ChainList::drawRow(juce::Graphics &g, const Row &row, int number, bool lift
 
     auto background = colour::side;
     if (lifted)
-        background = juce::Colour(0xff2a2723);
+        background = colour::lifted;
     else if (isSelected)
         background = colour::raised;
     else if (isHover)
@@ -248,7 +248,7 @@ void ChainList::drawRow(juce::Graphics &g, const Row &row, int number, bool lift
     }
     if (lifted)
     {
-        g.setColour(colour::line.brighter(0.2f));
+        g.setColour(colour::track);
         g.drawRect(area, 1.f);
     }
 
@@ -301,18 +301,18 @@ void ChainList::drawRow(juce::Graphics &g, const Row &row, int number, bool lift
     const bool on = !row.bypassed;
     if (on)
     {
-        g.setColour(juce::Colour(0xff4c4741));
+        g.setColour(colour::toggleOn);
         g.fillRoundedRectangle(toggle, toggle.getHeight() * 0.5f);
     }
     else
     {
-        g.setColour(juce::Colour(0xff3f3b35));
+        g.setColour(colour::toggleOff);
         g.drawRoundedRectangle(toggle.reduced(0.5f), toggle.getHeight() * 0.5f, 1.f);
     }
     const float k = toggle.getHeight() - 5.f;
     const float kx = on ? toggle.getRight() - toggle.getHeight() * 0.5f
                         : toggle.getX() + toggle.getHeight() * 0.5f;
-    g.setColour(on ? colour::text : colour::text3);
+    g.setColour(on ? (colour::light ? colour::window : colour::text) : colour::text3);
     g.fillEllipse(juce::Rectangle<float>(k, k).withCentre({kx, toggle.getCentreY()}));
 }
 
@@ -456,6 +456,10 @@ void ChainList::showMenu(int rowIndex)
     m.addItem("Duplicate", n < kMaxSlots, false, [this, slot] {
         if (onDuplicate)
             onDuplicate(slot);
+    });
+    m.addItem("Add effect after this", n < kMaxSlots, false, [this, rowIndex] {
+        if (onInsertAt)
+            onInsertAt(rowIndex + 1);
     });
     m.addItem(bypassed ? "Turn on" : "Bypass", [this, slot] {
         auto &b = proc.bypassParam(slot);

@@ -348,6 +348,18 @@ void testChainEditing()
 
     p.removeSlot(b);
     check(p.getOrder() == std::vector<int>({c, a, d}), "remove");
+    check(p.canUndo() && p.undoLabel() == "remove ToTape8", "undo is offered: \"" + p.undoLabel() + "\"");
+    p.undo();
+    check(p.getOrder() == std::vector<int>({c, a, d, b}) && p.getSlotInfo(b).registryIndex == reg("ToTape8"),
+          "undo brings the effect back where it was");
+    p.removeSlot(b);
+
+    p.setFavourite("Density2", true);
+    check(p.isFavourite("Density2") && p.getFavourites().contains("Density2"), "favourite an effect");
+    p.setFavourite("Density2", false);
+    check(!p.isFavourite("Density2"), "unfavourite it");
+    p.setSetting("theme", "Cool");
+    check(p.getSetting("theme", "") == "Cool", "settings round trip");
 
     p.replaceEffect(a, reg("Pressure4"));
     check(p.getSlotInfo(a).registryIndex == reg("Pressure4"), "replace keeps the slot");
@@ -582,6 +594,55 @@ void snapshots(const juce::File &folder)
         editor.openPickerToReplace(p->getOrder()[2]);
         writePng(editor, folder.getChildFile("picker-replace.png"), 1.f);
         editor.closePicker();
+
+        editor.getPicker()->setQuery({});
+        editor.openPickerToAdd();
+        editor.getPicker()->setQuery("tape");
+        writePng(editor, folder.getChildFile("browser@2x.png"), 2.f);
+        editor.closePicker();
+
+        editor.showAbout();
+        writePng(editor, folder.getChildFile("about.png"), 1.f);
+        editor.closeAbout();
+    }
+
+    // Themes: one main view per palette, and a 2x2 sheet of them.
+    {
+        const std::vector<std::pair<juce::String, juce::String>> looks{
+            {"Warm", "Amber"}, {"Cool", "Sky"}, {"Black", "Mint"}, {"Light", "Amber"}};
+        juce::Image sheet(juce::Image::RGB, 1880, 1240, true);
+        int k = 0;
+        for (const auto &[palette, accent] : looks)
+        {
+            auto p = demoChain();
+            p->setSetting("theme", palette);
+            p->setSetting("accent", accent);
+            p->prepareToPlay(48000.0, 512);
+            auto audio = testSignal(48000.0, 4800);
+            render(*p, audio, std::vector<int>(10, 480));
+
+            std::unique_ptr<juce::AudioProcessorEditor> ed(p->createEditor());
+            auto &editor = dynamic_cast<ChainEditor &>(*ed);
+            editor.setSize(940, 620);
+            editor.syncNow();
+            editor.pollNow();
+            editor.select(p->getOrder()[2]);
+            writePng(editor, folder.getChildFile("theme-" + palette.toLowerCase() + ".png"), 1.f);
+
+            const auto img = editor.createComponentSnapshot(editor.getLocalBounds(), true, 1.f);
+            juce::Graphics g(sheet);
+            g.drawImageAt(img, (k % 2) * 940, (k / 2) * 620);
+            ++k;
+        }
+        const auto file = folder.getChildFile("themes.png");
+        file.deleteFile();
+        juce::FileOutputStream out(file);
+        juce::PNGImageFormat().writeImageToStream(sheet, out);
+        std::cout << "wrote " << file.getFullPathName() << std::endl;
+
+        // Back to the default for anything rendered after this.
+        demoChain()->setSetting("theme", "Warm");
+        demoChain()->setSetting("accent", "Amber");
     }
     {
         ChainProcessor p;

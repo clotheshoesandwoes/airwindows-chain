@@ -30,7 +30,7 @@ void ChainEditor::ChainMenuButton::paintButton(juce::Graphics &g, bool highlight
     auto r = getLocalBounds().toFloat();
     if (highlighted || down)
     {
-        g.setColour(down ? juce::Colour(0xff2e2b26) : colour::raised);
+        g.setColour(down ? colour::pressed : colour::raised);
         g.fillRoundedRectangle(r, 6.f);
     }
     g.setFont(sans(16.f, Weight::medium));
@@ -50,13 +50,22 @@ void ChainEditor::ChainMenuButton::paintButton(juce::Graphics &g, bool highlight
 ChainEditor::ChainEditor(ChainProcessor &p)
     : juce::AudioProcessorEditor(p), proc(p), chainList(p), slotPanel(p)
 {
+    theme::apply(proc.getSetting("theme", "Warm"), proc.getSetting("accent", "Amber"));
+    lookAndFeel.refreshColours();
     setLookAndFeel(&lookAndFeel);
-    tooltips.setColour(juce::TooltipWindow::backgroundColourId, colour::raised);
-    tooltips.setColour(juce::TooltipWindow::textColourId, colour::text);
-    tooltips.setColour(juce::TooltipWindow::outlineColourId, colour::line);
 
     chainMenu.onClick = [this] { showChainMenu(); };
     addAndMakeVisible(chainMenu);
+
+    undoButton.onClick = [this] {
+        proc.undo();
+        syncNow();
+    };
+    addChildComponent(undoButton);
+
+    aboutButton.setButtonText(juce::String((int)Catalog::get().all().size()) + " effects by Airwindows");
+    aboutButton.onClick = [this] { showAbout(); };
+    addAndMakeVisible(aboutButton);
 
     listViewport.setViewedComponent(&chainList, false);
     listViewport.setScrollBarsShown(true, false);
@@ -66,6 +75,7 @@ ChainEditor::ChainEditor(ChainProcessor &p)
 
     chainList.onSelect = [this](int s) { select(s); };
     chainList.onAdd = [this] { openPickerToAdd(); };
+    chainList.onInsertAt = [this](int position) { openPickerToAdd(position); };
     chainList.onReplace = [this](int s) { openPickerToReplace(s); };
     chainList.onRemove = [this](int s) {
         proc.removeSlot(s);
@@ -124,6 +134,9 @@ void ChainEditor::syncNow()
 
     chainMenu.setChainName(proc.getChainName());
     chainMenu.setSize(chainMenu.idealWidth(), chainMenu.getHeight());
+    undoButton.setVisible(proc.canUndo());
+    undoButton.setTooltip(proc.canUndo() ? "Undo " + proc.undoLabel() : juce::String());
+    undoButton.setBounds(chainMenu.getRight() + 6, chainMenu.getY(), undoButton.idealWidth(), chainMenu.getHeight());
     chainList.setSelectedSlot(selectedSlot);
     chainList.rebuild();
     layoutList();
@@ -182,7 +195,9 @@ Picker &ChainEditor::ensurePicker()
             }
             else
             {
-                const int slot = proc.addEffect(registryIndex);
+                const int slot = proc.addEffect(registryIndex, insertPosition);
+                if (insertPosition >= 0)
+                    ++insertPosition; // the next one goes after this one
                 syncNow();
                 if (slot >= 0)
                     select(slot);
@@ -196,8 +211,9 @@ Picker &ChainEditor::ensurePicker()
     return *picker;
 }
 
-void ChainEditor::openPickerToAdd()
+void ChainEditor::openPickerToAdd(int position)
 {
+    insertPosition = position;
     if (!proc.isFull())
         ensurePicker().openToAdd();
 }
@@ -235,6 +251,10 @@ void ChainEditor::showChainMenu()
     }
 
     m.addSeparator();
+    m.addItem(proc.canUndo() ? "Undo " + proc.undoLabel() : juce::String("Undo"), proc.canUndo(), false, [this] {
+        proc.undo();
+        syncNow();
+    });
     m.addItem("Clear chain", !proc.getOrder().empty(), false, [this] {
         proc.clearChain();
         proc.setChainName({});
@@ -246,7 +266,115 @@ void ChainEditor::showChainMenu()
         folder.revealToUser();
     });
 
+    m.addSeparator();
+    juce::PopupMenu themes, accents;
+    for (const auto &p : theme::palettes())
+        themes.addItem(p.name, true, p.name == theme::currentPalette(),
+                       [this, name = p.name] { applyTheme(name, theme::currentAccent()); });
+    for (const auto &a : theme::accents())
+        accents.addItem(a.name, true, a.name == theme::currentAccent(),
+                        [this, name = a.name] { applyTheme(theme::currentPalette(), name); });
+    m.addSubMenu("Theme", themes);
+    m.addSubMenu("Accent", accents);
+    m.addItem("About Airwindows Chain", [this] { showAbout(); });
+
     m.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(&chainMenu).withMinimumWidth(240));
+}
+
+void ChainEditor::applyTheme(const juce::String &palette, const juce::String &accent)
+{
+    theme::apply(palette, accent);
+    proc.setSetting("theme", theme::currentPalette());
+    proc.setSetting("accent", theme::currentAccent());
+    lookAndFeel.refreshColours();
+    picker.reset(); // its text fields hold colours
+    shownSlot = -2; // re-lay the panel out with the new colours
+    showSelected();
+    sendLookAndFeelChange();
+    repaint();
+}
+
+//==============================================================================
+namespace
+{
+class AboutPanel : public juce::Component
+{
+  public:
+    explicit AboutPanel(std::function<void()> close) : onClose(std::move(close))
+    {
+        link.setFont(sans(14.f), false, juce::Justification::centredLeft);
+        link.setColour(juce::HyperlinkButton::textColourId, colour::accent);
+        addAndMakeVisible(link);
+        closeButton.onClick = [this] {
+            if (onClose)
+                onClose();
+        };
+        addAndMakeVisible(closeButton);
+    }
+
+    void resized() override
+    {
+        width = juce::jmin(560, getWidth() - 80);
+        x = (getWidth() - width) / 2;
+
+        juce::AttributedString s;
+        s.setWordWrap(juce::AttributedString::byWord);
+        s.setLineSpacing(5.f);
+        const auto body = sans(14.5f);
+        s.append("Up to sixteen Airwindows effects in one plugin, in any order, with Chris Johnson's own notes on "
+                 "each one.\n\n",
+                 body, colour::text2);
+        s.append("The effects are by Chris Johnson (Airwindows, MIT). They are packaged for hosts by airwin2rack, "
+                 "from BaconPaul and the Surge Synth Team (MIT). The plugin is built with JUCE, so the built "
+                 "binary is GPLv3; the code of the plugin itself is MIT. Type is IBM Plex.\n\n",
+                 body, colour::text2);
+        s.append("Made by Sean Kani.", body, colour::text2);
+        text.createLayout(s, (float)width);
+
+        const int total = 74 + (int)std::ceil(text.getHeight()) + 16 + 24 + 28 + 32;
+        top = juce::jmax(32, (getHeight() - total) / 2);
+        link.setBounds(x, top + 74 + (int)std::ceil(text.getHeight()) + 16, width, 24);
+        closeButton.setBounds(x + width - closeButton.idealWidth(), link.getBottom() + 28, closeButton.idealWidth(), 32);
+    }
+
+    void paint(juce::Graphics &g) override
+    {
+        g.fillAll(colour::window);
+        g.setFont(sans(26.f, Weight::semibold));
+        g.setColour(colour::text);
+        g.drawText("Airwindows Chain", (float)x, (float)top, (float)width, 34.f, juce::Justification::centredLeft, false);
+        g.setFont(mono(12.5f));
+        g.setColour(colour::text3);
+        g.drawText(juce::String("version ") + AWCHAIN_VERSION, (float)x, (float)top + 38.f, (float)width, 18.f,
+                   juce::Justification::centredLeft, false);
+        text.draw(g, juce::Rectangle<float>((float)x, (float)top + 74.f, (float)width, text.getHeight()));
+    }
+
+  private:
+    std::function<void()> onClose;
+    juce::HyperlinkButton link{"github.com/clotheshoesandwoes/airwindows-chain",
+                               juce::URL("https://github.com/clotheshoesandwoes/airwindows-chain")};
+    theme::TextButton closeButton{"Close"};
+    juce::TextLayout text;
+    int width{0}, x{0}, top{0};
+};
+} // namespace
+
+void ChainEditor::showAbout()
+{
+    about = std::make_unique<AboutPanel>([this] { closeAbout(); });
+    addAndMakeVisible(*about);
+    about->setBounds(getLocalBounds());
+    about->toFront(false);
+}
+
+void ChainEditor::closeAbout()
+{
+    if (about != nullptr)
+        juce::MessageManager::callAsync([safe = juce::Component::SafePointer<ChainEditor>(this)] {
+            if (safe != nullptr)
+                safe->about.reset();
+        });
 }
 
 void ChainEditor::saveChainAs()
@@ -303,6 +431,10 @@ void ChainEditor::resized()
     const int lw = listWidth();
 
     chainMenu.setBounds(16, (headerHeight - 34) / 2, chainMenu.idealWidth(), 34);
+    undoButton.setBounds(chainMenu.getRight() + 6, chainMenu.getY(), undoButton.idealWidth(), 34);
+    aboutButton.setBounds(getWidth() - 16 - aboutButton.idealWidth(), chainMenu.getY(), aboutButton.idealWidth(), 34);
+    if (about != nullptr)
+        about->setBounds(getLocalBounds());
     listViewport.setBounds(0, headerHeight, lw, getHeight() - headerHeight);
     layoutList();
     slotPanel.setBounds(lw + 1, headerHeight, getWidth() - lw - 1, getHeight() - headerHeight);
@@ -320,10 +452,5 @@ void ChainEditor::paint(juce::Graphics &g)
     g.fillRect(0, headerHeight - 1, getWidth(), 1);
     g.fillRect(lw, headerHeight, 1, getHeight() - headerHeight);
 
-    g.setFont(sans(12.5f));
-    g.setColour(colour::text3);
-    g.drawText(juce::String((int)Catalog::get().all().size()) + " effects by Airwindows",
-               juce::Rectangle<float>((float)getWidth() - 260.f, 0.f, 240.f, (float)headerHeight),
-               juce::Justification::centredRight, false);
 }
 } // namespace awchain

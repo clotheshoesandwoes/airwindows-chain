@@ -23,6 +23,7 @@ class ChainList : public juce::Component, private juce::Timer
     std::function<void(int slot)> onReplace;
     std::function<void(int slot)> onRemove;
     std::function<void(int slot)> onDuplicate;
+    std::function<void(int position)> onInsertAt; // open the browser to add at a position
 
     void paint(juce::Graphics &) override;
     void mouseMove(const juce::MouseEvent &) override;

@@ -318,6 +318,14 @@ SlotPanel::SlotPanel(ChainProcessor &p) : proc(p)
         if (onStep)
             onStep(1);
     };
+    star.setTooltip("Favourite");
+    star.onClick = [this] {
+        const auto *e = Catalog::get().find(registryIndex);
+        if (e == nullptr)
+            return;
+        proc.setFavourite(e->name, !star.isFilled());
+        star.setFilled(proc.isFavourite(e->name));
+    };
     bypass.onClick = [this] {
         if (slot < 0)
             return;
@@ -348,7 +356,7 @@ SlotPanel::SlotPanel(ChainProcessor &p) : proc(p)
 
 std::vector<juce::Component *> SlotPanel::headerButtons()
 {
-    return {&previous, &next, &bypass, &replace, &remove};
+    return {&previous, &next, &star, &bypass, &replace, &remove};
 }
 
 void SlotPanel::showSlot(int s)
@@ -375,6 +383,7 @@ void SlotPanel::showSlot(int s)
 
     slot = s;
     registryIndex = info.registryIndex;
+    star.setFilled(proc.isFavourite(e->name));
     title = e->name;
     category = e->category;
     summary = e->summary;
@@ -458,7 +467,7 @@ void SlotPanel::resized()
 
     // The buttons sit on the title line when there is room, otherwise on
     // their own line under the summary.
-    const int buttonsWidth = 30 + 2 + 30 + 10 + bypass.idealWidth() + 2 + replace.idealWidth() + 2 +
+    const int buttonsWidth = 30 + 2 + 30 + 6 + 30 + 10 + bypass.idealWidth() + 2 + replace.idealWidth() + 2 +
                              remove.idealWidth();
     const auto titleWidth = (int)std::ceil(textWidth(sans(26.f, Weight::semibold), title));
     buttonsInline = titleWidth + 24 + buttonsWidth <= available;
@@ -471,7 +480,8 @@ void SlotPanel::resized()
     int x = buttonsInline ? w - kPad - buttonsWidth : kPad - 8;
     previous.setBounds(x, buttonsY, 30, 32);
     next.setBounds(previous.getRight() + 2, buttonsY, 30, 32);
-    x = next.getRight() + 10;
+    star.setBounds(next.getRight() + 6, buttonsY, 30, 32);
+    x = star.getRight() + 10;
     for (auto *b : {&bypass, &replace, &remove})
     {
         b->setBounds(x, buttonsY, b->idealWidth(), 32);

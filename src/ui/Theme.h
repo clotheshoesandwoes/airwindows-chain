@@ -4,22 +4,53 @@
 
 namespace awchain::theme
 {
+// The active palette. Every paint routine reads these; changing theme assigns
+// them all at once on the message thread and repaints.
 namespace colour
 {
-// Warm near-blacks, one amber accent for what is selected or set.
-inline const juce::Colour window{0xff141312};
-inline const juce::Colour side{0xff191817};
-inline const juce::Colour raised{0xff25231f};
-inline const juce::Colour hover{0xff1e1c1a};
-inline const juce::Colour line{0xff2d2a26};
-inline const juce::Colour track{0xff34302b};
-inline const juce::Colour text{0xfff1eee8};
-inline const juce::Colour text2{0xffada79e};
-inline const juce::Colour text3{0xff777168};
-inline const juce::Colour accent{0xffe4a63f};
-inline const juce::Colour onAccent{0xff1c1405};
-inline const juce::Colour hot{0xffe25f4c}; // clipping
+inline juce::Colour window{0xff141312};
+inline juce::Colour side{0xff191817};
+inline juce::Colour raised{0xff25231f};
+inline juce::Colour hover{0xff1e1c1a};
+inline juce::Colour pressed{0xff2e2b26};
+inline juce::Colour lifted{0xff2a2723};
+inline juce::Colour line{0xff2d2a26};
+inline juce::Colour track{0xff34302b};
+inline juce::Colour toggleOn{0xff4c4741};
+inline juce::Colour toggleOff{0xff3f3b35};
+inline juce::Colour scroll{0xff36322d};
+inline juce::Colour scrollHover{0xff4d4842};
+inline juce::Colour menuHighlight{0xff322e29};
+inline juce::Colour text{0xfff1eee8};
+inline juce::Colour text2{0xffada79e};
+inline juce::Colour text3{0xff777168};
+inline juce::Colour accent{0xffe4a63f};
+inline juce::Colour onAccent{0xff1c1405};
+inline juce::Colour hot{0xffe25f4c}; // clipping
+inline bool light{false};
 } // namespace colour
+
+struct Palette
+{
+    juce::String name;
+    bool light{false};
+    juce::Colour window, side, raised, hover, pressed, lifted, line, track, toggleOn, toggleOff, scroll,
+        scrollHover, menuHighlight, text, text2, text3, hot;
+};
+
+struct Accent
+{
+    juce::String name;
+    juce::Colour onDark, textOnDark;   // for dark palettes
+    juce::Colour onLight, textOnLight; // for light palettes
+};
+
+const std::vector<Palette> &palettes();
+const std::vector<Accent> &accents();
+juce::String currentPalette();
+juce::String currentAccent();
+// Unknown names fall back to the first entry.
+void apply(const juce::String &paletteName, const juce::String &accentName);
 
 enum class Weight
 {
@@ -37,6 +68,7 @@ class LookAndFeel : public juce::LookAndFeel_V4
 {
   public:
     LookAndFeel();
+    void refreshColours(); // after theme::apply
 
     juce::Typeface::Ptr getTypefaceForFont(const juce::Font &) override;
     juce::Font getPopupMenuFont() override;
@@ -74,5 +106,18 @@ class StepButton : public juce::Button
 
   private:
     int direction;
+};
+
+// A star. Filled when the effect is a favourite.
+class StarButton : public juce::Button
+{
+  public:
+    StarButton();
+    void setFilled(bool);
+    bool isFilled() const { return filled; }
+    void paintButton(juce::Graphics &, bool highlighted, bool down) override;
+
+  private:
+    bool filled{false};
 };
 } // namespace awchain::theme

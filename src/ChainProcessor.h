@@ -92,7 +92,20 @@ class ChainProcessor : public juce::AudioProcessor, private juce::Timer
 
     juce::StringArray getRecentEffects() const;
 
-    // Tests turn this off so they don't write into the real settings file.
+    // Undo for chain edits, message thread. Loading a project starts fresh.
+    bool canUndo() const;
+    juce::String undoLabel() const; // e.g. "remove Density2"
+    void undo();
+
+    // Preferences shared by every instance in the session: theme, favourites.
+    juce::String getSetting(const juce::String &key, const juce::String &fallback) const;
+    void setSetting(const juce::String &key, const juce::String &value);
+    juce::StringArray getFavourites() const;
+    bool isFavourite(const juce::String &effectName) const;
+    void setFavourite(const juce::String &effectName, bool favourite);
+
+    // Tests turn this off so they don't write into the real settings file;
+    // settings then live in memory only.
     inline static bool persistSettings = true;
 
     // Editor size survives closing the window and reloading the project.
@@ -157,6 +170,16 @@ class ChainProcessor : public juce::AudioProcessor, private juce::Timer
     void relabelParameters();
     SlotValues currentValues(int slot) const;
     void noteRecent(int registryIndex);
+
+    struct UndoEntry
+    {
+        juce::String label;
+        std::unique_ptr<juce::XmlElement> state;
+    };
+    mutable std::mutex undoLock;
+    std::vector<UndoEntry> undoStack;
+    void rememberForUndo(const juce::String &label);
+    juce::String nameOf(int slot) const;
 
     //==========================================================================
     // Audio thread
@@ -224,7 +247,10 @@ class ChainProcessor : public juce::AudioProcessor, private juce::Timer
     {
         SharedSettings();
         std::unique_ptr<juce::PropertiesFile> props;
+        juce::StringPairArray memory; // when nothing is persisted
         juce::CriticalSection lock;
+        juce::String get(const juce::String &key, const juce::String &fallback);
+        void set(const juce::String &key, const juce::String &value);
     };
 
   private:

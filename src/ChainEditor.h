@@ -22,11 +22,14 @@ class ChainEditor : public juce::AudioProcessorEditor, private juce::Timer
     // Also used by the test harness
     void syncNow();
     void select(int slot);
-    void openPickerToAdd();
+    void openPickerToAdd(int position = -1);
     void openPickerToReplace(int slot);
     void closePicker();
     Picker *getPicker() { return picker.get(); }
     void pollNow(); // what the timer does, for tests
+    void applyTheme(const juce::String &palette, const juce::String &accent);
+    void showAbout();
+    void closeAbout();
 
     static constexpr int headerHeight = 56;
 
@@ -47,11 +50,14 @@ class ChainEditor : public juce::AudioProcessorEditor, private juce::Timer
     theme::LookAndFeel lookAndFeel;
     juce::TooltipWindow tooltips{this, 700};
     ChainMenuButton chainMenu;
+    theme::TextButton undoButton{"Undo"}, aboutButton{"Airwindows"};
     juce::Viewport listViewport;
     ChainList chainList;
     SlotPanel slotPanel;
     std::unique_ptr<Picker> picker;
+    std::unique_ptr<juce::Component> about;
     std::unique_ptr<juce::FileChooser> chooser;
+    int insertPosition{-1};
 
     uint32_t seenVersion{0};
     int selectedSlot{-1}, selectedPosition{0};

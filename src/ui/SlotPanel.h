@@ -93,6 +93,7 @@ class SlotPanel : public juce::Component
     int headerHeight{0};
 
     theme::StepButton previous{-1}, next{1};
+    theme::StarButton star;
     theme::TextButton bypass{"Bypass"}, replace{"Replace"}, remove{"Remove"}, add{"Add effect", true};
     std::vector<juce::Component *> headerButtons();
 

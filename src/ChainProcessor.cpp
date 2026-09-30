@@ -110,6 +110,23 @@ ChainProcessor::SharedSettings::SharedSettings()
     props = std::make_unique<juce::PropertiesFile>(o);
 }
 
+juce::String ChainProcessor::SharedSettings::get(const juce::String &key, const juce::String &fallback)
+{
+    const juce::ScopedLock sl(lock);
+    if (props != nullptr)
+        return props->getValue(key, fallback);
+    return memory.containsKey(key) ? memory[key] : fallback;
+}
+
+void ChainProcessor::SharedSettings::set(const juce::String &key, const juce::String &value)
+{
+    const juce::ScopedLock sl(lock);
+    if (props != nullptr)
+        props->setValue(key, value);
+    else
+        memory.set(key, value);
+}
+
 ChainProcessor::ChainProcessor()
     : AudioProcessor(BusesProperties()
                          .withInput("Input", juce::AudioChannelSet::stereo(), true)
@@ -598,6 +615,10 @@ int ChainProcessor::addEffect(int registryIndex, int position)
         slot = firstFreeSlotLocked();
         if (slot < 0)
             return -1;
+    }
+    rememberForUndo("add " + Catalog::get().find(registryIndex)->name);
+    {
+        Lock<std::recursive_mutex> l(modelLock);
         model[(size_t)slot].registryIndex = registryIndex; // reserve it
     }
 
@@ -627,6 +648,7 @@ void ChainProcessor::replaceEffect(int slot, int registryIndex)
         if (std::find(order.begin(), order.end(), slot) == order.end())
             return;
     }
+    rememberForUndo("replace " + nameOf(slot));
     assignSlot(slot, registryIndex, nullptr);
     noteRecent(registryIndex);
     chainChanged();
@@ -634,6 +656,12 @@ void ChainProcessor::replaceEffect(int slot, int registryIndex)
 
 void ChainProcessor::removeSlot(int slot)
 {
+    {
+        Lock<std::recursive_mutex> l(modelLock);
+        if (std::find(order.begin(), order.end(), slot) == order.end())
+            return;
+    }
+    rememberForUndo("remove " + nameOf(slot));
     {
         Lock<std::recursive_mutex> l(modelLock);
         auto it = std::find(order.begin(), order.end(), slot);
@@ -651,6 +679,13 @@ void ChainProcessor::removeSlot(int slot)
 
 void ChainProcessor::moveSlot(int fromPosition, int toPosition)
 {
+    {
+        Lock<std::recursive_mutex> l(modelLock);
+        const int n = (int)order.size();
+        if (fromPosition < 0 || fromPosition >= n || juce::jlimit(0, n - 1, toPosition) == fromPosition)
+            return;
+    }
+    rememberForUndo("move " + nameOf(getOrder()[(size_t)fromPosition]));
     {
         Lock<std::recursive_mutex> l(modelLock);
         const int n = (int)order.size();
@@ -680,6 +715,10 @@ int ChainProcessor::duplicateSlot(int slot)
         target = firstFreeSlotLocked();
         if (target < 0 || registryIndex < 0)
             return -1;
+    }
+    rememberForUndo("duplicate " + nameOf(slot));
+    {
+        Lock<std::recursive_mutex> l(modelLock);
         model[(size_t)target].registryIndex = registryIndex;
     }
 
@@ -696,6 +735,9 @@ int ChainProcessor::duplicateSlot(int slot)
 
 void ChainProcessor::clearChain()
 {
+    if (getOrder().empty())
+        return;
+    rememberForUndo("clear");
     std::vector<int> old;
     {
         Lock<std::recursive_mutex> l(modelLock);
@@ -942,6 +984,10 @@ void ChainProcessor::setStateInformation(const void *data, int size)
     {
         editorSize = {juce::jlimit(760, 2400, xml->getIntAttribute("editorWidth", editorSize.x)),
                       juce::jlimit(500, 1600, xml->getIntAttribute("editorHeight", editorSize.y))};
+        {
+            std::lock_guard<std::mutex> l(undoLock);
+            undoStack.clear(); // a project load is not something to undo
+        }
         chainFromXml(*xml);
     }
 }
@@ -965,33 +1011,100 @@ bool ChainProcessor::loadChain(const juce::File &file)
     auto xml = juce::parseXML(file);
     if (xml == nullptr || !xml->hasTagName("AirwindowsChain"))
         return false;
+    rememberForUndo("open " + file.getFileNameWithoutExtension());
     chainFromXml(*xml);
     setChainName(file.getFileNameWithoutExtension());
     return true;
 }
 
 //==============================================================================
+juce::String ChainProcessor::nameOf(int slot) const
+{
+    const auto *e = Catalog::get().find(getSlotInfo(slot).registryIndex);
+    return e != nullptr ? e->name : juce::String("effect");
+}
+
+void ChainProcessor::rememberForUndo(const juce::String &label)
+{
+    auto state = chainToXml();
+    std::lock_guard<std::mutex> l(undoLock);
+    undoStack.push_back({label, std::move(state)});
+    while (undoStack.size() > 40)
+        undoStack.erase(undoStack.begin());
+}
+
+bool ChainProcessor::canUndo() const
+{
+    std::lock_guard<std::mutex> l(undoLock);
+    return !undoStack.empty();
+}
+
+juce::String ChainProcessor::undoLabel() const
+{
+    std::lock_guard<std::mutex> l(undoLock);
+    return undoStack.empty() ? juce::String() : undoStack.back().label;
+}
+
+void ChainProcessor::undo()
+{
+    std::unique_ptr<juce::XmlElement> state;
+    {
+        std::lock_guard<std::mutex> l(undoLock);
+        if (undoStack.empty())
+            return;
+        state = std::move(undoStack.back().state);
+        undoStack.pop_back();
+    }
+    chainFromXml(*state);
+}
+
+juce::String ChainProcessor::getSetting(const juce::String &key, const juce::String &fallback) const
+{
+    return settings->get(key, fallback);
+}
+
+void ChainProcessor::setSetting(const juce::String &key, const juce::String &value)
+{
+    settings->set(key, value);
+}
+
+juce::StringArray ChainProcessor::getFavourites() const
+{
+    auto list = juce::StringArray::fromLines(getSetting("favourites", {}));
+    list.removeEmptyStrings();
+    return list;
+}
+
+bool ChainProcessor::isFavourite(const juce::String &effectName) const
+{
+    return getFavourites().contains(effectName);
+}
+
+void ChainProcessor::setFavourite(const juce::String &effectName, bool favourite)
+{
+    auto list = getFavourites();
+    list.removeString(effectName);
+    if (favourite)
+        list.insert(0, effectName);
+    setSetting("favourites", list.joinIntoString("\n"));
+}
+
 void ChainProcessor::noteRecent(int registryIndex)
 {
     const auto *e = Catalog::get().find(registryIndex);
-    if (e == nullptr || settings->props == nullptr)
+    if (e == nullptr)
         return;
-    const juce::ScopedLock sl(settings->lock);
-    auto list = juce::StringArray::fromLines(settings->props->getValue("recent"));
-    list.removeEmptyStrings();
+    auto list = getRecentEffects();
     list.removeString(e->name);
     list.insert(0, e->name);
     while (list.size() > 12)
         list.remove(list.size() - 1);
-    settings->props->setValue("recent", list.joinIntoString("\n"));
+    setSetting("recent", list.joinIntoString("\n"));
 }
 
 juce::StringArray ChainProcessor::getRecentEffects() const
 {
-    if (settings->props == nullptr)
-        return {};
-    const juce::ScopedLock sl(settings->lock);
-    auto list = juce::StringArray::fromLines(settings->props->getValue("recent"));
+    auto list = juce::StringArray::fromLines(getSetting("recent", {}));
     list.removeEmptyStrings();
     return list;
 }
