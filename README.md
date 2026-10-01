@@ -69,7 +69,7 @@ Windows warns that the publisher is unknown the first time; that is what an unsi
 | Star | Marks a favourite. Favourites get their own list in the browser, first in line. |
 | Right-click a row | Replace, duplicate, add an effect after this one, bypass, move, remove. |
 | Undo | Next to the chain name after any edit. Covers add, remove, replace, move, duplicate, clear and open, forty steps deep. |
-| Chain name | Save and open chains. They are small files in `Documents\Airwindows Chain`. Also holds Undo, the theme and accent choices, and About. |
+| Chain name | Save and open chains. They are small files in `Documents\Airwindows Chain`. Each saved chain in the menu shows the effects it holds, so you know what you are opening. Also holds Undo, the theme and accent choices, and About. |
 | Theme | Warm, Cool, Black or Light, with an amber, coral, mint, sky, lilac or plain accent. Remembered for every instance. |
 
 The host sees sixteen fixed blocks of parameters, named after whatever sits in each slot ("2. Density2: Drive"). Automation follows an effect when you reorder the chain.

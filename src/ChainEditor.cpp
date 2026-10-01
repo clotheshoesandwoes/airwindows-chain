@@ -50,6 +50,10 @@ void ChainEditor::ChainMenuButton::paintButton(juce::Graphics &g, bool highlight
 ChainEditor::ChainEditor(ChainProcessor &p)
     : juce::AudioProcessorEditor(p), proc(p), chainList(p), slotPanel(p)
 {
+    // Read the remembered size before anything can resize the editor: setResizeLimits
+    // below snaps the still-empty editor to its minimum, and resized() records sizes.
+    wantedSize = {juce::jlimit(760, 2400, p.editorSize.x), juce::jlimit(500, 1600, p.editorSize.y)};
+
     theme::apply(proc.getSetting("theme", "Warm"), proc.getSetting("accent", "Amber"));
     lookAndFeel.refreshColours();
     setLookAndFeel(&lookAndFeel);
@@ -105,7 +109,7 @@ ChainEditor::ChainEditor(ChainProcessor &p)
     setWantsKeyboardFocus(typeToSearch());
     setResizable(true, true);
     setResizeLimits(760, 500, 2400, 1600);
-    setSize(juce::jlimit(760, 2400, p.editorSize.x), juce::jlimit(500, 1600, p.editorSize.y));
+    setSize(wantedSize.x, wantedSize.y);
 
     syncNow();
     startTimerHz(30);
@@ -166,7 +170,12 @@ void ChainEditor::showSelected()
     }
 }
 
-void ChainEditor::timerCallback() { pollNow(); }
+void ChainEditor::timerCallback()
+{
+    pollNow();
+    if (!sizeSettled && ++settleTicks >= 24) // 0.8 s: the host has finished opening the window
+        sizeSettled = true;
+}
 
 void ChainEditor::pollNow()
 {
@@ -282,6 +291,73 @@ void ChainEditor::closePicker()
 }
 
 //==============================================================================
+namespace
+{
+// The effects a saved chain holds, in order; a bypassed one in brackets.
+juce::StringArray chainFileEffects(const juce::File &file)
+{
+    juce::StringArray out;
+    if (auto xml = juce::XmlDocument::parse(file))
+        for (auto *slot : xml->getChildWithTagNameIterator("Slot"))
+        {
+            const auto name = slot->getStringAttribute("effect");
+            if (name.isNotEmpty())
+                out.add(slot->getIntAttribute("bypass") != 0 ? "(" + name + ")" : name);
+        }
+    return out;
+}
+
+// A saved chain in the menu: its name, and under it what it holds, so you
+// know what you are about to open before you open it.
+class SavedChainItem : public juce::PopupMenu::CustomComponent
+{
+  public:
+    SavedChainItem(const juce::String &chainName, const juce::StringArray &effectNames)
+        : juce::PopupMenu::CustomComponent(true), name(chainName), effects(effectNames),
+          line(effectNames.joinIntoString(juce::String::fromUTF8(" \xc2\xb7 ")))
+    {
+    }
+
+    void getIdealSize(int &w, int &h) override
+    {
+        const float widest = juce::jmax(theme::textWidth(theme::sans(14.f), name) + 80.f,
+                                        theme::textWidth(theme::mono(11.5f), line));
+        w = juce::jlimit(280, 540, 32 + (int)std::ceil(widest));
+        h = effects.isEmpty() ? 30 : 46;
+    }
+
+    void paint(juce::Graphics &g) override
+    {
+        const bool hi = isItemHighlighted();
+        if (hi)
+        {
+            g.setColour(theme::colour::menuHighlight);
+            g.fillRoundedRectangle(getLocalBounds().toFloat().reduced(4.f, 1.f), 6.f);
+        }
+        const int w = getWidth();
+        const auto count = effects.isEmpty() ? juce::String("empty")
+                           : juce::String(effects.size()) + (effects.size() == 1 ? " effect" : " effects");
+        g.setFont(theme::sans(14.f, hi ? theme::Weight::medium : theme::Weight::regular));
+        g.setColour(theme::colour::text);
+        g.drawText(name, 16, 6, w - 32 - 76, 20, juce::Justification::centredLeft, true);
+        g.setFont(theme::mono(11.f));
+        g.setColour(theme::colour::text3);
+        g.drawText(count, w - 16 - 76, 6, 76, 20, juce::Justification::centredRight, false);
+        if (!effects.isEmpty())
+        {
+            g.setFont(theme::mono(11.5f));
+            g.setColour(hi ? theme::colour::text2 : theme::colour::text3);
+            g.drawText(line, 16, 25, w - 32, 16, juce::Justification::centredLeft, true);
+        }
+    }
+
+  private:
+    juce::String name;
+    juce::StringArray effects;
+    juce::String line;
+};
+} // namespace
+
 void ChainEditor::showChainMenu()
 {
     juce::PopupMenu m;
@@ -295,10 +371,15 @@ void ChainEditor::showChainMenu()
         m.addSeparator();
         m.addSectionHeader("Saved chains");
         for (const auto &f : files)
-            m.addItem(f.getFileNameWithoutExtension(), [this, f] {
+        {
+            juce::PopupMenu::Item item(f.getFileNameWithoutExtension());
+            item.customComponent = new SavedChainItem(f.getFileNameWithoutExtension(), chainFileEffects(f));
+            item.action = [this, f] {
                 proc.loadChain(f);
                 syncNow();
-            });
+            };
+            m.addItem(std::move(item));
+        }
     }
 
     m.addSeparator();
@@ -484,7 +565,15 @@ void ChainEditor::layoutList()
 
 void ChainEditor::resized()
 {
-    proc.editorSize = {getWidth(), getHeight()};
+    const bool hostResizedUsEarly = !sizeSettled && getPeer() != nullptr &&
+                                    (getWidth() != wantedSize.x || getHeight() != wantedSize.y);
+    if (hostResizedUsEarly)
+        juce::MessageManager::callAsync([safe = juce::Component::SafePointer<ChainEditor>(this)] {
+            if (safe != nullptr && !safe->sizeSettled)
+                safe->setSize(safe->wantedSize.x, safe->wantedSize.y);
+        });
+    else
+        proc.editorSize = {getWidth(), getHeight()};
     const int lw = listWidth();
 
     chainMenu.setBounds(16, (headerHeight - 34) / 2, chainMenu.idealWidth(), 34);

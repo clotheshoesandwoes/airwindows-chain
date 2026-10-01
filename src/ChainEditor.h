@@ -63,6 +63,13 @@ class ChainEditor : public juce::AudioProcessorEditor, private juce::Timer
     std::unique_ptr<juce::FileChooser> chooser;
     int insertPosition{-1};
 
+    // The size the window should open at. FL Studio hands a reopened editor a
+    // size of its own after attaching it; for the first moments the editor
+    // answers with this one, then takes whatever the user makes it.
+    juce::Point<int> wantedSize;
+    int settleTicks{0};
+    bool sizeSettled{false};
+
     uint32_t seenVersion{0};
     int selectedSlot{-1}, selectedPosition{0};
     int shownSlot{-2}, shownEffect{-2};

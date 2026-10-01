@@ -21,6 +21,8 @@ using namespace awchain;
 
 namespace
 {
+std::unique_ptr<ChainProcessor> demoChain();
+
 int failures = 0;
 
 void check(bool ok, const juce::String &what)
@@ -245,6 +247,25 @@ void testCatalog()
 
     const int d = reg("Density2");
     check(c.neighbour(c.neighbour(d, 1), -1) == d, "stepping forward then back returns to the same effect");
+
+    {
+        // the window remembers its size: across close and reopen, and across the project
+        auto p = demoChain();
+        {
+            std::unique_ptr<juce::AudioProcessorEditor> ed(p->createEditor());
+            ed->setSize(1300, 820);
+        }
+        {
+            std::unique_ptr<juce::AudioProcessorEditor> again(p->createEditor());
+            check(again->getWidth() == 1300 && again->getHeight() == 820, "the editor reopens at the size it was closed at (got " + juce::String(again->getWidth()) + "x" + juce::String(again->getHeight()) + ", remembered " + juce::String(p->editorSize.x) + "x" + juce::String(p->editorSize.y) + ")");
+        }
+        juce::MemoryBlock state;
+        p->getStateInformation(state);
+        auto q = demoChain();
+        q->setStateInformation(state.getData(), (int)state.getSize());
+        std::unique_ptr<juce::AudioProcessorEditor> fresh(q->createEditor());
+        check(fresh->getWidth() == 1300 && fresh->getHeight() == 820, "and the size comes back with the project (got " + juce::String(fresh->getWidth()) + "x" + juce::String(fresh->getHeight()) + ")");
+    }
 }
 
 void testProcessing()
