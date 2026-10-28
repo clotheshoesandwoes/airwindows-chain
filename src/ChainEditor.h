@@ -50,8 +50,22 @@ class ChainEditor : public juce::AudioProcessorEditor, private juce::Timer
         juce::String shown{"Untitled chain"};
     };
 
+    // Compare: lit while the original plays. Shows how much louder the chain is.
+    class CompareButton : public juce::Button
+    {
+      public:
+        CompareButton();
+        void setDifference(float decibels); // NaN: not measured yet
+        int idealWidth() const;
+        void paintButton(juce::Graphics &, bool highlighted, bool down) override;
+
+      private:
+        juce::String difference;
+    };
+
     ChainProcessor &proc;
     theme::LookAndFeel lookAndFeel;
+    CompareButton compare;
     juce::TooltipWindow tooltips{this, 700};
     ChainMenuButton chainMenu;
     theme::TextButton undoButton{"Undo"}, aboutButton{"Airwindows"};

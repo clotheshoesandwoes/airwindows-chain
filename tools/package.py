@@ -12,7 +12,10 @@ makensis = sys.argv[2] if len(sys.argv) > 2 else "makensis"
 release = os.path.join(root, "build", "AirwindowsChain_artefacts", "Release")
 vst3 = os.path.join(release, "VST3", "Airwindows Chain.vst3")
 clap = os.path.join(release, "CLAP", "Airwindows Chain.clap")
-for p in (vst3, clap):
+standalone = os.path.join(release, "Standalone")
+app = os.path.join(standalone, "Airwindows Chain.exe")
+scanner = os.path.join(standalone, "Airwindows Chain Scanner.exe")
+for p in (vst3, clap, app, scanner):
     if not os.path.exists(p):
         sys.exit("build the plugin first: " + p)
 
@@ -26,6 +29,9 @@ Copy "Airwindows Chain.clap" to:
 
 Then rescan plugins in your DAW. It shows up as Airwindows Chain, under Kani.
 
+The Standalone folder is the app on its own, without a DAW. Keep the two
+programs in it together: the scanner is what reads your other plugins.
+
 Source and licence: https://github.com/clotheshoesandwoes/airwindows-chain
 """ % version
 
@@ -36,6 +42,8 @@ with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
             full = os.path.join(folder, f)
             z.write(full, os.path.relpath(full, release + os.sep + "VST3"))
     z.write(clap, "Airwindows Chain.clap")
+    z.write(app, "Standalone/Airwindows Chain.exe")
+    z.write(scanner, "Standalone/Airwindows Chain Scanner.exe")
     z.writestr("Install.txt", install_txt)
     z.write(os.path.join(root, "LICENSE"), "LICENSE.txt")
 print("wrote", zip_path, os.path.getsize(zip_path) // 1024, "KB")

@@ -28,6 +28,13 @@ inline juce::Colour accent{0xffe4a63f};
 inline juce::Colour onAccent{0xff1c1405};
 inline juce::Colour hot{0xffe25f4c}; // clipping
 inline bool light{false};
+// A colour theme's set: each effect in the chain takes the next one, in order.
+// Empty for the plain themes, where every effect uses the accent.
+inline std::vector<juce::Colour> set;
+
+// The colour of the effect at this position in the chain, and text that reads on it.
+juce::Colour slot(int position);
+juce::Colour onColour(juce::Colour);
 } // namespace colour
 
 struct Palette
@@ -36,6 +43,13 @@ struct Palette
     bool light{false};
     juce::Colour window, side, raised, hover, pressed, lifted, line, track, toggleOn, toggleOff, scroll,
         scrollHover, menuHighlight, text, text2, text3, hot;
+    // Colour themes bring their own set of colours, the first being the accent.
+    // An empty set means the Accent menu decides.
+    std::vector<juce::Colour> set;
+
+    bool ownAccent() const { return !set.empty(); }
+    // The colours that sum the theme up, for the menu: the ground, then its set.
+    std::vector<juce::Colour> swatches(const juce::Colour &chosenAccent) const;
 };
 
 struct Accent

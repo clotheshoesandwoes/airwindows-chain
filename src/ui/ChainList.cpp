@@ -29,8 +29,7 @@ void ChainList::rebuild()
     {
         Row r;
         r.slot = order[i];
-        const auto info = proc.getSlotInfo(r.slot);
-        if (const auto *e = Catalog::get().find(info.registryIndex))
+        if (const auto e = proc.slotLabel(r.slot))
         {
             r.name = e->name;
             r.category = e->category;
@@ -147,7 +146,8 @@ void ChainList::timerCallback()
 }
 
 //==============================================================================
-void ChainList::drawMeter(juce::Graphics &g, float level, juce::Rectangle<float> r, bool dim) const
+void ChainList::drawMeter(juce::Graphics &g, float level, juce::Rectangle<float> r, bool dim,
+                          juce::Colour ink) const
 {
     // A small channel meter, bottom up: -60 dB to full scale, red when over.
     g.setColour(colour::track.withAlpha(dim ? 0.5f : 0.9f));
@@ -157,7 +157,7 @@ void ChainList::drawMeter(juce::Graphics &g, float level, juce::Rectangle<float>
     const float db = 20.f * std::log10(juce::jmax(level, 1.0e-6f));
     const float fraction = juce::jlimit(0.f, 1.f, (db + 60.f) / 60.f);
     const float h = juce::jmax(2.f, r.getHeight() * fraction);
-    g.setColour(level > 1.f ? colour::hot : (dim ? colour::text3 : colour::accent.withAlpha(0.85f)));
+    g.setColour(level > 1.f ? colour::hot : (dim ? colour::text3 : ink.withAlpha(0.85f)));
     g.fillRoundedRectangle(r.withTop(r.getBottom() - h), 1.5f);
 }
 
@@ -178,7 +178,7 @@ void ChainList::paint(juce::Graphics &g)
         g.setFont(sans(12.5f));
         g.drawText(label, juce::Rectangle<float>(56.f, y - 10.f, 160.f, 20.f),
                    juce::Justification::centredLeft, false);
-        drawMeter(g, level, meterBounds(y, 22.f), false);
+        drawMeter(g, level, meterBounds(y, 22.f), false, colour::accent);
     };
     terminal(inY, "Input", inputLevel);
 
@@ -276,12 +276,20 @@ void ChainList::drawRow(juce::Graphics &g, const Row &row, int number, bool lift
         g.drawRect(area, 1.f);
     }
 
-    // Position on the signal path
+    // Position on the signal path. In a colour theme every effect wears its own
+    // colour from the set; otherwise only the selection takes the accent.
+    const auto ink = colour::slot(number - 1);
+    const bool filled = isSelected || (!colour::set.empty() && !row.bypassed);
     const auto disc = juce::Rectangle<float>(24.f, 24.f).withCentre({spineX, area.getCentreY()});
-    if (isSelected)
+    if (filled)
     {
-        g.setColour(colour::accent);
+        g.setColour(ink);
         g.fillEllipse(disc);
+        if (isSelected && !colour::set.empty())
+        {
+            g.setColour(ink);
+            g.drawEllipse(disc.expanded(3.f), 1.5f);
+        }
     }
     else
     {
@@ -291,7 +299,7 @@ void ChainList::drawRow(juce::Graphics &g, const Row &row, int number, bool lift
         g.drawEllipse(disc.reduced(0.5f), 1.f);
     }
     g.setFont(mono(11.5f));
-    g.setColour(isSelected ? colour::onAccent : (row.bypassed ? colour::text3 : colour::text2));
+    g.setColour(filled ? colour::onColour(ink) : (row.bypassed ? colour::text3 : colour::text2));
     g.drawText(juce::String(number), disc.translated(0.f, -0.5f), juce::Justification::centred, false);
 
     // Name and category
@@ -318,11 +326,11 @@ void ChainList::drawRow(juce::Graphics &g, const Row &row, int number, bool lift
                    juce::Justification::centredRight, false);
     }
 
-    // On / bypass. Neutral on purpose: the list's one accent is the selection.
+    // On / bypass. Neutral in the plain themes, where the list's one accent is the selection.
     const bool on = !row.bypassed;
     if (on)
     {
-        g.setColour(colour::toggleOn);
+        g.setColour(colour::set.empty() ? colour::toggleOn : ink);
         g.fillRoundedRectangle(toggle, toggle.getHeight() * 0.5f);
     }
     else
@@ -333,11 +341,12 @@ void ChainList::drawRow(juce::Graphics &g, const Row &row, int number, bool lift
     const float k = toggle.getHeight() - 5.f;
     const float kx = on ? toggle.getRight() - toggle.getHeight() * 0.5f
                         : toggle.getX() + toggle.getHeight() * 0.5f;
-    g.setColour(on ? (colour::light ? colour::window : colour::text) : colour::text3);
+    g.setColour(on ? (colour::set.empty() ? (colour::light ? colour::window : colour::text) : colour::onColour(ink))
+                   : colour::text3);
     g.fillEllipse(juce::Rectangle<float>(k, k).withCentre({kx, toggle.getCentreY()}));
 
     // Level after this effect
-    drawMeter(g, row.level, meterBounds(area.getCentreY(), 34.f), row.bypassed);
+    drawMeter(g, row.level, meterBounds(area.getCentreY(), 34.f), row.bypassed, ink);
 }
 
 //==============================================================================
@@ -503,6 +512,7 @@ void ChainList::showMenu(int rowIndex)
     });
 
     const auto area = localAreaToGlobal(juce::Rectangle<int>(0, (int)slotTop(rowIndex), getWidth(), rowHeight));
+    m.setLookAndFeel(&getLookAndFeel());
     m.showMenuAsync(juce::PopupMenu::Options()
                         .withTargetScreenArea(area)
                         .withMinimumWidth(220)

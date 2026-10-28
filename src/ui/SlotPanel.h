@@ -17,6 +17,8 @@ class ParamRow : public juce::Component
     ParamRow(juce::RangedAudioParameter &, const juce::String &label, Format, Parse, bool knob = false);
     ~ParamRow() override;
 
+    void setTint(juce::Colour c) { tint = c; repaint(); }
+
     void paint(juce::Graphics &) override;
     void resized() override;
     void mouseEnter(const juce::MouseEvent &) override;
@@ -34,6 +36,7 @@ class ParamRow : public juce::Component
     juce::RangedAudioParameter &param;
     juce::ParameterAttachment attachment;
     juce::String label;
+    juce::Colour tint; // the effect's colour; transparent means the accent
     Format format;
     Parse parse;
     const bool knob;
@@ -43,6 +46,7 @@ class ParamRow : public juce::Component
     std::unique_ptr<juce::TextEditor> entry;
 
     void paintKnob(juce::Graphics &);
+    juce::Colour ink() const { return tint.isTransparent() ? theme::colour::accent : tint; }
 
     juce::Rectangle<float> labelArea() const;
     juce::Rectangle<float> trackArea() const;
@@ -107,6 +111,8 @@ class SlotPanel : public juce::Component
         std::vector<std::unique_ptr<ParamRow>> rows;
         std::unique_ptr<ParamRow> mix;
         DocView docs;
+        theme::TextButton openWindow{"Open plugin window", true}; // a plugin from this computer
+        bool hosted{false};
         bool noControls{false};
         bool knobs{false};
         int dividerY{0}, dividerWidth{0};

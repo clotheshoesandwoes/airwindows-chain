@@ -72,7 +72,7 @@ void ParamRow::paintKnob(juce::Graphics &g)
     {
         juce::Path arc;
         arc.addCentredArc(centre.x, centre.y, radius, radius, 0.f, start, start + sweep * value, true);
-        g.setColour(colour::accent);
+        g.setColour(ink());
         g.strokePath(arc, juce::PathStrokeType(3.f, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
     }
 
@@ -85,7 +85,7 @@ void ParamRow::paintKnob(juce::Graphics &g)
     const float angle = start + sweep * value;
     const auto inner = centre.getPointOnCircumference(7.f, angle);
     const auto outer = centre.getPointOnCircumference(17.f, angle);
-    g.setColour(dragging ? colour::accent : colour::text);
+    g.setColour(dragging ? ink() : colour::text);
     g.drawLine(inner.x, inner.y, outer.x, outer.y, 2.2f);
 
     g.setFont(sans(12.5f));
@@ -95,7 +95,7 @@ void ParamRow::paintKnob(juce::Graphics &g)
     if (entry == nullptr)
     {
         g.setFont(mono(12.f));
-        g.setColour(dragging ? colour::accent : colour::text);
+        g.setColour(dragging ? ink() : colour::text);
         g.drawText(format ? format(value) : juce::String(value, 2), valueArea(), juce::Justification::centred, true);
     }
 }
@@ -121,19 +121,19 @@ void ParamRow::paint(juce::Graphics &g)
     g.fillRoundedRectangle(bar, 2.f);
 
     const float x = t.getX() + t.getWidth() * value;
-    g.setColour(colour::accent);
+    g.setColour(ink());
     g.fillRoundedRectangle(bar.withRight(juce::jmax(bar.getX() + 4.f, x)), 2.f);
 
     const auto thumb = juce::Rectangle<float>(14.f, 14.f).withCentre({x, cy});
     g.setColour(colour::window);
     g.fillEllipse(thumb.expanded(2.f));
-    g.setColour(dragging ? colour::accent.brighter(0.35f) : colour::text);
+    g.setColour(dragging ? ink().brighter(0.35f) : colour::text);
     g.fillEllipse(thumb);
 
     if (entry == nullptr)
     {
         g.setFont(mono(13.f));
-        g.setColour(dragging ? colour::accent : colour::text);
+        g.setColour(dragging ? ink() : colour::text);
         g.drawText(format ? format(value) : juce::String(value, 2), valueArea(),
                    juce::Justification::centredRight, true);
     }
@@ -327,6 +327,11 @@ int SlotPanel::Body::layoutFor(int width)
     int y = 6;
     if (noControls)
         y += 40;
+    if (hosted)
+    {
+        openWindow.setBounds(kPad, y + 4, openWindow.idealWidth(), 36);
+        y += 56;
+    }
 
     if (knobs)
     {
@@ -409,6 +414,8 @@ SlotPanel::SlotPanel(ChainProcessor &p) : proc(p)
             onStep(1);
     };
     star.setTooltip("Favourite");
+    body.addChildComponent(body.openWindow);
+    body.openWindow.onClick = [this] { proc.showPluginWindow(slot); };
     star.onClick = [this] {
         const auto *e = Catalog::get().find(registryIndex);
         if (e == nullptr)
@@ -455,10 +462,10 @@ void SlotPanel::showSlot(int s)
     body.mix.reset();
 
     const auto info = proc.getSlotInfo(s);
-    const auto *e = Catalog::get().find(info.registryIndex);
+    const auto e = proc.slotLabel(s);
     chainEmpty = proc.getOrder().empty();
 
-    if (s < 0 || e == nullptr)
+    if (s < 0 || !e)
     {
         slot = -1;
         registryIndex = -1;
@@ -473,7 +480,10 @@ void SlotPanel::showSlot(int s)
 
     slot = s;
     registryIndex = info.registryIndex;
-    star.setFilled(proc.isFavourite(e->name));
+    // Stepping, favourites and the Airwindopedia are for Airwindows effects that loaded.
+    const bool airwindows = !e->hosted && !e->missing;
+    body.hosted = !airwindows;
+    star.setFilled(airwindows && proc.isFavourite(e->name));
     title = e->name;
     category = e->category;
     summary = e->summary;
@@ -488,7 +498,8 @@ void SlotPanel::showSlot(int s)
         body.addAndMakeVisible(*row);
         body.rows.push_back(std::move(row));
     }
-    body.noControls = info.nParams == 0;
+    body.noControls = info.nParams == 0 && airwindows;
+    body.openWindow.setVisible(e->hosted && !e->missing);
 
     body.mix = std::make_unique<ParamRow>(
         proc.mixParam(s), "Mix", [](float v) { return juce::String(juce::roundToInt(v * 100.f)) + "%"; },
@@ -500,11 +511,22 @@ void SlotPanel::showSlot(int s)
         },
         body.knobs);
     body.addAndMakeVisible(*body.mix);
-    body.docs.setDocument("From the Airwindopedia", Catalog::get().docParagraphs(registryIndex));
+
+    // In a colour theme the controls take this effect's colour from the set.
+    const auto order = proc.getOrder();
+    const auto at = std::find(order.begin(), order.end(), s);
+    const auto ink = theme::colour::slot(at == order.end() ? 0 : (int)(at - order.begin()));
+    for (auto &r : body.rows)
+        r->setTint(ink);
+    body.mix->setTint(ink);
+    if (!airwindows)
+        body.docs.setDocument({}, {});
+    else
+        body.docs.setDocument("From the Airwindopedia", Catalog::get().docParagraphs(registryIndex));
     body.addAndMakeVisible(body.docs);
 
     for (auto *b : headerButtons())
-        b->setVisible(true);
+        b->setVisible(airwindows || (b != &previous && b != &next && b != &star));
     viewport.setVisible(true);
     add.setVisible(false);
 
@@ -559,8 +581,8 @@ void SlotPanel::resized()
 
     // The buttons sit on the title line when there is room, otherwise on
     // their own line under the summary.
-    const int buttonsWidth = 30 + 2 + 30 + 6 + 30 + 10 + bypass.idealWidth() + 2 + replace.idealWidth() + 2 +
-                             remove.idealWidth();
+    const int stepWidth = body.hosted ? 0 : 30 + 2 + 30 + 6 + 30 + 10;
+    const int buttonsWidth = stepWidth + bypass.idealWidth() + 2 + replace.idealWidth() + 2 + remove.idealWidth();
     const auto titleWidth = (int)std::ceil(textWidth(sans(26.f, Weight::semibold), title));
     buttonsInline = titleWidth + 24 + buttonsWidth <= available;
 
@@ -573,7 +595,7 @@ void SlotPanel::resized()
     previous.setBounds(x, buttonsY, 30, 32);
     next.setBounds(previous.getRight() + 2, buttonsY, 30, 32);
     star.setBounds(next.getRight() + 6, buttonsY, 30, 32);
-    x = star.getRight() + 10;
+    x = body.hosted ? x + (buttonsInline ? 0 : 8) : star.getRight() + 10;
     for (auto *b : {&bypass, &replace, &remove})
     {
         b->setBounds(x, buttonsY, b->idealWidth(), 32);
@@ -608,7 +630,8 @@ void SlotPanel::paint(juce::Graphics &g)
     }
 
     const float left = (float)kPad;
-    const float titleRight = buttonsInline ? (float)previous.getX() - 16.f : (float)(getWidth() - kPad);
+    const float titleRight = buttonsInline ? (float)(body.hosted ? bypass.getX() : previous.getX()) - 16.f
+                                           : (float)(getWidth() - kPad);
 
     const auto titleFont = sans(26.f, Weight::semibold);
     const float baseline = (float)kTitleTop + 4.f + titleFont.getAscent();

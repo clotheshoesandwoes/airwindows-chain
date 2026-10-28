@@ -29,7 +29,63 @@ juce::Font make(const juce::Typeface::Ptr &face, float size)
 }
 
 juce::String activePalette{"Warm"}, activeAccent{"Amber"};
+
+// A colour theme: a ground, a side panel, a surface and text, plus a set of
+// four or five colours in the manner of an Adobe Color palette. Everything in
+// between is mixed from the ground and the text, so hovers, lines and dim text
+// keep the theme's tint.
+Palette fromSwatches(const char *name, bool light, juce::uint32 window, juce::uint32 side, juce::uint32 raised,
+                     juce::uint32 text, std::initializer_list<juce::uint32> set)
+{
+    const juce::Colour w(window), r(raised), t(text);
+    auto mix = [&](float k) { return w.interpolatedWith(t, k); };
+    Palette p;
+    p.name = name;
+    p.light = light;
+    p.window = w;
+    p.side = juce::Colour(side);
+    p.raised = r;
+    p.hover = w.interpolatedWith(r, 0.5f);
+    p.pressed = r.interpolatedWith(t, 0.07f);
+    p.lifted = light ? w.interpolatedWith(r, 0.7f) : r.interpolatedWith(t, 0.03f);
+    p.line = mix(light ? 0.14f : 0.11f);
+    p.track = mix(light ? 0.17f : 0.145f);
+    p.toggleOn = mix(light ? 0.62f : 0.25f);
+    p.toggleOff = mix(light ? 0.22f : 0.195f);
+    p.scroll = mix(light ? 0.2f : 0.155f);
+    p.scrollHover = mix(light ? 0.29f : 0.26f);
+    p.menuHighlight = r.interpolatedWith(t, light ? 0.02f : 0.05f);
+    p.text = t;
+    p.text2 = mix(light ? 0.73f : 0.69f);
+    p.text3 = mix(light ? 0.55f : 0.45f);
+    p.hot = juce::Colour(light ? 0xffc9412fu : 0xffe25f4cu);
+    for (auto c : set)
+        p.set.push_back(juce::Colour(c));
+    return p;
+}
 } // namespace
+
+std::vector<juce::Colour> Palette::swatches(const juce::Colour &chosenAccent) const
+{
+    std::vector<juce::Colour> out{window};
+    if (set.empty())
+        out.insert(out.end(), {raised, text2, text, chosenAccent});
+    else
+        out.insert(out.end(), set.begin(), set.end());
+    return out;
+}
+
+juce::Colour colour::slot(int position)
+{
+    if (set.empty() || position < 0)
+        return accent;
+    return set[(size_t)position % set.size()];
+}
+
+juce::Colour colour::onColour(juce::Colour c)
+{
+    return c.getPerceivedBrightness() > 0.6f ? juce::Colour(0xff15120e) : juce::Colour(0xfffbf8f3);
+}
 
 const std::vector<Palette> &palettes()
 {
@@ -39,6 +95,25 @@ const std::vector<Palette> &palettes()
         {"Cool", false, juce::Colour(0xff121417), juce::Colour(0xff171a1e), juce::Colour(0xff222630), juce::Colour(0xff1c2026), juce::Colour(0xff2c313b), juce::Colour(0xff282d36), juce::Colour(0xff2a2f38), juce::Colour(0xff323845), juce::Colour(0xff46505e), juce::Colour(0xff3a4250), juce::Colour(0xff333a46), juce::Colour(0xff4a5262), juce::Colour(0xff2d323d), juce::Colour(0xffecf0f5), juce::Colour(0xffa3acb8), juce::Colour(0xff6e7785), juce::Colour(0xffe25f4c)},
         {"Black", false, juce::Colour(0xff000000), juce::Colour(0xff0a0a0a), juce::Colour(0xff1a1a1a), juce::Colour(0xff111111), juce::Colour(0xff262626), juce::Colour(0xff202020), juce::Colour(0xff222222), juce::Colour(0xff2a2a2a), juce::Colour(0xff444444), juce::Colour(0xff333333), juce::Colour(0xff303030), juce::Colour(0xff484848), juce::Colour(0xff2a2a2a), juce::Colour(0xffffffff), juce::Colour(0xffa0a0a0), juce::Colour(0xff666666), juce::Colour(0xffe25f4c)},
         {"Light", true, juce::Colour(0xfff4f1eb), juce::Colour(0xffece8e1), juce::Colour(0xffe1dcd3), juce::Colour(0xffe8e4dd), juce::Colour(0xffd6d0c6), juce::Colour(0xffe6e1d9), juce::Colour(0xffd5cfc5), juce::Colour(0xffcdc6bb), juce::Colour(0xff6f675c), juce::Colour(0xffbdb6ab), juce::Colour(0xffc3bcb1), juce::Colour(0xffa8a196), juce::Colour(0xffdbd5cb), juce::Colour(0xff1f1c18), juce::Colour(0xff5a554e), juce::Colour(0xff8a847a), juce::Colour(0xffc9412f)},
+        //            name       light  ground      side        surface     text        the set, in chain order
+        fromSwatches("Coast", false, 0xff0f2229, 0xff15323b, 0xff1d434e, 0xffeef3ef,
+                     {0xff2a9d8f, 0xffe9c46a, 0xfff4a261, 0xffe76f51}),
+        fromSwatches("Retro", false, 0xff140f24, 0xff1d1733, 0xff2a2347, 0xfff3effc,
+                     {0xff3a86ff, 0xff8338ec, 0xffff006e, 0xfffb5607, 0xffffbe0b}),
+        fromSwatches("Tropic", false, 0xff06141f, 0xff0b2030, 0xff133044, 0xfff2f7f5,
+                     {0xff2ec4b6, 0xffff9f1c, 0xffe71d36, 0xffcbf3f0}),
+        fromSwatches("Dusk", false, 0xff151c2b, 0xff1f2a40, 0xff2c3a56, 0xfff4eeee,
+                     {0xffeaac8b, 0xffe56b6f, 0xffb56576, 0xff8c7aa8}),
+        fromSwatches("Orchard", false, 0xff15190d, 0xff1f2614, 0xff2c3520, 0xfff5f1dc,
+                     {0xffdda15e, 0xffbc6c25, 0xff8fa35a, 0xfffefae0}),
+        fromSwatches("Neon", false, 0xff0a0a0f, 0xff111118, 0xff1c1c26, 0xfff5f5f7,
+                     {0xff00f5d4, 0xff00bbf9, 0xfffee440, 0xfff15bb5, 0xff9b5de5}),
+        fromSwatches("Riso", true, 0xfff4ecdc, 0xffebdfc8, 0xffe0d0b2, 0xff1f1d2b,
+                     {0xffe4572e, 0xff29335c, 0xfff3a712, 0xff669bbc}),
+        fromSwatches("Terracotta", true, 0xfffbf0ea, 0xfff5e1d8, 0xffecccc0, 0xff2c2230,
+                     {0xffe07a5f, 0xff3d405b, 0xff81b29a, 0xfff2cc8f}),
+        fromSwatches("Bauhaus", true, 0xfff2efe6, 0xffe7e2d4, 0xffd9d2bf, 0xff141414,
+                     {0xffd7263d, 0xff1b998b, 0xfff46036, 0xff2e294e, 0xffc5d86d}),
     };
     return list;
 }
@@ -90,8 +165,9 @@ void apply(const juce::String &paletteName, const juce::String &accentName)
     colour::text2 = p->text2;
     colour::text3 = p->text3;
     colour::hot = p->hot;
-    colour::accent = p->light ? a->onLight : a->onDark;
-    colour::onAccent = p->light ? a->textOnLight : a->textOnDark;
+    colour::accent = p->ownAccent() ? p->set.front() : p->light ? a->onLight : a->onDark;
+    colour::onAccent = p->ownAccent() ? colour::onColour(colour::accent) : p->light ? a->textOnLight : a->textOnDark;
+    colour::set = p->set;
 }
 
 juce::Font sans(float size, Weight weight)

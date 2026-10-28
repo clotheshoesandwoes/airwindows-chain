@@ -47,6 +47,51 @@ void ChainEditor::ChainMenuButton::paintButton(juce::Graphics &g, bool highlight
 }
 
 //==============================================================================
+ChainEditor::CompareButton::CompareButton() : juce::Button("Compare")
+{
+    setClickingTogglesState(true);
+    setMouseCursor(juce::MouseCursor::PointingHandCursor);
+    setTooltip("Hear the original instead, turned up or down to the chain's loudness, so you judge "
+               "the sound and not the volume. The number is how much louder the chain is.");
+}
+
+void ChainEditor::CompareButton::setDifference(float db)
+{
+    juce::String next;
+    if (std::isfinite(db))
+        next = (db >= 0.05f ? "+" : db <= -0.05f ? "-" : "") + juce::String(std::abs(db), 1) + " dB";
+    if (next != difference)
+    {
+        difference = next;
+        repaint();
+    }
+}
+
+int ChainEditor::CompareButton::idealWidth() const
+{
+    return (int)std::ceil(textWidth(sans(14.f, Weight::medium), "Original") +
+                          textWidth(sans(13.f), "+88.8 dB")) + 34;
+}
+
+void ChainEditor::CompareButton::paintButton(juce::Graphics &g, bool highlighted, bool down)
+{
+    const auto r = getLocalBounds().toFloat();
+    const bool on = getToggleState();
+    if (on || highlighted || down)
+    {
+        g.setColour(on ? colour::accent : down ? colour::pressed : colour::raised);
+        g.fillRoundedRectangle(r, 6.f);
+    }
+    const auto ink = on ? colour::onAccent : colour::text2;
+    g.setFont(sans(13.f));
+    g.setColour(on ? ink.withAlpha(0.8f) : colour::text3);
+    g.drawText(difference, r.withTrimmedRight(12.f), juce::Justification::centredRight, false);
+    g.setFont(sans(14.f, Weight::medium));
+    g.setColour(on || highlighted ? (on ? ink : colour::text) : ink);
+    g.drawText(on ? "Original" : "Compare", r.withTrimmedLeft(12.f), juce::Justification::centredLeft, false);
+}
+
+//==============================================================================
 ChainEditor::ChainEditor(ChainProcessor &p)
     : juce::AudioProcessorEditor(p), proc(p), chainList(p), slotPanel(p)
 {
@@ -70,6 +115,10 @@ ChainEditor::ChainEditor(ChainProcessor &p)
     aboutButton.setButtonText(juce::String((int)Catalog::get().all().size()) + " effects by Airwindows");
     aboutButton.onClick = [this] { showAbout(); };
     addAndMakeVisible(aboutButton);
+
+    compare.setToggleState(proc.isComparing(), juce::dontSendNotification);
+    compare.onClick = [this] { proc.setComparing(compare.getToggleState()); };
+    addAndMakeVisible(compare);
 
     listViewport.setViewedComponent(&chainList, false);
     listViewport.setScrollBarsShown(true, false);
@@ -100,7 +149,7 @@ ChainEditor::ChainEditor(ChainProcessor &p)
     };
     slotPanel.onStep = [this](int direction) {
         const auto info = proc.getSlotInfo(selectedSlot);
-        if (info.registryIndex < 0)
+        if (info.registryIndex < 0 || isHosted(info.registryIndex))
             return;
         proc.replaceEffect(selectedSlot, Catalog::get().neighbour(info.registryIndex, direction));
         syncNow();
@@ -118,6 +167,8 @@ ChainEditor::ChainEditor(ChainProcessor &p)
 ChainEditor::~ChainEditor()
 {
     stopTimer();
+    proc.setComparing(false); // with the window gone there'd be no way to switch it back
+    proc.closePluginWindows();
     setLookAndFeel(nullptr);
 }
 
@@ -183,6 +234,8 @@ void ChainEditor::pollNow()
         syncNow();
     chainList.pollStates();
     slotPanel.pollBypass();
+    compare.setDifference(proc.loudnessDifference());
+    compare.setToggleState(proc.isComparing(), juce::dontSendNotification);
 
     // Type to search: take the keyboard while the mouse is here, hand it back
     // when it leaves. Keys we don't use go to the host either way.
@@ -280,7 +333,7 @@ void ChainEditor::openPickerToAdd(int position)
 
 void ChainEditor::openPickerToReplace(int slot)
 {
-    if (proc.getSlotInfo(slot).registryIndex >= 0)
+    if (proc.slotLabel(slot))
         ensurePicker().openToReplace(slot);
 }
 
@@ -356,6 +409,62 @@ class SavedChainItem : public juce::PopupMenu::CustomComponent
     juce::StringArray effects;
     juce::String line;
 };
+
+// A theme in the menu: its name and its five colours side by side.
+class ThemeItem : public juce::PopupMenu::CustomComponent
+{
+  public:
+    ThemeItem(const theme::Palette &p, bool current)
+        : juce::PopupMenu::CustomComponent(true), name(p.name), ticked(current)
+    {
+        const auto &accents = theme::accents();
+        juce::Colour chosen = accents.front().onDark;
+        for (const auto &a : accents)
+            if (a.name == theme::currentAccent())
+                chosen = p.light ? a.onLight : a.onDark;
+        swatches = p.swatches(chosen);
+    }
+
+    void getIdealSize(int &w, int &h) override
+    {
+        w = 260;
+        h = 32;
+    }
+
+    void paint(juce::Graphics &g) override
+    {
+        const bool hi = isItemHighlighted();
+        if (hi)
+        {
+            g.setColour(theme::colour::menuHighlight);
+            g.fillRoundedRectangle(getLocalBounds().toFloat().reduced(4.f, 1.f), 6.f);
+        }
+        g.setFont(theme::sans(14.f, ticked || hi ? theme::Weight::medium : theme::Weight::regular));
+        g.setColour(ticked ? theme::colour::text : theme::colour::text2);
+        g.drawText(name, 16, 0, getWidth() - 140, getHeight(), juce::Justification::centredLeft, true);
+
+        float x = (float)getWidth() - 16.f - (float)swatches.size() * 18.f + 2.f;
+        for (const auto &c : swatches)
+        {
+            const auto r = juce::Rectangle<float>(x, (float)getHeight() / 2.f - 8.f, 16.f, 16.f);
+            g.setColour(c);
+            g.fillRoundedRectangle(r, 3.f);
+            g.setColour(theme::colour::line);
+            g.drawRoundedRectangle(r.reduced(0.5f), 3.f, 1.f);
+            x += 18.f;
+        }
+        if (ticked)
+        {
+            g.setColour(theme::colour::accent);
+            g.fillEllipse(juce::Rectangle<float>(5.f, 5.f).withCentre({8.f, (float)getHeight() / 2.f}));
+        }
+    }
+
+  private:
+    juce::String name;
+    bool ticked;
+    std::vector<juce::Colour> swatches;
+};
 } // namespace
 
 void ChainEditor::showChainMenu()
@@ -400,11 +509,25 @@ void ChainEditor::showChainMenu()
 
     m.addSeparator();
     juce::PopupMenu themes, accents;
+    bool ownAccent = false;
+    bool colourStarted = false;
     for (const auto &p : theme::palettes())
-        themes.addItem(p.name, true, p.name == theme::currentPalette(),
-                       [this, name = p.name] { applyTheme(name, theme::currentAccent()); });
+    {
+        const bool current = p.name == theme::currentPalette();
+        ownAccent = ownAccent || (current && p.ownAccent());
+        if (p.ownAccent() && !colourStarted)
+        {
+            themes.addSeparator();
+            colourStarted = true;
+        }
+        juce::PopupMenu::Item item(p.name);
+        item.customComponent = new ThemeItem(p, current);
+        item.action = [this, name = p.name] { applyTheme(name, theme::currentAccent()); };
+        themes.addItem(std::move(item));
+    }
+    // A colour theme picks its own accent.
     for (const auto &a : theme::accents())
-        accents.addItem(a.name, true, a.name == theme::currentAccent(),
+        accents.addItem(a.name, !ownAccent, a.name == theme::currentAccent() && !ownAccent,
                         [this, name = a.name] { applyTheme(theme::currentPalette(), name); });
     m.addSubMenu("Theme", themes);
     m.addSubMenu("Accent", accents);
@@ -414,6 +537,7 @@ void ChainEditor::showChainMenu()
     m.addItem("Type to search", true, typing, [this, typing] { setTypeToSearch(!typing); });
     m.addItem("About Airwindows Chain", [this] { showAbout(); });
 
+    m.setLookAndFeel(&lookAndFeel);
     m.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(&chainMenu).withMinimumWidth(240));
 }
 
@@ -579,6 +703,7 @@ void ChainEditor::resized()
     chainMenu.setBounds(16, (headerHeight - 34) / 2, chainMenu.idealWidth(), 34);
     undoButton.setBounds(chainMenu.getRight() + 6, chainMenu.getY(), undoButton.idealWidth(), 34);
     aboutButton.setBounds(getWidth() - 16 - aboutButton.idealWidth(), chainMenu.getY(), aboutButton.idealWidth(), 34);
+    compare.setBounds(aboutButton.getX() - 8 - compare.idealWidth(), chainMenu.getY(), compare.idealWidth(), 34);
     if (about != nullptr)
         about->setBounds(getLocalBounds());
     listViewport.setBounds(0, headerHeight, lw, getHeight() - headerHeight);

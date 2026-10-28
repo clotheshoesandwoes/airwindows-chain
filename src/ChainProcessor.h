@@ -8,6 +8,8 @@
 #include "AirwinRegistry.h"
 #include "Catalog.h"
 #include "Fifo.h"
+#include "Hosted.h"
+#include "Loudness.h"
 #include "Params.h"
 
 namespace awchain
@@ -58,6 +60,21 @@ class ChainProcessor : public juce::AudioProcessor, private juce::Timer
         int nParams{0};
         std::array<juce::String, kParamsPerSlot> paramNames;
     };
+
+    // What the UI calls an effect, Airwindows or a plugin from this computer.
+    struct EffectLabel
+    {
+        juce::String name, category, summary;
+        bool hosted{false};
+        bool missing{false}; // saved in the chain, but can't load on this computer
+    };
+    std::optional<EffectLabel> effectLabel(int id) const;
+    std::optional<EffectLabel> slotLabel(int slot) const; // also names a missing effect
+    HostedPlugins &hostedPlugins() { return *hosted; }
+
+    // A plugin from this computer edits in its own window.
+    void showPluginWindow(int slot);
+    void closePluginWindows();
 
     std::vector<int> getOrder() const; // slot ids in processing order
     SlotInfo getSlotInfo(int slot) const;
@@ -116,9 +133,22 @@ class ChainProcessor : public juce::AudioProcessor, private juce::Timer
     static constexpr int inputMeter = kMaxSlots, outputMeter = kMaxSlots + 1;
     float takePeak(int meter) { return peaks[(size_t)meter].exchange(0.f); }
 
+    // Compare: hear the original instead of the chain, turned up or down to the
+    // chain's loudness, so the two differ in sound and not in volume. Not saved.
+    void setComparing(bool on) { comparing = on; }
+    bool isComparing() const { return comparing.load(); }
+
+    // How much louder the chain is than what comes in, in dB, measured as LUFS
+    // meters measure over the last few seconds. NaN until there's been signal.
+    float loudnessDifference() const { return loudnessDiff.load(); }
+
     // Frees effect instances the audio thread has let go of. Runs on a timer;
     // public so tests can call it directly.
     void collectGarbage();
+
+    // Tells the host when a plugin in the chain changes its latency (lookahead
+    // switched on, a preset loaded). Runs on the timer; public for tests.
+    void followLatency();
 
   private:
     //==========================================================================
@@ -137,6 +167,13 @@ class ChainProcessor : public juce::AudioProcessor, private juce::Timer
         std::unique_ptr<AirwinConsolidatedBase> display; // formats values for the UI and host
         int nParams{0};
         std::array<juce::String, kParamsPerSlot> names;
+        HostedEffect *hosted{nullptr}; // owned by the audio thread; never outlives it here
+        std::unique_ptr<juce::DocumentWindow> window;
+        // A saved slot whose effect can't load here (a plugin not installed or
+        // not licensed, an effect this build doesn't have). Passes audio
+        // through, and is saved again exactly as it came, so opening a project
+        // on another computer never loses it.
+        std::unique_ptr<juce::XmlElement> missing;
     };
     mutable std::recursive_mutex modelLock;
     std::array<SlotModel, kMaxSlots> model;
@@ -150,16 +187,19 @@ class ChainProcessor : public juce::AudioProcessor, private juce::Timer
         std::array<float, kParamsPerSlot> fx{};
         float mix{1.f};
         bool bypass{false};
+        juce::MemoryBlock pluginState; // a hosted plugin's own state
     };
 
     struct NewEffect
     {
         std::unique_ptr<AirwinConsolidatedBase> audio, display;
+        HostedEffect *hosted{nullptr}; // the same object as audio, when it is a plugin
         int nParams{0};
         std::array<float, kParamsPerSlot> defaults{};
         std::array<juce::String, kParamsPerSlot> names;
     };
     NewEffect makeEffect(int registryIndex) const;
+    juce::SharedResourcePointer<HostedPlugins> hosted;
 
     // Puts an effect (or nothing, for registryIndex -1) into a slot and tells
     // the audio thread. values == nullptr means the effect's own defaults.
@@ -223,6 +263,19 @@ class ChainProcessor : public juce::AudioProcessor, private juce::Timer
 
     juce::AudioBuffer<float> dryBuffer, monoBuffer;
     int maxChunk{0};
+
+    // Compare. The original is held back by the chain's latency so it lines up.
+    static constexpr int kOriginalLength = 1 << 17;
+    juce::AudioBuffer<float> originalLine;
+    int originalWrite{0};
+    Loudness inputLoudness, outputLoudness;
+    float matchGain{1.f};
+    juce::SmoothedValue<float> compareMix;
+    std::atomic<bool> comparing{false};
+    std::atomic<float> loudnessDiff{std::numeric_limits<float>::quiet_NaN()};
+    std::atomic<int> chainLatency{0};
+    void keepOriginal(const float *left, const float *right, int n);
+    void compareWithOriginal(float *left, float *right, int n);
     double audioSampleRate{48000.0};
     std::atomic<double> hostSampleRate{48000.0};
 
@@ -240,6 +293,9 @@ class ChainProcessor : public juce::AudioProcessor, private juce::Timer
     bool inDspOrder(int slot) const;
 
     void timerCallback() override;
+    // Following a hosted plugin's own window: the slider value last seen to agree with it.
+    std::array<std::array<float, kParamsPerSlot>, kMaxSlots> lastSynced{};
+    std::array<uint32_t, kMaxSlots> dspGenerationSeen{};
 
   public:
     // Recent effects, shared by every instance in the session.

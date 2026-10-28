@@ -49,6 +49,51 @@ template <typename Mutex> struct Lock
     explicit Lock(Mutex &m) : guard(m) {}
     std::lock_guard<Mutex> guard;
 };
+
+// "Fx|Reverb" to "Reverb"; plain "Fx" to "Effect".
+juce::String pluginKind(const juce::String &vst3Category)
+{
+    auto parts = juce::StringArray::fromTokens(vst3Category, "|", "");
+    for (int i = parts.size(); --i >= 0;)
+        if (!parts[i].equalsIgnoreCase("Fx") && !parts[i].equalsIgnoreCase("Stereo") &&
+            !parts[i].equalsIgnoreCase("Mono") && !parts[i].equalsIgnoreCase("Surround") && parts[i].isNotEmpty())
+            return parts[i];
+    return "Effect";
+}
+
+// A plugin's own editor. Closing it frees the editor; the window comes back
+// with a fresh one.
+class PluginWindow : public juce::DocumentWindow
+{
+  public:
+    explicit PluginWindow(const juce::String &name)
+        : DocumentWindow(name, juce::Colours::black, DocumentWindow::closeButton)
+    {
+        setUsingNativeTitleBar(true);
+        setAlwaysOnTop(true);
+    }
+
+    void open(juce::AudioPluginInstance &plugin)
+    {
+        if (getContentComponent() == nullptr)
+        {
+            auto *editor = plugin.hasEditor() ? plugin.createEditorIfNeeded() : nullptr;
+            if (editor == nullptr)
+                editor = new juce::GenericAudioProcessorEditor(plugin);
+            setContentOwned(editor, true);
+            setResizable(editor->isResizable(), false);
+            centreWithSize(getWidth(), getHeight());
+        }
+        setVisible(true);
+        toFront(true);
+    }
+
+    void closeButtonPressed() override
+    {
+        setVisible(false);
+        clearContentComponent();
+    }
+};
 } // namespace
 
 //==============================================================================
@@ -151,13 +196,16 @@ ChainProcessor::ChainProcessor()
     for (auto &d : dsp)
         d.sent.fill(kNaN);
 
+    for (auto &l : lastSynced)
+        l.fill(kNaN);
     relabelParameters();
-    startTimer(250);
+    startTimer(60);
 }
 
 ChainProcessor::~ChainProcessor()
 {
     stopTimer();
+    closePluginWindows(); // editors go before the plugins they belong to
 
     Command c;
     while (toAudio.pop(c))
@@ -194,6 +242,13 @@ void ChainProcessor::prepareToPlay(double sampleRate, int maximumExpectedSamples
     maxChunk = juce::jlimit(256, 8192, maximumExpectedSamplesPerBlock > 0 ? maximumExpectedSamplesPerBlock : 512);
     dryBuffer.setSize(2, maxChunk, false, true, false);
     monoBuffer.setSize(1, maxChunk, false, true, false);
+    originalLine.setSize(2, kOriginalLength, false, true, false);
+    originalLine.clear();
+    originalWrite = 0;
+    inputLoudness.prepare(sampleRate);
+    outputLoudness.prepare(sampleRate);
+    compareMix.reset(sampleRate, 0.03);
+    compareMix.setCurrentAndTargetValue(comparing ? 1.f : 0.f);
 
     drainCommands(true);
 
@@ -210,8 +265,12 @@ void ChainProcessor::prepareToPlay(double sampleRate, int maximumExpectedSamples
 
     Lock<std::recursive_mutex> l(modelLock);
     for (auto &m : model)
+    {
         if (m.display)
             m.display->setSampleRate((float)sampleRate);
+        if (m.hosted)
+            m.hosted->prepare(sampleRate, maxChunk);
+    }
 }
 
 void ChainProcessor::processBlock(juce::AudioBuffer<float> &buffer, juce::MidiBuffer &)
@@ -240,7 +299,9 @@ void ChainProcessor::processBlock(juce::AudioBuffer<float> &buffer, juce::MidiBu
         if (!stereoIn)
             juce::FloatVectorOperations::copy(right, left, len);
 
+        keepOriginal(left, right, len);
         runChain(left, right, len);
+        compareWithOriginal(left, right, len);
 
         if (!stereoOut)
         {
@@ -280,23 +341,35 @@ void ChainProcessor::runChain(float *left, float *right, int n)
 
             const bool moving = d.wet.isSmoothing();
             const float w = d.wet.getCurrentValue();
-            if (!moving && w >= 1.f)
+            // A plugin with latency keeps its dry signal running through a matching
+            // delay even at full wet, so turning the mix down never jumps in time.
+            auto *hosted = dynamic_cast<HostedEffect *>(d.effect.get());
+            if (hosted != nullptr)
+                hosted->followLatency();
+            const bool delayedDry = hosted != nullptr && hosted->latency() > 0;
+            if (!moving && w >= 1.f && !delayedDry)
             {
                 d.effect->processReplacing(io, io, n);
             }
-            else if (moving || w > 0.f)
+            // A plugin with latency keeps running even bypassed: the chain's
+            // reported latency includes it, so the signal has to be held back by
+            // it either way, and turning it back on mustn't play stale audio.
+            else if (moving || w > 0.f || delayedDry)
             {
                 auto *dryL = dryBuffer.getWritePointer(0);
                 auto *dryR = dryBuffer.getWritePointer(1);
                 juce::FloatVectorOperations::copy(dryL, left, n);
                 juce::FloatVectorOperations::copy(dryR, right, n);
                 d.effect->processReplacing(io, io, n);
-                for (int i = 0; i < n; ++i)
-                {
-                    const float g = d.wet.getNextValue();
-                    left[i] = dryL[i] + g * (left[i] - dryL[i]);
-                    right[i] = dryR[i] + g * (right[i] - dryR[i]);
-                }
+                if (delayedDry)
+                    hosted->delayDry(dryL, dryR, n);
+                if (moving || w < 1.f)
+                    for (int i = 0; i < n; ++i)
+                    {
+                        const float g = d.wet.getNextValue();
+                        left[i] = dryL[i] + g * (left[i] - dryL[i]);
+                        right[i] = dryR[i] + g * (right[i] - dryR[i]);
+                    }
             }
         }
 
@@ -304,6 +377,49 @@ void ChainProcessor::runChain(float *left, float *right, int n)
     }
 
     notePeak(outputMeter, left, right, n);
+}
+
+void ChainProcessor::keepOriginal(const float *left, const float *right, int n)
+{
+    inputLoudness.measure(left, right, n);
+    constexpr int mask = kOriginalLength - 1;
+    auto *l = originalLine.getWritePointer(0);
+    auto *r = originalLine.getWritePointer(1);
+    for (int i = 0; i < n; ++i)
+    {
+        l[(originalWrite + i) & mask] = left[i];
+        r[(originalWrite + i) & mask] = right[i];
+    }
+}
+
+void ChainProcessor::compareWithOriginal(float *left, float *right, int n)
+{
+    outputLoudness.measure(left, right, n);
+    constexpr double kSilence = 1.0e-7; // about -70 LUFS; below it the ratio means nothing
+    const double in = inputLoudness.power(), out = outputLoudness.power();
+    if (in > kSilence && out > kSilence)
+    {
+        matchGain = (float)juce::jlimit(1.0 / 16.0, 16.0, std::sqrt(out / in)); // 24 dB either way
+        loudnessDiff = (float)(10.0 * std::log10(out / in));
+    }
+
+    constexpr int mask = kOriginalLength - 1;
+    const int start = originalWrite;
+    originalWrite = (originalWrite + n) & mask;
+    compareMix.setTargetValue(comparing ? 1.f : 0.f);
+    if (!compareMix.isSmoothing() && compareMix.getTargetValue() <= 0.f)
+        return;
+
+    const int lag = juce::jlimit(0, kOriginalLength - maxChunk, chainLatency.load());
+    const auto *l = originalLine.getReadPointer(0);
+    const auto *r = originalLine.getReadPointer(1);
+    for (int i = 0; i < n; ++i)
+    {
+        const int at = (start + i - lag) & mask;
+        const float g = compareMix.getNextValue();
+        left[i] += g * (matchGain * l[at] - left[i]);
+        right[i] += g * (matchGain * r[at] - right[i]);
+    }
 }
 
 void ChainProcessor::notePeak(int meter, const float *left, const float *right, int n)
@@ -450,13 +566,61 @@ void ChainProcessor::collectGarbage()
         delete effect;
 }
 
+void ChainProcessor::followLatency()
+{
+    int latency = 0;
+    {
+        Lock<std::recursive_mutex> l(modelLock);
+        for (auto s : order)
+            if (auto *h = model[(size_t)s].hosted)
+                latency += h->plugin().getLatencySamples();
+    }
+    if (latency != chainLatency.load())
+    {
+        chainLatency = latency;
+        setLatencySamples(latency);
+    }
+}
+
 void ChainProcessor::timerCallback()
 {
     collectGarbage();
+    followLatency();
 
-    Lock<std::recursive_mutex> l(modelLock);
-    while (!overflow.empty() && toAudio.push(overflow.front()))
-        overflow.erase(overflow.begin());
+    // A knob turned in a plugin's own window moves the chain's slider too. Only
+    // when the slider itself hasn't moved since, so the two never fight.
+    std::vector<std::pair<FxParam *, float>> follow;
+    {
+        Lock<std::recursive_mutex> l(modelLock);
+        while (!overflow.empty() && toAudio.push(overflow.front()))
+            overflow.erase(overflow.begin());
+
+        for (size_t s = 0; s < (size_t)kMaxSlots; ++s)
+        {
+            const auto &m = model[s];
+            if (m.hosted == nullptr || slotGeneration[s].load() != dspGenerationSeen[s])
+            {
+                dspGenerationSeen[s] = slotGeneration[s].load();
+                lastSynced[s].fill(kNaN);
+                continue;
+            }
+            for (int i = 0; i < m.nParams; ++i)
+            {
+                auto *fx = params[s].fx[(size_t)i];
+                const float ours = fx->get(), theirs = m.hosted->control(i).getValue();
+                auto &last = lastSynced[s][(size_t)i];
+                if (std::abs(ours - theirs) < 1.0e-4f)
+                    last = ours;
+                else if (std::abs(ours - last) < 1.0e-4f)
+                {
+                    follow.push_back({fx, theirs});
+                    last = theirs;
+                }
+            }
+        }
+    }
+    for (auto &[fx, v] : follow)
+        fx->setValueNotifyingHost(v);
 }
 
 void ChainProcessor::pushCommandLocked(const Command &c)
@@ -479,6 +643,26 @@ void ChainProcessor::pushOrderLocked()
 ChainProcessor::NewEffect ChainProcessor::makeEffect(int registryIndex) const
 {
     NewEffect n;
+    if (isHosted(registryIndex))
+    {
+        juce::String error;
+        const double sr = hostSampleRate.load();
+        const int block = maxChunk > 0 ? maxChunk : 512;
+        if (auto plugin = hosted->create(registryIndex, sr, block, error))
+        {
+            auto effect = std::make_unique<HostedEffect>(std::move(plugin));
+            effect->prepare(sr, block);
+            n.nParams = effect->numControls();
+            for (int i = 0; i < n.nParams; ++i)
+            {
+                n.names[(size_t)i] = effect->control(i).getName(40);
+                n.defaults[(size_t)i] = effect->control(i).getValue(); // as the plugin opens, not its declared defaults
+            }
+            n.hosted = effect.get();
+            n.audio = std::move(effect);
+        }
+        return n;
+    }
     if (registryIndex < 0 || registryIndex >= (int)AirwinRegistry::registry.size())
         return n;
 
@@ -508,6 +692,8 @@ void ChainProcessor::assignSlot(int slot, int registryIndex, const SlotValues *v
     auto fresh = makeEffect(registryIndex); // allocate before taking the lock
     if (!fresh.audio)
         registryIndex = -1;
+    if (fresh.hosted != nullptr && values != nullptr && values->pluginState.getSize() > 0)
+        fresh.hosted->plugin().setStateInformation(values->pluginState.getData(), (int)values->pluginState.getSize());
     const int nParams = registryIndex >= 0 ? fresh.nParams : 0;
 
     SlotValues v;
@@ -522,12 +708,16 @@ void ChainProcessor::assignSlot(int slot, int registryIndex, const SlotValues *v
     }
 
     std::unique_ptr<AirwinConsolidatedBase> oldDisplay;
+    std::unique_ptr<juce::DocumentWindow> oldWindow; // closed before its plugin can be freed
     uint32_t generation = 0;
     {
         Lock<std::recursive_mutex> l(modelLock);
         auto &m = model[(size_t)slot];
         oldDisplay = std::move(m.display);
         m.display = std::move(fresh.display);
+        oldWindow = std::move(m.window);
+        m.missing.reset();
+        m.hosted = fresh.hosted;
         m.registryIndex = registryIndex;
         m.nParams = nParams;
         m.names = fresh.names;
@@ -535,6 +725,10 @@ void ChainProcessor::assignSlot(int slot, int registryIndex, const SlotValues *v
         // slot's parameters, so the outgoing effect never hears the new values.
         generation = ++slotGeneration[(size_t)slot];
     }
+
+    if (oldWindow != nullptr && !juce::MessageManager::existsAndIsCurrentThread())
+        juce::MessageManager::callAsync([w = oldWindow.release()] { delete w; });
+    oldWindow.reset();
 
     // Host notifications happen outside the lock: some hosts ask for the
     // parameter text from inside setValueNotifyingHost.
@@ -575,6 +769,9 @@ ChainProcessor::SlotValues ChainProcessor::currentValues(int slot) const
         v.fx[i] = p.fx[i]->get();
     v.mix = p.mix->get();
     v.bypass = p.bypass->get();
+    Lock<std::recursive_mutex> l(modelLock);
+    if (auto *h = model[(size_t)slot].hosted)
+        h->plugin().getStateInformation(v.pluginState);
     return v;
 }
 
@@ -606,7 +803,8 @@ bool ChainProcessor::isFull() const
 
 int ChainProcessor::addEffect(int registryIndex, int position)
 {
-    if (Catalog::get().find(registryIndex) == nullptr)
+    const auto label = effectLabel(registryIndex);
+    if (!label)
         return -1;
 
     int slot = -1;
@@ -616,7 +814,7 @@ int ChainProcessor::addEffect(int registryIndex, int position)
         if (slot < 0)
             return -1;
     }
-    rememberForUndo("add " + Catalog::get().find(registryIndex)->name);
+    rememberForUndo("add " + label->name);
     {
         Lock<std::recursive_mutex> l(modelLock);
         model[(size_t)slot].registryIndex = registryIndex; // reserve it
@@ -641,7 +839,7 @@ int ChainProcessor::addEffect(int registryIndex, int position)
 
 void ChainProcessor::replaceEffect(int slot, int registryIndex)
 {
-    if (slot < 0 || slot >= kMaxSlots || Catalog::get().find(registryIndex) == nullptr)
+    if (slot < 0 || slot >= kMaxSlots || !effectLabel(registryIndex))
         return;
     {
         Lock<std::recursive_mutex> l(modelLock);
@@ -754,6 +952,15 @@ void ChainProcessor::clearChain()
 
 void ChainProcessor::chainChanged()
 {
+    int latency = 0;
+    {
+        Lock<std::recursive_mutex> l(modelLock);
+        for (auto s : order)
+            if (auto *h = model[(size_t)s].hosted)
+                latency += h->plugin().getLatencySamples();
+    }
+    setLatencySamples(latency);
+    chainLatency = latency;
     relabelParameters();
     ++modelVersion;
     updateHostDisplay(juce::AudioProcessor::ChangeDetails().withParameterInfoChanged(true));
@@ -781,8 +988,8 @@ void ChainProcessor::relabelParameters()
     for (int s = 0; s < kMaxSlots; ++s)
     {
         auto &p = params[(size_t)s];
-        const auto *e = Catalog::get().find(registry[(size_t)s]);
-        if (e == nullptr || position[(size_t)s] < 0)
+        const auto e = effectLabel(registry[(size_t)s]);
+        if (!e || position[(size_t)s] < 0)
         {
             const auto base = "Unused " + juce::String(s + 1);
             for (int i = 0; i < kParamsPerSlot; ++i)
@@ -810,6 +1017,13 @@ juce::String ChainProcessor::formatValue(int slot, int index, float value) const
 
     Lock<std::recursive_mutex> l(modelLock);
     const auto &m = model[(size_t)slot];
+    if (m.hosted != nullptr && index < m.nParams)
+    {
+        auto &c = m.hosted->control(index);
+        const auto unit = c.getLabel().trim();
+        const auto text = c.getText(value, 32).trim();
+        return unit.isEmpty() || text.endsWith(unit) ? text : text + " " + unit;
+    }
     if (!m.display || index >= m.nParams)
         return "-";
 
@@ -831,6 +1045,8 @@ std::optional<float> ChainProcessor::parseValue(int slot, int index, const juce:
 
     Lock<std::recursive_mutex> l(modelLock);
     const auto &m = model[(size_t)slot];
+    if (m.hosted != nullptr && index < m.nParams)
+        return juce::jlimit(0.f, 1.f, m.hosted->control(index).getValueForText(text.trim()));
     if (!m.display || index >= m.nParams)
         return std::nullopt;
 
@@ -871,6 +1087,8 @@ std::unique_ptr<juce::XmlElement> ChainProcessor::chainToXml() const
     std::vector<int> ord;
     std::array<int, kMaxSlots> registry{};
     std::array<int, kMaxSlots> counts{};
+    std::array<juce::MemoryBlock, kMaxSlots> pluginStates;
+    std::array<std::unique_ptr<juce::XmlElement>, kMaxSlots> missing;
     {
         Lock<std::recursive_mutex> l(modelLock);
         ord = order;
@@ -878,19 +1096,36 @@ std::unique_ptr<juce::XmlElement> ChainProcessor::chainToXml() const
         {
             registry[s] = model[s].registryIndex;
             counts[s] = model[s].nParams;
+            if (auto *h = model[s].hosted)
+                h->plugin().getStateInformation(pluginStates[s]);
+            if (model[s].missing != nullptr)
+                missing[s] = std::make_unique<juce::XmlElement>(*model[s].missing);
         }
         xml->setAttribute("name", chainName);
     }
 
     for (auto s : ord)
     {
-        const auto *e = Catalog::get().find(registry[(size_t)s]);
-        if (e == nullptr)
-            continue;
         const auto &p = params[(size_t)s];
+        if (auto &kept = missing[(size_t)s])
+        {
+            kept->setAttribute("id", s);
+            kept->setAttribute("mix", (double)p.mix->get());
+            kept->setAttribute("bypass", p.bypass->get() ? 1 : 0);
+            xml->addChildElement(kept.release());
+            continue;
+        }
+        const auto e = effectLabel(registry[(size_t)s]);
+        if (!e)
+            continue;
         auto *x = xml->createNewChildElement("Slot");
         x->setAttribute("id", s);
         x->setAttribute("effect", e->name);
+        if (const auto *d = hosted->find(registry[(size_t)s]))
+        {
+            x->addChildElement(d->createXml().release());
+            x->setAttribute("state", pluginStates[(size_t)s].toBase64Encoding());
+        }
         x->setAttribute("mix", (double)p.mix->get());
         x->setAttribute("bypass", p.bypass->get() ? 1 : 0);
         for (int i = 0; i < counts[(size_t)s]; ++i)
@@ -908,6 +1143,7 @@ void ChainProcessor::chainFromXml(const juce::XmlElement &xml)
     {
         int slot{-1}, registryIndex{-1};
         SlotValues values;
+        std::unique_ptr<juce::XmlElement> saved; // kept if the effect can't load
     };
     std::vector<Wanted> wanted;
     std::array<bool, kMaxSlots> taken{};
@@ -916,12 +1152,18 @@ void ChainProcessor::chainFromXml(const juce::XmlElement &xml)
     {
         if ((int)wanted.size() >= kMaxSlots)
             break;
-        const int reg = Catalog::get().indexOf(x->getStringAttribute("effect"));
-        if (reg < 0)
-            continue; // not in this build of the registry
+        int reg = Catalog::get().indexOf(x->getStringAttribute("effect"));
+        juce::MemoryBlock pluginState;
+        if (auto *plugin = x->getChildByName("PLUGIN"))
+        {
+            juce::PluginDescription d;
+            reg = d.loadFromXml(*plugin) ? hosted->idFor(d) : -1;
+            pluginState.fromBase64Encoding(x->getStringAttribute("state"));
+        }
 
         Wanted w;
-        w.registryIndex = reg;
+        w.registryIndex = reg; // -1 when this build doesn't have the effect
+        w.saved = std::make_unique<juce::XmlElement>(*x);
         w.slot = x->getIntAttribute("id", -1);
         if (w.slot < 0 || w.slot >= kMaxSlots || taken[(size_t)w.slot])
             w.slot = -1;
@@ -935,7 +1177,8 @@ void ChainProcessor::chainFromXml(const juce::XmlElement &xml)
         }
         w.values.mix = (float)x->getDoubleAttribute("mix", 1.0);
         w.values.bypass = x->getIntAttribute("bypass", 0) != 0;
-        wanted.push_back(w);
+        w.values.pluginState = pluginState;
+        wanted.push_back(std::move(w));
     }
 
     for (auto &w : wanted)
@@ -956,8 +1199,14 @@ void ChainProcessor::chainFromXml(const juce::XmlElement &xml)
     for (auto s : old)
         if (!taken[(size_t)s])
             assignSlot(s, -1, nullptr);
-    for (const auto &w : wanted)
+    for (auto &w : wanted)
+    {
         assignSlot(w.slot, w.registryIndex, &w.values);
+        Lock<std::recursive_mutex> l(modelLock);
+        auto &m = model[(size_t)w.slot];
+        if (m.registryIndex < 0)
+            m.missing = std::move(w.saved);
+    }
 
     {
         Lock<std::recursive_mutex> l(modelLock);
@@ -1020,8 +1269,8 @@ bool ChainProcessor::loadChain(const juce::File &file)
 //==============================================================================
 juce::String ChainProcessor::nameOf(int slot) const
 {
-    const auto *e = Catalog::get().find(getSlotInfo(slot).registryIndex);
-    return e != nullptr ? e->name : juce::String("effect");
+    const auto e = slotLabel(slot);
+    return e ? e->name : juce::String("effect");
 }
 
 void ChainProcessor::rememberForUndo(const juce::String &label)
@@ -1107,6 +1356,61 @@ juce::StringArray ChainProcessor::getRecentEffects() const
     auto list = juce::StringArray::fromLines(getSetting("recent", {}));
     list.removeEmptyStrings();
     return list;
+}
+
+std::optional<ChainProcessor::EffectLabel> ChainProcessor::effectLabel(int id) const
+{
+    if (const auto *d = hosted->find(id))
+        return EffectLabel{d->name, pluginKind(d->category),
+                           d->manufacturerName.isNotEmpty() ? "VST3 by " + d->manufacturerName : juce::String("VST3"),
+                           true};
+    if (const auto *e = Catalog::get().find(id))
+        return EffectLabel{e->name, e->category, e->summary, false};
+    return std::nullopt;
+}
+
+std::optional<ChainProcessor::EffectLabel> ChainProcessor::slotLabel(int slot) const
+{
+    if (slot < 0 || slot >= kMaxSlots)
+        return std::nullopt;
+    Lock<std::recursive_mutex> l(modelLock);
+    const auto &m = model[(size_t)slot];
+    if (m.missing == nullptr)
+        return effectLabel(m.registryIndex);
+
+    const auto *plugin = m.missing->getChildByName("PLUGIN");
+    EffectLabel e;
+    e.name = plugin != nullptr ? plugin->getStringAttribute("name") : m.missing->getStringAttribute("effect");
+    e.category = "Missing";
+    e.summary = plugin != nullptr
+                    ? "Not installed on this computer, or it wouldn't load. Kept in the chain with its settings, and "
+                      "back as soon as it loads here."
+                    : "Not in this version of Airwindows Chain. Kept in the chain with its settings.";
+    e.hosted = plugin != nullptr;
+    e.missing = true;
+    return e;
+}
+
+void ChainProcessor::showPluginWindow(int slot)
+{
+    if (slot < 0 || slot >= kMaxSlots)
+        return;
+    Lock<std::recursive_mutex> l(modelLock);
+    auto &m = model[(size_t)slot];
+    if (m.hosted == nullptr)
+        return;
+    if (m.window == nullptr)
+        m.window = std::make_unique<PluginWindow>(m.hosted->plugin().getName());
+    static_cast<PluginWindow &>(*m.window).open(m.hosted->plugin());
+}
+
+void ChainProcessor::closePluginWindows()
+{
+    std::vector<std::unique_ptr<juce::DocumentWindow>> windows;
+    Lock<std::recursive_mutex> l(modelLock);
+    for (auto &m : model)
+        if (m.window != nullptr)
+            windows.push_back(std::move(m.window));
 }
 
 juce::AudioProcessorEditor *ChainProcessor::createEditor() { return new ChainEditor(*this); }

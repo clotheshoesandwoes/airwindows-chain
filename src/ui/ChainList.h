@@ -75,6 +75,6 @@ class ChainList : public juce::Component, private juce::Timer
     void showMenu(int rowIndex);
     void drawRow(juce::Graphics &, const Row &, int number, bool lifted) const;
     void drawEmpty(juce::Graphics &, int index) const;
-    void drawMeter(juce::Graphics &, float level, juce::Rectangle<float>, bool dim) const;
+    void drawMeter(juce::Graphics &, float level, juce::Rectangle<float>, bool dim, juce::Colour ink) const;
 };
 } // namespace awchain

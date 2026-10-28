@@ -17,10 +17,28 @@
 #include <iostream>
 #include <thread>
 
+#if JUCE_WINDOWS
+#define NOMINMAX
+#include <windows.h>
+#endif
+
 using namespace awchain;
 
 namespace
 {
+// Delivers what's waiting in the message queue, as a running host would.
+void pumpMessages()
+{
+#if JUCE_WINDOWS
+    MSG msg;
+    while (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
+    {
+        TranslateMessage(&msg);
+        DispatchMessageW(&msg);
+    }
+#endif
+}
+
 std::unique_ptr<ChainProcessor> demoChain();
 
 int failures = 0;
@@ -199,6 +217,48 @@ float compareWithReference(const std::vector<Stage> &stages, double sr = 48000.0
     std::cout << "      output peak " << juce::String(peak, 3) << ", differs from the dry signal by up to "
               << juce::String(maxDifference(out, dry), 3) << std::endl;
     return maxDifference(out, ref) / peak;
+}
+
+float rmsDb(const juce::AudioBuffer<float> &b, int start, int n)
+{
+    double sum = 0.0;
+    for (int ch = 0; ch < 2; ++ch)
+        for (int i = start; i < start + n; ++i)
+            sum += (double)b.getSample(ch, i) * b.getSample(ch, i);
+    return (float)(10.0 * std::log10(sum / (2.0 * n)));
+}
+
+// Compare plays the original at the chain's loudness. Through a plain gain the
+// K-weighted difference is the gain itself, so it can be checked exactly.
+void testCompare()
+{
+    std::cout << "\n-- compare with the original, loudness matched" << std::endl;
+    const double sr = 48000.0;
+    const int n = (int)sr * 5, half = n / 2;
+    auto p = buildChain({{reg("PurestGain"), {0.62f, 1.f}}});
+    p->prepareToPlay(sr, 512);
+    const auto in = testSignal(sr, n);
+    auto out = in;
+
+    juce::AudioBuffer<float> first(out.getArrayOfWritePointers(), 2, 0, half);
+    render(*p, first, blockSizes(half, 512, 3));
+    const float gain = rmsDb(out, half / 2, half / 2) - rmsDb(in, half / 2, half / 2);
+    const float measured = p->loudnessDifference();
+    check(std::abs(measured - gain) < 0.2f && std::abs(gain) > 3.f,
+          "the chain reads " + juce::String(measured, 2) + " dB louder, its gain is " + juce::String(gain, 2) + " dB");
+
+    p->setComparing(true);
+    juce::AudioBuffer<float> second(out.getArrayOfWritePointers(), 2, half, n - half);
+    render(*p, second, blockSizes(n - half, 512, 4));
+    const int settled = half + (int)sr;
+    const float heard = rmsDb(out, settled, n - settled) - rmsDb(in, settled, n - settled);
+    check(std::abs(heard - measured) < 0.2f,
+          "while comparing, the original plays " + juce::String(heard, 2) + " dB up, matching the chain");
+    float worst = 0.f;
+    const float g = juce::Decibels::decibelsToGain(p->loudnessDifference());
+    for (int i = settled; i < n; ++i)
+        worst = juce::jmax(worst, std::abs(out.getSample(0, i) - g * in.getSample(0, i)));
+    check(worst < 0.02f, "and it is the original, in time (largest difference " + juce::String(worst, 4) + ")");
 }
 
 std::vector<Stage> referenceChain()
@@ -588,6 +648,173 @@ void writePng(juce::Component &c, const juce::File &file, float scale)
     std::cout << "wrote " << file.getFullPathName() << " (" << image.getWidth() << "x" << image.getHeight() << ")" << std::endl;
 }
 
+// The README's banner: the name, one line, and a chain drawn the way the
+// plugin draws it, in a theme's own colours. 2x, for sharp screens.
+void banner(const juce::File &file, const juce::String &palette)
+{
+    using namespace theme;
+    apply(palette, "Amber");
+    const float w = 940.f, h = 300.f, pad = 56.f;
+    juce::Image image(juce::Image::RGB, (int)w * 2, (int)h * 2, true);
+    {
+        juce::Graphics g(image); // drawn into the image when this goes out of scope
+        g.addTransform(juce::AffineTransform::scale(2.f));
+        g.fillAll(colour::window);
+
+        g.setColour(colour::text);
+        g.setFont(sans(46.f, Weight::semibold));
+        g.drawText("Airwindows Chain", juce::Rectangle<float>(pad, 44.f, w - 2 * pad, 60.f), juce::Justification::centredLeft);
+        g.setColour(colour::text2);
+        g.setFont(sans(18.f));
+        g.drawText("504 Airwindows effects and the plugins already on your computer, in one chain.",
+                   juce::Rectangle<float>(pad, 108.f, w - 2 * pad, 28.f), juce::Justification::centredLeft);
+
+        struct Stop
+        {
+            const char *name, *kind;
+        };
+        const Stop stops[]{{"Pressure5", "Dynamics"}, {"Density2", "Distortion"}, {"ToTape8", "Tape"},
+                           {"Pro-Q 3", "EQ"},          {"Air4", "Brightness"},    {"ADClip8", "Clipping"}};
+        const int n = (int)std::size(stops);
+        const float y = 202.f, first = pad + 70.f, last = w - pad - 70.f, step = (last - first) / (float)(n - 1);
+
+        g.setColour(colour::line);
+        g.fillRect(juce::Rectangle<float>(pad + 6.f, y - 1.f, w - 2 * pad - 12.f, 2.f));
+        for (const float x : {pad + 6.f, w - pad - 6.f})
+        {
+            g.setColour(colour::window);
+            g.fillEllipse(juce::Rectangle<float>(12.f, 12.f).withCentre({x, y}));
+            g.setColour(colour::text3);
+            g.drawEllipse(juce::Rectangle<float>(11.f, 11.f).withCentre({x, y}), 1.6f);
+        }
+        g.setFont(sans(13.f));
+        g.setColour(colour::text3);
+        g.drawText("Input", juce::Rectangle<float>(pad - 30.f, y + 16.f, 72.f, 18.f), juce::Justification::centred);
+        g.drawText("Output", juce::Rectangle<float>(w - pad - 42.f, y + 16.f, 72.f, 18.f), juce::Justification::centred);
+
+        for (int i = 0; i < n; ++i)
+        {
+            const float x = first + step * (float)i;
+            const auto fill = colour::slot(i);
+            g.setColour(fill);
+            g.fillEllipse(juce::Rectangle<float>(34.f, 34.f).withCentre({x, y}));
+            g.setColour(colour::onColour(fill));
+            g.setFont(sans(15.f, Weight::semibold));
+            g.drawText(juce::String(i + 1), juce::Rectangle<float>(34.f, 34.f).withCentre({x, y}), juce::Justification::centred);
+            g.setColour(colour::text);
+            g.setFont(sans(15.f, Weight::medium));
+            g.drawText(stops[i].name, juce::Rectangle<float>(step, 20.f).withCentre({x, y + 36.f}), juce::Justification::centred);
+            g.setColour(colour::text3);
+            g.setFont(sans(13.f));
+            g.drawText(stops[i].kind, juce::Rectangle<float>(step, 18.f).withCentre({x, y + 56.f}), juce::Justification::centred);
+        }
+    }
+
+    file.deleteFile();
+    juce::FileOutputStream out(file);
+    juce::PNGImageFormat().writeImageToStream(image, out);
+    std::cout << "wrote " << file.getFullPathName() << std::endl;
+}
+
+// The README's pictures, at 2x, with the VST3 plugins installed on this
+// computer (its real plugin list is read, not written).
+void readmeShots(const juce::File &folder, const juce::String &palette, const juce::String &accent)
+{
+    folder.createDirectory();
+    banner(folder.getChildFile("banner-dark.png"), palette);
+    banner(folder.getChildFile("banner-light.png"), "Riso");
+    HostedPlugins::persist = true;
+
+    const auto pluginNamed = [](ChainProcessor &p, const juce::String &name) {
+        for (int id : p.hostedPlugins().effects())
+            if (p.hostedPlugins().find(id)->name == name)
+                return id;
+        return -1;
+    };
+    // Reads happen in the helper and arrive through the message queue.
+    const auto settle = [](int ms) {
+        for (int t = 0; t < ms; t += 50)
+        {
+            pumpMessages();
+            juce::Thread::sleep(50);
+        }
+        pumpMessages();
+    };
+
+    auto p = demoChain();
+    p->setSetting("theme", palette);
+    p->setSetting("accent", accent);
+    const int eq = pluginNamed(*p, "Pro-Q 3");
+    if (eq >= 0)
+        p->addEffect(eq, 3);
+    p->prepareToPlay(48000.0, 512);
+    auto audio = testSignal(48000.0, 48000 * 3);
+    render(*p, audio, blockSizes(audio.getNumSamples(), 512, 1));
+    p->followLatency();
+
+    std::unique_ptr<juce::AudioProcessorEditor> ed(p->createEditor());
+    auto &editor = dynamic_cast<ChainEditor &>(*ed);
+    editor.setSize(940, 620);
+    editor.syncNow();
+    editor.pollNow();
+    const auto order = p->getOrder();
+
+    editor.select(order[2]);
+    writePng(editor, folder.getChildFile("chain.png"), 2.f);
+    if (eq >= 0)
+    {
+        editor.select(order[3]);
+        writePng(editor, folder.getChildFile("plugin-slot.png"), 2.f);
+    }
+
+    editor.select(order[2]);
+    p->setComparing(true);
+    editor.pollNow();
+    writePng(editor, folder.getChildFile("compare.png"), 2.f);
+    p->setComparing(false);
+    editor.pollNow();
+
+    editor.setKnobs(true);
+    writePng(editor, folder.getChildFile("knobs.png"), 2.f);
+    editor.setKnobs(false);
+
+    editor.openPickerToAdd();
+    auto &picker = *editor.getPicker();
+    picker.showSource("recommended");
+    writePng(editor, folder.getChildFile("browse.png"), 2.f);
+    picker.setVocalsOnly(true);
+    writePng(editor, folder.getChildFile("browser-vocals.png"), 2.f);
+    picker.setVocalsOnly(false);
+    picker.setQuery("tape");
+    writePng(editor, folder.getChildFile("browser.png"), 2.f);
+    picker.setQuery({});
+
+    picker.showSource("computer");
+    if (const int fet = pluginNamed(*p, "Comp FET-76"); fet >= 0)
+    {
+        picker.highlightEffect(fet);
+        settle(4000);
+        picker.highlightEffect(fet);
+    }
+    writePng(editor, folder.getChildFile("plugins.png"), 2.f);
+    editor.closePicker();
+
+    {
+        ChainProcessor m;
+        m.chainFromXml(*juce::parseXML(R"(<AirwindowsChain version="1" name="From the studio PC">
+          <Slot id="0" effect="Pressure5"/><Slot id="1" effect="Density2"/>
+          <Slot id="2" effect="Saturn"><PLUGIN name="Saturn 2" format="VST3" manufacturer="FabFilter"
+          file="D:\Studio\VST3\FabFilter Saturn 2.vst3" uniqueId="1" uid="2"/></Slot>
+          <Slot id="3" effect="Air4"/></AirwindowsChain>)"));
+        std::unique_ptr<juce::AudioProcessorEditor> med(m.createEditor());
+        auto &me = dynamic_cast<ChainEditor &>(*med);
+        me.setSize(940, 620);
+        me.syncNow();
+        me.select(m.getOrder()[2]);
+        writePng(me, folder.getChildFile("missing.png"), 2.f);
+    }
+}
+
 void snapshots(const juce::File &folder)
 {
     folder.createDirectory();
@@ -686,6 +913,35 @@ void snapshots(const juce::File &folder)
         juce::PNGImageFormat().writeImageToStream(sheet, out);
         std::cout << "wrote " << file.getFullPathName() << std::endl;
 
+        // The colour themes, three to a row.
+        {
+            std::vector<juce::String> colourThemes;
+            for (const auto &palette : theme::palettes())
+                if (palette.ownAccent())
+                    colourThemes.push_back(palette.name);
+            const int rows = ((int)colourThemes.size() + 2) / 3;
+            juce::Image colourSheet(juce::Image::RGB, 3 * 940, rows * 620, true);
+            int n = 0;
+            for (const auto &palette : colourThemes)
+            {
+                auto p = demoChain();
+                p->setSetting("theme", palette);
+                std::unique_ptr<juce::AudioProcessorEditor> ed(p->createEditor());
+                auto &editor = dynamic_cast<ChainEditor &>(*ed);
+                editor.setSize(940, 620);
+                editor.syncNow();
+                editor.select(p->getOrder()[2]);
+                juce::Graphics g(colourSheet);
+                g.drawImageAt(editor.createComponentSnapshot(editor.getLocalBounds(), true, 1.f), (n % 3) * 940,
+                              (n / 3) * 620);
+                ++n;
+            }
+            const auto colourFile = folder.getChildFile("themes-colour.png");
+            colourFile.deleteFile();
+            juce::FileOutputStream colourOut(colourFile);
+            juce::PNGImageFormat().writeImageToStream(colourSheet, colourOut);
+        }
+
         // Back to the default for anything rendered after this.
         demoChain()->setSetting("theme", "Warm");
         demoChain()->setSetting("accent", "Amber");
@@ -707,6 +963,33 @@ void snapshots(const juce::File &folder)
         editor.setSize(940, 620);
         editor.syncNow();
         writePng(editor, folder.getChildFile("full.png"), 1.f);
+
+        // Some of these sixteen silence the signal at their defaults; play the first three.
+        for (size_t i = 3; i < p.getOrder().size(); ++i)
+            p.bypassParam(p.getOrder()[i]).setValueNotifyingHost(1.f);
+        p.prepareToPlay(48000.0, 512);
+        auto played = testSignal(48000.0, 48000 * 3);
+        render(p, played, blockSizes(played.getNumSamples(), 512, 5));
+        p.setComparing(true);
+        editor.pollNow();
+        writePng(editor, folder.getChildFile("compare.png"), 1.f);
+
+        {
+            ChainProcessor m;
+            m.chainFromXml(*juce::parseXML(R"(<AirwindowsChain version="1"><Slot id="0" effect="Density2"/>
+              <Slot id="1" effect="Pro-Q 3"><PLUGIN name="Pro-Q 3" format="VST3" manufacturer="FabFilter"
+              file="Z:\Elsewhere\FabFilter Pro-Q 3.vst3" uniqueId="1" uid="2"/></Slot></AirwindowsChain>)"));
+            std::unique_ptr<juce::AudioProcessorEditor> med(m.createEditor());
+            auto &me = dynamic_cast<ChainEditor &>(*med);
+            me.setSize(940, 620);
+            me.syncNow();
+            me.select(m.getOrder()[1]);
+            writePng(me, folder.getChildFile("missing.png"), 1.f);
+        }
+        p.setComparing(false);
+        for (size_t i = 3; i < p.getOrder().size(); ++i)
+            p.bypassParam(p.getOrder()[i]).setValueNotifyingHost(0.f);
+        editor.pollNow();
 
         // Narrowest window with a long name: the header buttons have to wrap.
         editor.setSize(760, 500);
@@ -754,6 +1037,170 @@ float runThrough(juce::AudioPluginInstance &instance, juce::AudioBuffer<float> &
     }
     float peak = 0.f;
     return allFinite(b, peak) ? peak : -1.f;
+}
+
+// Another VST3 from this computer, running in a slot.
+void hostPlugin(const juce::File &file)
+{
+    std::cout << "\n-- hosting " << file.getFileName() << std::endl;
+    juce::VST3PluginFormat format;
+    juce::OwnedArray<juce::PluginDescription> found;
+    format.findAllTypesForFile(found, file.getFullPathName());
+    check(!found.isEmpty(), "found in the bundle");
+    if (found.isEmpty())
+        return;
+
+    ChainProcessor p;
+    p.prepareToPlay(48000.0, 512);
+    const int slot = p.addEffect(p.hostedPlugins().idFor(*found[0]));
+    check(slot >= 0, "goes into the chain as " + found[0]->name);
+    if (slot < 0)
+        return;
+    const auto info = p.getSlotInfo(slot);
+    juce::StringArray names;
+    for (int i = 0; i < info.nParams; ++i)
+        names.add(info.paramNames[(size_t)i] + " " + p.formatValue(slot, i, p.fxParam(slot, i).get()));
+    check(info.nParams > 0, juce::String(info.nParams) + " controls: " + names.joinIntoString(", "));
+
+    auto b = testSignal(48000.0, 48000);
+    render(p, b, blockSizes(48000, 700, 7));
+    bool finite = true;
+    for (int ch = 0; ch < 2; ++ch)
+        for (int i = 0; i < b.getNumSamples(); ++i)
+            finite = finite && std::isfinite(b.getSample(ch, i));
+    check(finite && b.getMagnitude(0, b.getNumSamples()) > 0.001f,
+          "audio comes out, peak " + juce::String(b.getMagnitude(0, b.getNumSamples()), 3));
+
+    juce::MemoryBlock state;
+    p.getStateInformation(state);
+    ChainProcessor q;
+    q.prepareToPlay(48000.0, 512);
+    q.setStateInformation(state.getData(), (int)state.getSize());
+    check(q.getOrder().size() == 1 && isHosted(q.getSlotInfo(q.getOrder()[0]).registryIndex),
+          "comes back from saved state");
+
+    // A plugin that adds latency while playing (Pro-Q 3 in linear phase): the
+    // host hears about it, and at 50% mix dry and wet still line up.
+    juce::String error;
+    if (auto own = format.createInstanceFromDescription(*found[0], 48000.0, 512, error))
+    {
+        juce::AudioProcessorParameter *mode = nullptr;
+        for (auto *param : own->getParameters())
+            if (param->getName(60).containsIgnoreCase("processing mode"))
+                mode = param;
+        if (mode != nullptr)
+        {
+            mode->setValue(1.f); // Zero Latency, Natural Phase, Linear Phase
+            // A VST3 saves what its processor has heard, so let it hear the change.
+            own->prepareToPlay(48000.0, 512);
+            juce::AudioBuffer<float> block(2, 512);
+            juce::MidiBuffer none;
+            block.clear();
+            own->processBlock(block, none);
+            juce::MemoryBlock linear;
+            own->getStateInformation(linear);
+
+            auto xml = p.chainToXml();
+            auto *slotXml = xml->getChildByName("Slot");
+            slotXml->setAttribute("state", linear.toBase64Encoding());
+            slotXml->setAttribute("mix", 0.5);
+            ChainProcessor lin;
+            lin.prepareToPlay(48000.0, 512);
+            lin.chainFromXml(*xml);
+            auto in = testSignal(48000.0, 48000);
+            auto out = in;
+            // In a DAW the message loop runs alongside; here, hand the plugin's
+            // "my latency changed" note over between stretches of audio.
+            const auto sizes = blockSizes(48000, 700, 9);
+            int pos = 0;
+            for (size_t k = 0; k < sizes.size(); ++k)
+            {
+                juce::AudioBuffer<float> view(out.getArrayOfWritePointers(), 2, pos, sizes[k]);
+                juce::MidiBuffer midi;
+                lin.processBlock(view, midi);
+                pos += sizes[k];
+                if (k == 0)
+                {
+                    pumpMessages();
+                    lin.followLatency();
+                }
+            }
+            const int lat = lin.getLatencySamples();
+            float worst = 0.f;
+            for (int i = 24000; i < 48000; ++i)
+                worst = juce::jmax(worst, std::abs(out.getSample(0, i) - in.getSample(0, i - lat)));
+            check(lat > 0, "a preset in linear phase reports " + juce::String(lat) + " samples to the host");
+            check(worst < 0.01f, "and at 50% mix dry and wet line up (largest difference " + juce::String(worst, 4) + ")");
+
+            lin.bypassParam(lin.getOrder()[0]).setValueNotifyingHost(1.f);
+            auto out2 = testSignal(48000.0, 48000);
+            render(lin, out2, blockSizes(48000, 700, 11));
+            worst = 0.f;
+            for (int i = 24000; i < 48000; ++i)
+                worst = juce::jmax(worst, std::abs(out2.getSample(0, i) - in.getSample(0, i - lat)));
+            check(worst < 0.01f, "bypassed, it still holds the signal back by its latency (largest difference " +
+                                     juce::String(worst, 4) + ")");
+        }
+    }
+
+    // The same project opened where the plugin is installed in another folder.
+    auto elsewhere = *found[0];
+    elsewhere.fileOrIdentifier = "D:\\Some other computer\\VST3\\" + file.getFileName();
+    check(p.hostedPlugins().idFor(elsewhere) == p.hostedPlugins().idFor(*found[0]),
+          "a project naming another install folder finds it here");
+}
+
+// An effect that can't load on this computer stays in the chain and in saves.
+void testMissingEffects()
+{
+    std::cout << "\n-- effects that can't load here are kept" << std::endl;
+    const auto saved = juce::parseXML(R"(<AirwindowsChain version="1" name="From another computer">
+  <Slot id="0" effect="Density2" mix="1" bypass="0" p0="0.3"/>
+  <Slot id="1" effect="NotInThisBuild" mix="0.7" bypass="0" p0="0.25" p3="0.9"/>
+  <Slot id="2" effect="Nowhere EQ" mix="1" bypass="1" state="AAEC">
+    <PLUGIN name="Nowhere EQ" format="VST3" category="Fx" manufacturer="Nobody" version="1.0"
+            file="Z:\Not\Here\Nowhere EQ.vst3" uniqueId="1234abcd" isInstrument="0" numInputs="2"
+            numOutputs="2" isShell="0" hasARAExtension="0" uid="5678"/>
+  </Slot>
+</AirwindowsChain>)");
+
+    ChainProcessor p;
+    p.prepareToPlay(48000.0, 512);
+    p.chainFromXml(*saved);
+    const auto order = p.getOrder();
+    check(order.size() == 3, juce::String((int)order.size()) + " of 3 slots in the chain");
+    if (order.size() != 3)
+        return;
+    const auto label = p.slotLabel(order[2]);
+    check(label && label->missing && label->name == "Nowhere EQ", "the missing plugin shows by name");
+    check(p.slotLabel(order[1]) && p.slotLabel(order[1])->name == "NotInThisBuild", "and so does the missing effect");
+
+    p.mixParam(order[1]).setValueNotifyingHost(0.5f);
+    const auto again = p.chainToXml();
+    int kept = 0;
+    for (auto *x : again->getChildWithTagNameIterator("Slot"))
+    {
+        if (x->getStringAttribute("effect") == "NotInThisBuild")
+            kept += x->getDoubleAttribute("p3") == 0.9 && x->getDoubleAttribute("mix") == 0.5 ? 1 : 0;
+        if (auto *plugin = x->getChildByName("PLUGIN"))
+            kept += plugin->getStringAttribute("uniqueId") == "1234abcd" && x->getStringAttribute("state") == "AAEC" &&
+                            x->getIntAttribute("bypass") == 1
+                        ? 1
+                        : 0;
+    }
+    check(kept == 2, "both are saved again with their settings, and the mix change sticks");
+
+    auto b = testSignal(48000.0, 24000);
+    auto dry = b;
+    p.bypassParam(order[0]).setValueNotifyingHost(1.f);
+    render(p, b, blockSizes(24000, 512, 2));
+    float worst = 0.f;
+    for (int i = 12000; i < 24000; ++i)
+        worst = juce::jmax(worst, std::abs(b.getSample(0, i) - dry.getSample(0, i)));
+    check(worst < 1.0e-5f, "audio passes through them untouched");
+
+    p.replaceEffect(order[1], reg("Air3"));
+    check(!p.slotLabel(order[1])->missing, "replacing one puts a working effect there");
 }
 
 void loadVst3(const juce::File &file)
@@ -820,10 +1267,11 @@ void loadVst3(const juce::File &file)
 // Renders the editor frame by frame while real audio runs through the chain,
 // with a fader being dragged and the selection changing: material for a clip.
 //   awchain_harness frames <folder> [seconds] [fps] [scale]
-void frames(const juce::File &folder, double seconds, int fps, float scale)
+void frames(const juce::File &folder, double seconds, int fps, float scale, const juce::String &palette)
 {
     folder.createDirectory();
     auto p = demoChain();
+    p->setSetting("theme", palette);
     const double sr = 48000.0;
     p->prepareToPlay(sr, 512);
 
@@ -882,6 +1330,10 @@ void frames(const juce::File &folder, double seconds, int fps, float scale)
             editor.select(tape);
         if (f == (int)(10.5 * fps))
             p->bypassParam(galactic).setValueNotifyingHost(1.f);
+        if (f == (int)(11.5 * fps))
+            p->setComparing(true); // the original, at the chain's loudness
+        if (f == (int)(13.0 * fps))
+            p->setComparing(false);
 
         editor.pollNow();
         const auto image = editor.createComponentSnapshot(editor.getLocalBounds(), true, scale);
@@ -935,11 +1387,17 @@ int main(int argc, char *argv[])
 {
     juce::ScopedJuceInitialiser_GUI gui;
     ChainProcessor::persistSettings = false;
+    HostedPlugins::persist = false;
 
     const juce::String mode = argc > 1 ? argv[1] : "test";
 
     if (mode == "snap")
         snapshots(juce::File(argc > 2 ? juce::String(argv[2]) : juce::File::getCurrentWorkingDirectory().getFullPathName()));
+    else if (mode == "readme")
+        readmeShots(juce::File(juce::String(argv[2])), argc > 3 ? juce::String(argv[3]) : juce::String("Warm"),
+                    argc > 4 ? juce::String(argv[4]) : juce::String("Amber"));
+    else if (mode == "host")
+        hostPlugin(juce::File(juce::String(argv[2])));
     else if (mode == "vst3")
         loadVst3(juce::File(juce::String(argv[2])));
     else if (mode == "dump")
@@ -947,11 +1405,14 @@ int main(int argc, char *argv[])
     else if (mode == "frames")
         frames(juce::File(juce::String(argv[2])), argc > 3 ? juce::String(argv[3]).getDoubleValue() : 12.0,
                argc > 4 ? juce::String(argv[4]).getIntValue() : 30,
-               argc > 5 ? juce::String(argv[5]).getFloatValue() : 1.5f);
+               argc > 5 ? juce::String(argv[5]).getFloatValue() : 1.5f,
+               argc > 6 ? juce::String(argv[6]) : juce::String("Warm"));
     else
     {
         testCatalog();
         testProcessing();
+        testCompare();
+        testMissingEffects();
         testChainEditing();
         testEditsWhilePlaying();
         testEveryEffect();

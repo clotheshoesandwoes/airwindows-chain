@@ -1,4 +1,5 @@
-; Airwindows Chain installer. Puts the VST3 and CLAP in the standard folders.
+; Airwindows Chain installer. Puts the VST3 and CLAP in the standard folders, and the
+; standalone app in Program Files with a Start menu entry.
 ; Build: makensis /DVERSION=0.2.0 tools\installer.nsi
 
 !include "MUI2.nsh"
@@ -18,7 +19,7 @@ BrandingText "Airwindows Chain ${VERSION}"
 
 !define MUI_ABORTWARNING
 !define MUI_WELCOMEPAGE_TITLE "Airwindows Chain ${VERSION}"
-!define MUI_WELCOMEPAGE_TEXT "This installs the VST3 and CLAP versions of Airwindows Chain into the standard plugin folders, where FL Studio, Ableton Live, Reaper, Bitwig and the rest will find them.$\r$\n$\r$\nClose your DAW first if it already has the plugin loaded."
+!define MUI_WELCOMEPAGE_TEXT "This installs the VST3 and CLAP versions of Airwindows Chain into the standard plugin folders, where FL Studio, Ableton Live, Reaper, Bitwig and the rest will find them, and the standalone app with a Start menu entry.$\r$\n$\r$\nClose your DAW first if it already has the plugin loaded."
 !define MUI_FINISHPAGE_TITLE "Installed"
 !define MUI_FINISHPAGE_TEXT "Open your DAW and rescan plugins once. It shows up as Airwindows Chain, under Kani."
 
@@ -38,6 +39,9 @@ Section "Airwindows Chain"
 
   SetOutPath "$INSTDIR"
   File "..\LICENSE"
+  File "..\build\AirwindowsChain_artefacts\Release\Standalone\Airwindows Chain.exe"
+  File "..\build\AirwindowsChain_artefacts\Release\Standalone\Airwindows Chain Scanner.exe"
+  CreateShortcut "$SMPROGRAMS\Airwindows Chain.lnk" "$INSTDIR\Airwindows Chain.exe"
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\AirwindowsChain" "DisplayName" "Airwindows Chain"
@@ -53,6 +57,9 @@ Section "Uninstall"
   RMDir /r "$COMMONFILES64\VST3\Airwindows Chain.vst3"
   Delete "$COMMONFILES64\CLAP\Airwindows Chain.clap"
   Delete "$INSTDIR\LICENSE"
+  Delete "$INSTDIR\Airwindows Chain.exe"
+  Delete "$INSTDIR\Airwindows Chain Scanner.exe"
+  Delete "$SMPROGRAMS\Airwindows Chain.lnk"
   Delete "$INSTDIR\Uninstall.exe"
   RMDir "$INSTDIR"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\AirwindowsChain"
