@@ -1267,6 +1267,114 @@ void loadVst3(const juce::File &file)
 // Renders the editor frame by frame while real audio runs through the chain,
 // with a fader being dragged and the selection changing: material for a clip.
 //   awchain_harness frames <folder> [seconds] [fps] [scale]
+// A walk through 0.3.0 for the website, frame by frame with audio running: a
+// chain with Pro-Q 3 in it, that plugin's slot, the browser on your plugins
+// with a plugin's controls and manual, then Compare. Uses the plugins
+// installed on this computer.
+void tour(const juce::File &folder, int fps, float scale, const juce::String &palette)
+{
+    folder.createDirectory();
+    HostedPlugins::persist = true;
+    auto p = demoChain();
+    p->setSetting("theme", palette);
+    const auto pluginNamed = [&p](const juce::String &name) {
+        for (int id : p->hostedPlugins().effects())
+            if (p->hostedPlugins().find(id)->name == name)
+                return id;
+        return -1;
+    };
+    const int eq = pluginNamed("Pro-Q 3"), fet = pluginNamed("Comp FET-76");
+    if (eq < 0 || fet < 0)
+    {
+        std::cout << "tour needs Pro-Q 3 and Comp FET-76 installed" << std::endl;
+        return;
+    }
+    p->addEffect(eq, 3);
+    const double sr = 48000.0;
+    p->prepareToPlay(sr, 512);
+
+    // Read the plugin's controls and index its maker's manuals before filming.
+    p->hostedPlugins().controlsOf(fet);
+    p->hostedPlugins().manualsFor(fet);
+    for (int t = 0; t < 6000 && (!p->hostedPlugins().controlsOf(fet) || p->hostedPlugins().manualsFor(fet).isEmpty());
+         t += 50)
+    {
+        pumpMessages();
+        juce::Thread::sleep(50);
+    }
+
+    std::unique_ptr<juce::AudioProcessorEditor> ed(p->createEditor());
+    auto &editor = dynamic_cast<ChainEditor &>(*ed);
+    editor.setSize(940, 620);
+    editor.syncNow();
+    const auto order = p->getOrder();
+    const int tape = order[2], proq = order[3];
+    editor.select(tape);
+
+    const double seconds = 16.0;
+    const int total = (int)(seconds * fps);
+    const int perFrame = (int)(sr / fps);
+    juce::AudioBuffer<float> block(2, perFrame);
+    juce::MidiBuffer midi;
+    juce::Random rng(3);
+    const auto envelope = [](double t) {
+        const double beat = t * 1.75;
+        const double kick = std::pow(std::max(0.0, 1.0 - std::fmod(beat, 1.0) * 2.6), 2.0);
+        const double hat = 0.18 * std::pow(std::max(0.0, 1.0 - std::fmod(beat + 0.5, 1.0) * 4.0), 2.0);
+        const double swell = 0.28 + 0.12 * std::sin(t * 0.7);
+        return std::min(1.0, swell + kick * 0.72 + hat);
+    };
+    const auto at = [fps](double t) { return (int)(t * fps); };
+
+    for (int f = 0; f < total; ++f)
+    {
+        const double t = (double)f / fps;
+        const float amp = (float)envelope(t) * 0.8f;
+        for (int i = 0; i < perFrame; ++i)
+        {
+            const double tt = (double)(f * perFrame + i) / sr;
+            const float v = amp * (float)(0.5 * std::sin(juce::MathConstants<double>::twoPi * 110.0 * tt) +
+                                          0.25 * std::sin(juce::MathConstants<double>::twoPi * 1760.0 * tt)) +
+                            amp * 0.15f * (rng.nextFloat() * 2.f - 1.f);
+            block.setSample(0, i, v);
+            block.setSample(1, i, v * 0.9f);
+        }
+        p->processBlock(block, midi);
+
+        if (t >= 0.6 && t < 3.0)
+        {
+            const double k = (t - 0.6) / 2.4;
+            p->fxParam(tape, 0).setValueNotifyingHost(0.62f + 0.24f * (float)std::sin(k * juce::MathConstants<double>::pi));
+        }
+        if (f == at(3.4))
+            editor.select(proq);
+        if (f == at(6.0))
+            editor.openPickerToAdd();
+        if (f == at(7.0))
+            editor.getPicker()->showSource("computer");
+        if (f == at(8.0))
+            editor.getPicker()->highlightEffect(fet);
+        if (f == at(11.2))
+        {
+            editor.closePicker();
+            editor.select(tape);
+        }
+        if (f == at(12.4))
+            p->setComparing(true);
+        if (f == at(14.6))
+            p->setComparing(false);
+
+        pumpMessages();
+        editor.pollNow();
+        const auto image = editor.createComponentSnapshot(editor.getLocalBounds(), true, scale);
+        const auto file = folder.getChildFile(juce::String::formatted("frame%04d.png", f));
+        file.deleteFile();
+        juce::FileOutputStream out(file);
+        juce::PNGImageFormat().writeImageToStream(image, out);
+    }
+    std::cout << "wrote " << total << " frames to " << folder.getFullPathName() << std::endl;
+}
+
 void frames(const juce::File &folder, double seconds, int fps, float scale, const juce::String &palette)
 {
     folder.createDirectory();
@@ -1396,6 +1504,9 @@ int main(int argc, char *argv[])
     else if (mode == "readme")
         readmeShots(juce::File(juce::String(argv[2])), argc > 3 ? juce::String(argv[3]) : juce::String("Warm"),
                     argc > 4 ? juce::String(argv[4]) : juce::String("Amber"));
+    else if (mode == "tour")
+        tour(juce::File(juce::String(argv[2])), argc > 3 ? juce::String(argv[3]).getIntValue() : 30,
+             argc > 4 ? juce::String(argv[4]).getFloatValue() : 2.f, argc > 5 ? juce::String(argv[5]) : juce::String("Dusk"));
     else if (mode == "host")
         hostPlugin(juce::File(juce::String(argv[2])));
     else if (mode == "vst3")
