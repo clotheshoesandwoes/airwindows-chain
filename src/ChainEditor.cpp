@@ -267,6 +267,13 @@ void ChainEditor::setKnobs(bool on)
     showSelected();
 }
 
+void ChainEditor::setWords(const juce::String &words)
+{
+    proc.setSetting("words", words);
+    shownSlot = -2;
+    showSelected();
+}
+
 bool ChainEditor::keyPressed(const juce::KeyPress &key)
 {
     if (!typeToSearch() || (picker != nullptr && picker->isVisible()) || (about != nullptr && about->isVisible()))
@@ -533,6 +540,11 @@ void ChainEditor::showChainMenu()
     m.addSubMenu("Accent", accents);
     const bool knobs = proc.getSetting("knobs", "0") == "1";
     m.addItem("Knobs instead of faders", true, knobs, [this, knobs] { setKnobs(!knobs); });
+    juce::PopupMenu words;
+    const bool plain = proc.getSetting("words", "chris") == "plain";
+    words.addItem("Chris's words", true, !plain, [this] { setWords("chris"); });
+    words.addItem("Plain words", true, plain, [this] { setWords("plain"); });
+    m.addSubMenu("Control names", words);
     const bool typing = typeToSearch();
     m.addItem("Type to search", true, typing, [this, typing] { setTypeToSearch(!typing); });
     m.addItem("About Airwindows Chain", [this] { showAbout(); });

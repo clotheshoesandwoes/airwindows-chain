@@ -165,6 +165,7 @@ Windows warns that the publisher is unknown the first time; that is what an unsi
 | For vocals | A switch at the top of the browser. On, every Airwindows list, the categories and search included, shows only the effects that suit a voice: compressors and gates, de-essers, air, channel strips, tape, plates and rooms, doublers. The list is mine, not Chris's, and lives in `src/VocalList.h`. |
 | Effect panel | Drag a control, or click a fader's track to jump. Hold Ctrl or Shift while dragging for ten times finer moves. Double-click a control to reset it, or its value to type one. The arrows step through the effect's category. |
 | Knobs | "Knobs instead of faders" in the chain menu lays the controls out as a grid of knobs. Drag up or right to raise. |
+| Control names | "Control names" in the chain menu switches between Chris's words (Regen, Derez, EarlyRF) and plain words (Tail length, Lo-fi, Early echoes), written for every control of every effect from the Airwindopedia. Hover a control for a one-line explanation and Chris's original name. |
 | Mix | Blends each effect with what went into it. |
 | Meters | The small meter at the right edge of each effect is the level after it, from -60 dB to full scale. Red means it went over. Input and Output have one too. |
 | Star | Marks a favourite. Favourites get their own list in the browser, first in line. |

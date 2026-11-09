@@ -833,6 +833,15 @@ void snapshots(const juce::File &folder)
         editor.select(p->getOrder()[2]);
         writePng(editor, folder.getChildFile("main.png"), 1.f);
         writePng(editor, folder.getChildFile("main@2x.png"), 2.f);
+        // Control names in plain words, faders and knobs
+        editor.setWords("plain");
+        editor.select(p->getOrder()[2]);
+        writePng(editor, folder.getChildFile("plain@2x.png"), 2.f);
+        editor.setKnobs(true);
+        writePng(editor, folder.getChildFile("plain-knobs@2x.png"), 2.f);
+        editor.setKnobs(false);
+        editor.setWords("chris");
+        editor.select(p->getOrder()[2]);
 
         editor.select(p->getOrder()[1]);
         editor.setSize(760, 500);

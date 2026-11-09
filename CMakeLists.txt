@@ -25,7 +25,8 @@ juce_add_binary_data(awchain_assets
         resources/fonts/IBMPlexSans-Regular.ttf
         resources/fonts/IBMPlexSans-Medium.ttf
         resources/fonts/IBMPlexSans-SemiBold.ttf
-        resources/fonts/IBMPlexMono-Regular.ttf)
+        resources/fonts/IBMPlexMono-Regular.ttf
+        resources/plain-words.json)
 
 set(AWCHAIN_SOURCES
     src/Catalog.cpp

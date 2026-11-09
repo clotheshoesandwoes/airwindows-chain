@@ -30,6 +30,7 @@ class ChainEditor : public juce::AudioProcessorEditor, private juce::Timer
     void pollNow(); // what the timer does, for tests
     void applyTheme(const juce::String &palette, const juce::String &accent);
     void setKnobs(bool);
+    void setWords(const juce::String &words); // "chris" or "plain"
     void setTypeToSearch(bool);
     bool typeToSearch() const;
     void showAbout();

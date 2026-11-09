@@ -1,0 +1,7568 @@
+{
+ "ADClip7": {
+  "Boost": [
+   "Loudness",
+   "Turn up to push the sound louder into the clipper."
+  ],
+  "Enhance": [
+   "Fullness",
+   "Adds back bass weight and bright detail lost to the clipping."
+  ],
+  "Mode": [
+   "Mode",
+   "Pick normal, level-matched, or hear only what is being clipped off."
+  ],
+  "Soften": [
+   "Smoothness",
+   "Rounds the edges of the clipping so it sounds less harsh and fizzy."
+  ]
+ },
+ "ADClip8": {
+  "Boost": [
+   "Loudness",
+   "Turn up to push the sound louder into the clipper."
+  ],
+  "Ceiling": [
+   "Max level",
+   "Sets the loudest the output can get; lower it to back off the peaks."
+  ],
+  "Mode": [
+   "Mode",
+   "More stages sound bigger, bassier and thicker; Clip Only shows the clipping."
+  ]
+ },
+ "ADClip9": {
+  "Boost": [
+   "Loudness",
+   "Turn up to push the sound louder into the clipper."
+  ],
+  "Ceiling": [
+   "Max level",
+   "Lower it to bring down the hard limit on peaks."
+  ],
+  "Match": [
+   "Level match",
+   "Turns the output back down by this much so you can compare fairly."
+  ],
+  "Mode": [
+   "Mode",
+   "Pick pure loudness, level-matched, or hear only the clipped-off part."
+  ],
+  "Noise": [
+   "Soft edge",
+   "Lower it to start smoothing the clip edges with noise sooner."
+  ]
+ },
+ "ADT": {
+  "A Delay": [
+   "Delay 1 time",
+   "Sets how late the first copy comes in, from thickening to slapback."
+  ],
+  "A Level": [
+   "Delay 1 mix",
+   "Blends in the first copy; below center flips it to thin out the bass."
+  ],
+  "B Delay": [
+   "Delay 2 time",
+   "Sets how late the second copy comes in, from thickening to slapback."
+  ],
+  "B Level": [
+   "Delay 2 mix",
+   "Blends in the second copy; below center flips it to thin out the bass."
+  ],
+  "Headrm": [
+   "Headroom",
+   "Turn down for more distortion; turn up for a cleaner sound."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ]
+ },
+ "AQuickVoiceClip": {
+  "Highpass": [
+   "Low cut",
+   "Turn up to remove more low thumps and pops from the voice."
+  ]
+ },
+ "Acceleration": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original sound and the processed sound."
+  ],
+  "Limit": [
+   "De-harsh",
+   "Turn up to tame spiky, edgy highs without making things dull."
+  ]
+ },
+ "Acceleration2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original sound and the processed sound."
+  ],
+  "Limit": [
+   "De-harsh",
+   "A little glues and softens harsh highs; a lot makes things dull."
+  ]
+ },
+ "Air": {
+  "11K tap": [
+   "Brightness",
+   "Boosts the lower part of the treble."
+  ],
+  "15K tap": [
+   "Air",
+   "Boosts the airy high treble."
+  ],
+  "22K tap": [
+   "Top sparkle",
+   "Boosts the very highest shimmer."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original sound and the brightened sound."
+  ],
+  "Output Level": [
+   "Volume",
+   "Overall output level."
+  ],
+  "filters Q": [
+   "Focus",
+   "Changes how narrow or broad the treble boosts are."
+  ]
+ },
+ "Air2": {
+  "Air": [
+   "Air",
+   "Adds a broad, soft, pretty brightness."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Adds more brightness; past three quarters the original fades out."
+  ],
+  "Glitter": [
+   "Glitter",
+   "Adds a glittery upper-treble shine."
+  ],
+  "Hiss": [
+   "Hiss",
+   "Adds the very top, hissy sparkle."
+  ],
+  "Silk": [
+   "Silk",
+   "Adds warm tube-like richness to the added highs; push it for effect."
+  ]
+ },
+ "Air3": {
+  "Air": [
+   "Air",
+   "Turn up for brilliant airy highs; turn down for a softer, natural roll-off."
+  ],
+  "Gnd": [
+   "Body",
+   "Level of everything except the air; turn down to hear only the air."
+  ]
+ },
+ "Air4": {
+  "Air": [
+   "Air",
+   "Turn up for brilliant airy highs; turn down for a softer, natural roll-off."
+  ],
+  "DarkF": [
+   "Treble tamer",
+   "Turn down to clamp the sharpest highs harder for a glued, darker top."
+  ],
+  "Gnd": [
+   "Body",
+   "Level of everything except the air; turn down to hear only the air."
+  ],
+  "Ratio": [
+   "Tamer amount",
+   "Blends in the treble taming; pull back to let some spikes through."
+  ]
+ },
+ "AngleEQ": {
+  "HiFreq": [
+   "Treble start",
+   "Sets where the treble band begins."
+  ],
+  "High": [
+   "Treble",
+   "Level of the high band."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Blends in the EQ; below center flips it for strange cancellations."
+  ],
+  "LoFreq": [
+   "Bass top",
+   "Sets where the bass band ends."
+  ],
+  "Low": [
+   "Bass",
+   "Level of the low band."
+  ],
+  "MHiFreq": [
+   "Mids top",
+   "Sets the upper edge of the middle band."
+  ],
+  "MLoFreq": [
+   "Mids bottom",
+   "Sets the lower edge of the middle band."
+  ],
+  "Mid": [
+   "Mids",
+   "Level of the middle band."
+  ]
+ },
+ "AngleFilter": {
+  "Freq": [
+   "Cutoff",
+   "Sets how much treble gets through; lower is darker and wilder."
+  ],
+  "Hard": [
+   "Drive",
+   "Pushes the filter into a harder, growlier roar."
+  ],
+  "Poles": [
+   "Steepness",
+   "Makes the filter cut more sharply."
+  ],
+  "Reso": [
+   "Resonance",
+   "Adds a ringing peak at the cutoff."
+  ]
+ },
+ "Apicolypse": {
+  "Drive": [
+   "Drive",
+   "Pushes harder into the saturation for more grit."
+  ],
+  "Hardns": [
+   "Hardness",
+   "At zero it saturates smoothly; higher makes clipping harder and cleaner."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ],
+  "Persnlty": [
+   "Character",
+   "Adds more of the vintage console tone color."
+  ]
+ },
+ "AtmosphereBuss": {
+  "Input": [
+   "Drive",
+   "Turn up to push the console harder for more size and glue."
+  ]
+ },
+ "AtmosphereChannel": {
+  "Input": [
+   "Drive",
+   "Turn up to push the console harder for more size and glue."
+  ]
+ },
+ "Aura": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends in the filter; full wet makes the ringing edge stronger."
+  ],
+  "Voicing": [
+   "Tone",
+   "Moves the resonant treble filter, from dark and mellow to bright."
+  ]
+ },
+ "AutoPan": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends the movement in; use low for subtle motion."
+  ],
+  "Phase": [
+   "Motion type",
+   "Center is a tremolo; toward the sides it pans or swirls around."
+  ],
+  "Rate": [
+   "Speed",
+   "How fast the sound moves, from nearly still to a rapid flutter."
+  ],
+  "Wide": [
+   "Width",
+   "Spreads the sound past the speakers; full gives an odd hollow sound."
+  ]
+ },
+ "AverMatrix": {
+  "Average": [
+   "Darkness",
+   "Turn up to cut more treble."
+  ],
+  "Depth": [
+   "Steepness",
+   "Adds more filter stages for a stronger, steeper cut."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Above center darkens; below center flips it into a treble boost."
+  ]
+ },
+ "Average": {
+  "Average": [
+   "Darkness",
+   "Turn up to cut more treble, with a slightly flangey color."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original and the filtered sound."
+  ]
+ },
+ "Balanced": {
+  "BitShift": [
+   "Gain",
+   "Boosts or cuts the summed mono signal in clean 6 dB steps."
+  ]
+ },
+ "BassAmp": {
+  "Dry": [
+   "Mids",
+   "Level of the clean, unprocessed sound."
+  ],
+  "Dub": [
+   "Woolly bass",
+   "Adds a thick, woolly low channel with a fuzzy edge."
+  ],
+  "High": [
+   "Bright",
+   "Level of the bright channel."
+  ],
+  "Sub": [
+   "Sub octave",
+   "Adds a trashy octave below; mostly a wild special effect."
+  ]
+ },
+ "BassDrive": {
+  "Drive": [
+   "Drive",
+   "Turn up for more overdrive and grit."
+  ],
+  "High": [
+   "Treble",
+   "Boosts the high band."
+  ],
+  "Low": [
+   "Bass",
+   "Boosts the low band."
+  ],
+  "Mid": [
+   "Mids",
+   "Boosts the middle band."
+  ],
+  "Presnce": [
+   "Presence",
+   "Adds bite in the upper range."
+  ]
+ },
+ "BassKit": {
+  "BassOut": [
+   "Bass boost",
+   "Adds centered bass on top of the original."
+  ],
+  "Drive": [
+   "Drive",
+   "Pushes the added bass harder for more grit and weight."
+  ],
+  "SubOut": [
+   "Sub boost",
+   "Adds deep sub-bass; you need good subwoofers to hear it."
+  ],
+  "Voicing": [
+   "Tone",
+   "Shifts the character of the added low end."
+  ]
+ },
+ "Baxandall": {
+  "Bass": [
+   "Bass",
+   "Boosts or cuts the lows with a gentle, broad curve."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ],
+  "Treble": [
+   "Treble",
+   "Boosts or cuts the highs with a gentle, broad curve."
+  ]
+ },
+ "Baxandall2": {
+  "Bass": [
+   "Bass",
+   "Boosts or cuts the lows; extreme settings get dramatic."
+  ],
+  "Treble": [
+   "Treble",
+   "Boosts or cuts the highs; extreme settings get dramatic."
+  ]
+ },
+ "Baxandall3": {
+  "Bass": [
+   "Bass",
+   "Boosts or cuts lows; very touchy near center, with odd tone colors."
+  ],
+  "Input": [
+   "Input level",
+   "Sets how hard the sound hits the console saturation inside."
+  ],
+  "Treble": [
+   "Treble",
+   "Boosts or cuts highs; very touchy near center, with odd tone colors."
+  ]
+ },
+ "Beam": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to make the noise and grain louder, for hearing it or lo-fi."
+  ],
+  "Focus": [
+   "Focus",
+   "Lower leans toward deep sounds, higher toward treble."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks the target bit depth, like 16 or 24 bit."
+  ]
+ },
+ "BezEQ": {
+  "Bass": [
+   "Bass",
+   "Level of the lows."
+  ],
+  "Mid": [
+   "Mids",
+   "Level of the middle."
+  ],
+  "Treble": [
+   "Treble",
+   "Level of the highs."
+  ],
+  "x": [
+   "Crossover",
+   "Sets where the bands split; moving it adds odd ringing tones."
+  ]
+ },
+ "BezEQ2": {
+  "Bass": [
+   "Bass",
+   "Level of the lows; cutting adds midrange punch."
+  ],
+  "Mid": [
+   "Mids",
+   "Level of the middle; at zero the highs drop out too."
+  ],
+  "Treble": [
+   "Treble",
+   "Level of the highs; boosts stay surprisingly natural."
+  ],
+  "x": [
+   "Crossover",
+   "Sets where the bands split."
+  ]
+ },
+ "BezEQ3": {
+  "Bass": [
+   "Bass",
+   "Level of the low band."
+  ],
+  "BassF": [
+   "Bass freq",
+   "Moves where the bass band sits."
+  ],
+  "HMid": [
+   "Upper mids",
+   "Level of the upper middle band."
+  ],
+  "HMidF": [
+   "Up mids freq",
+   "Moves where the upper middle band sits."
+  ],
+  "High": [
+   "Treble",
+   "Level of the high band."
+  ],
+  "HighF": [
+   "Treble freq",
+   "Moves where the treble band sits."
+  ],
+  "LMid": [
+   "Lower mids",
+   "Level of the lower middle band."
+  ],
+  "LMidF": [
+   "Lo mids freq",
+   "Moves where the lower middle band sits."
+  ]
+ },
+ "BeziComp": {
+  "Comp": [
+   "Squash",
+   "Turn up to compress more; too far and it squashes to silence."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends in the compressed sound; often best kept mostly dry."
+  ],
+  "Speed": [
+   "Speed",
+   "Sets how fast the compression reacts; low is slow and smooth."
+  ]
+ },
+ "BigAmp": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original and the amp sound."
+  ],
+  "Gain": [
+   "Gain",
+   "Turn up for more amp distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ],
+  "Tone": [
+   "Tone",
+   "Shapes the brightness of the amp sound."
+  ]
+ },
+ "Biquad": {
+  "Freq": [
+   "Frequency",
+   "Moves the filter from low to high pitches."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Blends in the filter; below center flips it to the opposite effect."
+  ],
+  "Q": [
+   "Resonance",
+   "Higher makes the filter narrower and more ringing."
+  ],
+  "Type": [
+   "Filter type",
+   "Picks treble cut, bass cut, single-band, or notch."
+  ]
+ },
+ "Biquad2": {
+  "Freq": [
+   "Frequency",
+   "Moves the filter from low to high pitches."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Blends in the filter; below center flips it to the opposite effect."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ],
+  "Q": [
+   "Resonance",
+   "Higher makes the filter narrower and more ringing."
+  ],
+  "Type": [
+   "Filter type",
+   "Picks treble cut, bass cut, single-band, or notch."
+  ]
+ },
+ "BiquadDouble": {
+  "Freq": [
+   "Frequency",
+   "Moves the filter from low to high pitches."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Blends in the filter; below center flips it to the opposite effect."
+  ],
+  "Q": [
+   "Resonance",
+   "Higher makes the filter narrower and more ringing."
+  ],
+  "Type": [
+   "Filter type",
+   "Picks treble cut, bass cut, single-band, or notch."
+  ]
+ },
+ "BiquadHiLo": {
+  "Highpas": [
+   "Bass cut",
+   "Turn up to remove more low end."
+  ],
+  "Lowpass": [
+   "Treble cut",
+   "Turn up to remove more high end."
+  ]
+ },
+ "BiquadNonLin": {
+  "Freq": [
+   "Frequency",
+   "Moves the filter from low to high pitches."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Blends in the filter; below center flips it to the opposite effect."
+  ],
+  "NonLin": [
+   "Analog grit",
+   "Adds analog-style color and punch to the filter; 0.5 works well."
+  ],
+  "Q": [
+   "Resonance",
+   "Higher makes the filter narrower and more ringing."
+  ],
+  "Type": [
+   "Filter type",
+   "Picks treble cut, bass cut, single-band, or notch."
+  ]
+ },
+ "BiquadOneHalf": {
+  "Freq": [
+   "Frequency",
+   "Moves the filter; set about twice as high as plain Biquad."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Blends in the filter; below center flips it to the opposite effect."
+  ],
+  "Q": [
+   "Resonance",
+   "Higher makes the filter narrower and more ringing."
+  ],
+  "Type": [
+   "Filter type",
+   "Picks treble cut, bass cut, single-band, or notch."
+  ]
+ },
+ "BiquadPlus": {
+  "Freq": [
+   "Frequency",
+   "Moves the filter from low to high pitches."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Blends in the filter; below center flips it to the opposite effect."
+  ],
+  "Q": [
+   "Resonance",
+   "Higher makes the filter narrower and more ringing."
+  ],
+  "Type": [
+   "Filter type",
+   "Picks treble cut, bass cut, single-band, or notch."
+  ]
+ },
+ "BiquadStack": {
+  "Freq": [
+   "Frequency",
+   "Picks which part of the sound to boost or cut."
+  ],
+  "Level": [
+   "Boost or cut",
+   "Above center boosts that zone with some grit; below cuts it."
+  ],
+  "Reso": [
+   "Width",
+   "Changes how narrow or broad the boosted zone is."
+  ]
+ },
+ "BiquadTriple": {
+  "Freq": [
+   "Frequency",
+   "Moves the filter from low to high pitches."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Blends in the filter; below center flips it to the opposite effect."
+  ],
+  "Q": [
+   "Resonance",
+   "Higher makes the filter narrower and more ringing."
+  ],
+  "Type": [
+   "Filter type",
+   "Picks treble cut, bass cut, single-band, or notch."
+  ]
+ },
+ "BitDualPan": {
+  "L Pan": [
+   "Left pan",
+   "Where the left input sits in the stereo field."
+  ],
+  "L Vol": [
+   "Left volume",
+   "Level of the left input, in clean 6 dB steps."
+  ],
+  "R Pan": [
+   "Right pan",
+   "Where the right input sits in the stereo field."
+  ],
+  "R Vol": [
+   "Right volume",
+   "Level of the right input, in clean 6 dB steps."
+  ]
+ },
+ "BitGlitter": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original and the gritty sampler sound."
+  ],
+  "Glitter": [
+   "Sampler tone",
+   "Sets the old-sampler grit; lower is darker and punchier."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes the sound into analog-style saturation first."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ]
+ },
+ "BitShiftGain": {
+  "BitShift": [
+   "Gain",
+   "Boosts or cuts the level in perfectly clean 6 dB steps."
+  ]
+ },
+ "BitShiftPan": {
+  "Pan": [
+   "Pan",
+   "Moves the sound left or right in big, clean steps."
+  ],
+  "Vol": [
+   "Volume",
+   "Level in perfectly clean 6 dB steps."
+  ]
+ },
+ "Bite": {
+  "Bite": [
+   "Edge",
+   "Turn up to add a harsh midrange edge; turn down to remove it."
+  ],
+  "Output Level": [
+   "Volume",
+   "Overall output level."
+  ]
+ },
+ "BlockParty": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original and the limited sound."
+  ],
+  "Pound": [
+   "Squash",
+   "Turn up to limit harder for a louder, punchier, gritty sound."
+  ]
+ },
+ "BrassRider": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original and the ridden sound."
+  ],
+  "Thresh": [
+   "Cymbal boost",
+   "Turn up to make the overheads jump up when cymbals crash."
+  ]
+ },
+ "BrightAmbience": {
+  "Decay": [
+   "Fade",
+   "Sets how the echoes die away."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends in the bright ambience; it runs hot, so go easy."
+  ],
+  "Sustain": [
+   "Room size",
+   "Sets how far the cloud of echoes stretches out."
+  ]
+ },
+ "BrightAmbience2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original and the ambience."
+  ],
+  "Feedbck": [
+   "Repeats",
+   "Feeds the ambience back into itself for longer, fuzzier tails."
+  ],
+  "Length": [
+   "Length",
+   "Sets how long the ambience lasts, from slapback to a wash."
+  ],
+  "Start": [
+   "Pre-delay",
+   "Sets how late the ambience starts after the dry sound."
+  ]
+ },
+ "BrightAmbience3": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original and the ambience."
+  ],
+  "Feedback": [
+   "Repeats",
+   "Feeds the ambience back for longer tails and retro echo tones."
+  ],
+  "Length": [
+   "Length",
+   "Sets how long the ambience lasts, from slapback to a wash."
+  ],
+  "Start": [
+   "Pre-delay",
+   "Sets how late the ambience starts after the dry sound."
+  ]
+ },
+ "BuildATPDF": {
+  "Eighth": [
+   "Noise tap 8",
+   "Shapes the tone of the dither noise; set taps 5 and 6 to -1 and +1."
+  ],
+  "Fifth": [
+   "Noise tap 5",
+   "Shapes the tone of the dither noise; set taps 5 and 6 to -1 and +1."
+  ],
+  "First": [
+   "Noise tap 1",
+   "Shapes the tone of the dither noise; set taps 5 and 6 to -1 and +1."
+  ],
+  "Fourth": [
+   "Noise tap 4",
+   "Shapes the tone of the dither noise; set taps 5 and 6 to -1 and +1."
+  ],
+  "Ninth": [
+   "Noise tap 9",
+   "Shapes the tone of the dither noise; set taps 5 and 6 to -1 and +1."
+  ],
+  "Second": [
+   "Noise tap 2",
+   "Shapes the tone of the dither noise; set taps 5 and 6 to -1 and +1."
+  ],
+  "Seventh": [
+   "Noise tap 7",
+   "Shapes the tone of the dither noise; set taps 5 and 6 to -1 and +1."
+  ],
+  "Sixth": [
+   "Noise tap 6",
+   "Shapes the tone of the dither noise; set taps 5 and 6 to -1 and +1."
+  ],
+  "Tenth": [
+   "Noise tap 10",
+   "Shapes the tone of the dither noise; set taps 5 and 6 to -1 and +1."
+  ],
+  "Third": [
+   "Noise tap 3",
+   "Shapes the tone of the dither noise; set taps 5 and 6 to -1 and +1."
+  ]
+ },
+ "BussColors4": {
+  "Color": [
+   "Console type",
+   "Picks which classic console tone color to use."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original and the colored sound."
+  ],
+  "Input Trim": [
+   "Input level",
+   "Turn up to drive the console harder for more color."
+  ],
+  "Output Trim": [
+   "Volume",
+   "Overall output level."
+  ]
+ },
+ "ButterComp": {
+  "Compress": [
+   "Squash",
+   "Turn up for more soft, smooth compression."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original and the compressed sound."
+  ]
+ },
+ "ButterComp2": {
+  "Compress": [
+   "Squash",
+   "Turn up for more soft, smooth compression and glue."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends between the original and the compressed sound."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ]
+ },
+ "C5RawBuss": {
+  "Center": [
+   "Low cut",
+   "Turn up to gently trim deep bass and DC; at zero it does nothing."
+  ]
+ },
+ "C5RawChannel": {
+  "Center": [
+   "Low cut",
+   "Turn up to gently trim deep bass and DC; at zero it does nothing."
+  ]
+ },
+ "CStrip2": {
+  "Bass": [
+   "Bass",
+   "Boosts or cuts the lows."
+  ],
+  "BassFrq": [
+   "Bass freq",
+   "Moves where the bass band ends."
+  ],
+  "CompSpd": [
+   "Comp speed",
+   "Sets how fast the compressor reacts."
+  ],
+  "Compres": [
+   "Squash",
+   "Turn up for more compression."
+  ],
+  "HiCap": [
+   "Treble cut",
+   "Turn down to remove more high end."
+  ],
+  "LowCap": [
+   "Bass cut",
+   "Turn up to remove more low end."
+  ],
+  "Mid": [
+   "Mids",
+   "Boosts or cuts the middle."
+  ],
+  "Output": [
+   "Volume",
+   "Sets level; past a third it adds warm saturation, then fat drive."
+  ],
+  "TrebFrq": [
+   "Treble freq",
+   "Moves where the treble band starts."
+  ],
+  "Treble": [
+   "Treble",
+   "Boosts or cuts the highs."
+  ]
+ },
+ "Cabs": {
+  "CabSize": [
+   "Cab size",
+   "Sets how big the cabinet sounds."
+  ],
+  "CabType": [
+   "Cabinet",
+   "Picks the speaker cabinet sound."
+  ],
+  "Intense": [
+   "Cab color",
+   "Turn up for more of the cabinet tone; past 0.6 gets strange."
+  ],
+  "OffAxis": [
+   "Mic angle",
+   "Moves the mic off center for a softer, darker tone."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ],
+  "Rm Loud": [
+   "Loudness",
+   "Makes it sound like a cranked amp in the room; past 0.6 gets wild."
+  ]
+ },
+ "Cabs2": {
+  "Hipass": [
+   "Bass cut",
+   "Turn up to trim lows like a cabinet."
+  ],
+  "Lowpass": [
+   "Treble cut",
+   "Turn down to roll off highs like a speaker."
+  ]
+ },
+ "Calibre": {
+  "Drive": [
+   "Drive",
+   "Pushes harder into the saturation for more grit."
+  ],
+  "Hardns": [
+   "Hardness",
+   "At zero it saturates smoothly; higher makes clipping harder and cleaner."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ],
+  "Persnlty": [
+   "Character",
+   "Adds a steely tone; at a certain point the bass cancels out."
+  ]
+ },
+ "Cans": {
+  "Crossfd": [
+   "Crossfeed",
+   "Blends left and right toward the center, or swaps them in the tail."
+  ],
+  "Damping": [
+   "Liveliness",
+   "Turn down for a drier, treated room; up for a livelier one."
+  ],
+  "Diffuse": [
+   "Diffusion",
+   "Turn up for a smoother, more scattered room sound."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Sets how much room sound you hear."
+  ],
+  "Room": [
+   "Room size",
+   "Picks a control room from small to large; heard most in the bass."
+  ]
+ },
+ "CansAW": {
+  "seatPos": [
+   "Listen spot",
+   "Picks a listening spot in Chris's mix room, up to the hallway check."
+  ]
+ },
+ "Capacitor": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends the filtered sound with the original, like a gentle shelf."
+  ],
+  "Highpass": [
+   "Bass cut",
+   "Turn up to remove more low end."
+  ],
+  "Lowpass": [
+   "Treble cut",
+   "Turn down to remove more high end."
+  ]
+ },
+ "Capacitor2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends the filtered sound with the original."
+  ],
+  "Highpass": [
+   "Bass cut",
+   "Turn up to remove more low end."
+  ],
+  "Lowpass": [
+   "Treble cut",
+   "Turn down to remove more high end."
+  ],
+  "NonLin": [
+   "Analog grit",
+   "Adds analog color and punchier attacks."
+  ]
+ },
+ "Chamber": {
+  "Bigness": [
+   "Room size",
+   "Makes the room bigger, with longer delays inside."
+  ],
+  "Darkness": [
+   "Darkness",
+   "Turn up for a warmer, darker reverb."
+  ],
+  "Liteness": [
+   "Bass cut",
+   "Turn up to remove low end from the reverb only."
+  ],
+  "Longness": [
+   "Tail length",
+   "Turn up for a longer reverb tail; at zero it is a quick slapback."
+  ],
+  "Wetness": [
+   "Effect mix",
+   "Adds reverb; past halfway the original starts to fade."
+  ]
+ },
+ "Chamber2": {
+  "Delay": [
+   "Echo time",
+   "Sets how long the echo is."
+  ],
+  "Regen": [
+   "Repeats",
+   "More repeats; blurs the echo into a longer tail."
+  ],
+  "Thick": [
+   "Blur",
+   "From a clean echo to a blurred reverb; snapping back to zero glitches."
+  ],
+  "Wet": [
+   "Effect mix",
+   "Blends in the echo and reverb."
+  ]
+ },
+ "Channel4": {
+  "Console Type": [
+   "Console type",
+   "Picks which classic mixing desk flavor to imitate."
+  ],
+  "Drive": [
+   "Drive",
+   "Turn up for more saturation; under half stays very clean."
+  ]
+ },
+ "Channel5": {
+  "Console Type": [
+   "Console type",
+   "Picks which classic mixing desk flavor to imitate."
+  ],
+  "Drive": [
+   "Drive",
+   "Turn up for more analog-style saturation."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level; at full it matches Channel4 exactly."
+  ]
+ },
+ "Channel6": {
+  "Console Type": [
+   "Console type",
+   "Picks which classic mixing desk flavor to imitate."
+  ],
+  "Drive": [
+   "Drive",
+   "Turn up for more analog-style saturation."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ]
+ },
+ "Channel7": {
+  "Console Type": [
+   "Console type",
+   "Picks which classic mixing desk flavor to imitate."
+  ],
+  "Drive": [
+   "Drive",
+   "Up to 100% adds clean saturation; beyond adds extra fatness."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ]
+ },
+ "Channel8": {
+  "Console Type": [
+   "Console type",
+   "Picks which classic mixing desk flavor to imitate."
+  ],
+  "Drive": [
+   "Drive",
+   "Up to 100% adds clean saturation; beyond adds extra fatness."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ]
+ },
+ "Channel9": {
+  "Console Type": [
+   "Console type",
+   "Picks which classic mixing desk flavor to imitate."
+  ],
+  "Drive": [
+   "Drive",
+   "Up to 100% adds clean saturation; beyond adds extra fatness."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ]
+ },
+ "ChannelX": {
+  "Console Type": [
+   "Console type",
+   "Picks which classic mixing desk flavor to imitate."
+  ],
+  "Drive": [
+   "Drive",
+   "Up to 100% adds clean saturation; beyond adds extra fatness."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ]
+ },
+ "ChimeyDeluxe": {
+  "Crtical": [
+   "Mid focus",
+   "Boosts or cuts the core mids that cut through a mix."
+  ],
+  "Danger": [
+   "Harshness",
+   "Boosts or cuts the harsh, aggressive upper mids."
+  ],
+  "Fizz": [
+   "Fizz",
+   "Boosts or cuts the fizzy high treble."
+  ],
+  "H Meat": [
+   "Upper body",
+   "Boosts or cuts the upper body of the sound."
+  ],
+  "Hell": [
+   "Top highs",
+   "Boosts or cuts the very top end."
+  ],
+  "L Meat": [
+   "Lower body",
+   "Boosts or cuts the lower body of the sound."
+  ],
+  "Pick": [
+   "Pick attack",
+   "Boosts or cuts the bright attack of the notes."
+  ],
+  "Rarely": [
+   "Deep lows",
+   "Boosts or cuts the deepest lows."
+  ],
+  "Satan": [
+   "Upper bite",
+   "Boosts or cuts the biting upper mids."
+  ],
+  "Swing": [
+   "Low punch",
+   "Boosts or cuts the punchy low end."
+  ]
+ },
+ "ChimeyGuitar": {
+  "Compres": [
+   "Squash",
+   "Turn up for more compression; too far it warbles."
+  ],
+  "HSpeakr": [
+   "Speaker top",
+   "Sets how much treble the speaker lets through."
+  ],
+  "High": [
+   "Treble",
+   "Boosts or cuts the highs."
+  ],
+  "LSpeakr": [
+   "Speaker low",
+   "Sets how much bass the speaker lets through."
+  ],
+  "Low": [
+   "Bass",
+   "Boosts or cuts the lows."
+  ],
+  "Mid": [
+   "Mids",
+   "Boosts or cuts the middle."
+  ],
+  "Output": [
+   "Volume",
+   "Overall output level."
+  ],
+  "Presnce": [
+   "Presence",
+   "Adds bite in the upper range."
+  ],
+  "Speed": [
+   "Comp speed",
+   "Sets how fast the compression reacts."
+  ],
+  "Sub": [
+   "Sub",
+   "Boosts or cuts the deepest lows."
+  ]
+ },
+ "ChimeyGuitar2": {
+  "Compres": [
+   "Squash",
+   "Turn up for more compression and sustain on the amp."
+  ],
+  "HSpeakr": [
+   "Speaker top",
+   "Sets how much top end the speaker cabinet lets through."
+  ],
+  "High": [
+   "Treble",
+   "Turn up for more top end; bands multiply with the boost, so go gently."
+  ],
+  "LSpeakr": [
+   "Speaker low",
+   "Sets how much low end the speaker cabinet lets through."
+  ],
+  "Low": [
+   "Bass",
+   "Turn up for more low end weight."
+  ],
+  "Mid": [
+   "Mids",
+   "Turn up for more midrange body and push."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Presnce": [
+   "Boost",
+   "Turn up for more gain and sustain; too far makes it bark and pop."
+  ],
+  "Speed": [
+   "Squash speed",
+   "Left is fast, edgy and distorted; right is slower and cleaner."
+  ],
+  "Sub": [
+   "Sub bass",
+   "Turn up for more deep low rumble under the tone."
+  ]
+ },
+ "Chorus": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Low adds gentle chorus; full wet gives pure vibrato."
+  ],
+  "Range": [
+   "Depth",
+   "Turn up for a wider, more seasick pitch sweep."
+  ],
+  "Speed": [
+   "Speed",
+   "Turn up for a faster wobble in the chorus sweep."
+  ]
+ },
+ "ChorusEnsemble": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Range": [
+   "Depth",
+   "Turn up for a lusher, wider swirl; extreme settings get strange."
+  ],
+  "Speed": [
+   "Speed",
+   "Turn up for a faster swirl."
+  ]
+ },
+ "ChromeOxide": {
+  "Bias": [
+   "Mulch",
+   "Turn up to smear and soften the highs further, like old tape."
+  ],
+  "Intense": [
+   "Old tape",
+   "Turn up for more wobbly, fuzzy, worn-cassette highs."
+  ]
+ },
+ "Cider": {
+  "Drive": [
+   "Drive",
+   "Turn up to push the signal harder into the coloring."
+  ],
+  "Hardns": [
+   "Hardness",
+   "Turn up for harder clipping and a pushier, fatter midrange."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Persnlty": [
+   "Character",
+   "Turn up for more of the console-style tone color."
+  ]
+ },
+ "ClearCoat": {
+  "Dry/Wet": [
+   "Room amount",
+   "A little adds air and sparkle; all the way is a bright room."
+  ],
+  "Select": [
+   "Room type",
+   "Picks one of seventeen bright small-room sounds."
+  ]
+ },
+ "CloudCoat": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Select": [
+   "Blur type",
+   "Picks one of the blur and smear flavors."
+  ],
+  "Sustain": [
+   "Mayhem",
+   "Zero gives soft blur; turned up, drums explode into raspy trash."
+  ]
+ },
+ "Coils": {
+  "Core DC": [
+   "Warmth",
+   "Turn up for more even-harmonic warmth, strongest at low saturation."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Saturat": [
+   "Saturation",
+   "Turn up to gently soften and saturate the extreme highs and lows."
+  ]
+ },
+ "Coils2": {
+  "Cheapness": [
+   "Cheapness",
+   "Turn up for a cheaper transformer that thins and grinds the sound."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Saturate": [
+   "Overload",
+   "Sets how hard the transformer clamps; halfway is already a lot."
+  ]
+ },
+ "Cojones": {
+  "Body": [
+   "Body",
+   "Adds or cuts bass and low mids."
+  ],
+  "Breathy": [
+   "Breathiness",
+   "Brings out or tames airy, breathy detail."
+  ],
+  "Cojones": [
+   "Attitude",
+   "Turn up for a gritty, midrangey bite on voices and guitars."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "Compresaturator": {
+  "Clamp": [
+   "Squash",
+   "Turn up for more soft clipping; down for cleaner compression."
+  ],
+  "Drive": [
+   "Drive",
+   "Turn up for more push and loudness into the squash."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Expand": [
+   "Springiness",
+   "Turn up for a bouncier, more dynamic spring in the squash."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "Console0Buss": {
+  "Pan": [
+   "Pan",
+   "Moves the sound left or right in a few fixed steps."
+  ],
+  "Vol": [
+   "Volume",
+   "Changes level in big 6 dB steps without touching the tone."
+  ]
+ },
+ "Console0Channel": {
+  "Pan": [
+   "Pan",
+   "Moves the sound left or right in a few fixed steps."
+  ],
+  "Vol": [
+   "Volume",
+   "Changes level in big 6 dB steps without touching the tone."
+  ]
+ },
+ "Console4Buss": {
+  "Trim": [
+   "Level",
+   "Sets the level going through the mix bus summing."
+  ]
+ },
+ "Console4Channel": {
+  "Trim": [
+   "Level",
+   "Sets the channel level going into the console bus."
+  ]
+ },
+ "Console5Buss": {
+  "Input": [
+   "Level",
+   "Sets the bus level; louder means a bit more console glue."
+  ]
+ },
+ "Console5Channel": {
+  "Input": [
+   "Level",
+   "Sets the channel level; louder means a bit more console glue."
+  ]
+ },
+ "Console5DarkCh": {
+  "Input": [
+   "Level",
+   "Sets the channel level; louder means a bit more console glue."
+  ]
+ },
+ "Console6Buss": {
+  "Input": [
+   "Level",
+   "Sets the bus level; louder means a bit more console glue."
+  ]
+ },
+ "Console6Channel": {
+  "Input": [
+   "Level",
+   "Sets the channel level; louder means a bit more console glue."
+  ]
+ },
+ "Console7Buss": {
+  "Master": [
+   "Master level",
+   "Sets the whole mix level; usually left at full."
+  ]
+ },
+ "Console7Cascade": {
+  "Cascade": [
+   "Volume",
+   "Turn up for a louder, more intense tube-like push with little grit."
+  ]
+ },
+ "Console7Channel": {
+  "Fader": [
+   "Volume",
+   "Turn up for louder and more saturated; down for quieter and cleaner."
+  ]
+ },
+ "Console7Crunch": {
+  "Crunch": [
+   "Volume",
+   "Turn up for a louder, crunchier push with more obvious clipping."
+  ]
+ },
+ "Console8BussOut": {
+  "Fader": [
+   "Volume",
+   "Sets the output level; pushing the bus can drive a soft clipper."
+  ]
+ },
+ "Console8ChannelOut": {
+  "Fader": [
+   "Volume",
+   "Sets the output level; pushing the bus can drive a soft clipper."
+  ]
+ },
+ "Console8LiteBuss": {
+  "Fader": [
+   "Volume",
+   "Sets the output level; pushing the bus can drive a soft clipper."
+  ]
+ },
+ "Console8LiteChannel": {
+  "Fader": [
+   "Volume",
+   "Sets the output level; pushing the bus can drive a soft clipper."
+  ]
+ },
+ "Console8SubOut": {
+  "Fader": [
+   "Volume",
+   "Sets the output level; pushing the bus can drive a soft clipper."
+  ]
+ },
+ "Console9Buss": {
+  "Fader": [
+   "Volume",
+   "Sets the level of this channel or bus."
+  ],
+  "Pan": [
+   "Pan",
+   "Moves the sound left or right."
+  ]
+ },
+ "Console9Channel": {
+  "Fader": [
+   "Volume",
+   "Sets the level of this channel or bus."
+  ],
+  "Pan": [
+   "Pan",
+   "Moves the sound left or right."
+  ]
+ },
+ "ConsoleLABuss": {
+  "Master": [
+   "Master level",
+   "Sets the level of the whole mix."
+  ]
+ },
+ "ConsoleLAChannel": {
+  "Bass": [
+   "Bass",
+   "Boosts or cuts the low end."
+  ],
+  "Fader": [
+   "Volume",
+   "Sets the channel level."
+  ],
+  "Mid": [
+   "Mids",
+   "Boosts or cuts the midrange; it can cut very deep for a scooped tone."
+  ],
+  "Pan": [
+   "Pan",
+   "Moves the sound left or right."
+  ],
+  "Treble": [
+   "Treble",
+   "Boosts or cuts the top end."
+  ]
+ },
+ "ConsoleMCBuss": {
+  "Master": [
+   "Master level",
+   "Sets the level of the whole mix."
+  ]
+ },
+ "ConsoleMCChannel": {
+  "Bass": [
+   "Bass",
+   "Boosts or cuts the low end."
+  ],
+  "Fader": [
+   "Volume",
+   "Sets the channel level, before the EQ."
+  ],
+  "MidFreq": [
+   "Mid pitch",
+   "Picks which part of the midrange the mid boost lifts."
+  ],
+  "MidPeak": [
+   "Mid boost",
+   "Turn up to boost the chosen mids; zero is flat."
+  ],
+  "Pan": [
+   "Pan",
+   "Moves the sound left or right."
+  ],
+  "Treble": [
+   "Treble",
+   "Boosts or cuts the top end."
+  ]
+ },
+ "ConsoleMDBuss": {
+  "Master": [
+   "Master level",
+   "Sets the level of the whole mix."
+  ]
+ },
+ "ConsoleMDChannel": {
+  "Bass": [
+   "Bass",
+   "Boosts or cuts the low end."
+  ],
+  "Fader": [
+   "Volume",
+   "Sets the channel level, before the EQ."
+  ],
+  "MidFreq": [
+   "Mid pitch",
+   "Picks which part of the midrange the mid boost lifts."
+  ],
+  "MidPeak": [
+   "Mid boost",
+   "Turn up to boost the chosen mids; zero is flat."
+  ],
+  "Pan": [
+   "Pan",
+   "Moves the sound left or right."
+  ],
+  "Treble": [
+   "Treble",
+   "Boosts or cuts the top end."
+  ]
+ },
+ "CreamCoat": {
+  "DeRez": [
+   "Brightness",
+   "Turn down to smoothly cut the highs of the reverb in steps."
+  ],
+  "Predlay": [
+   "Pre-delay",
+   "Turn up for a gap before the reverb starts."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer tail, all the way to endless reverb."
+  ],
+  "Select": [
+   "Room type",
+   "Picks one of the reverb space flavors."
+  ],
+  "Wetness": [
+   "Effect mix",
+   "Blends from dry to fully reverb; the middle gives both at full."
+  ]
+ },
+ "Creature": {
+  "Depth": [
+   "Depth",
+   "Turn up for more thunder and gain; gets wild and hard to control."
+  ],
+  "Drive": [
+   "Drive",
+   "Turn up for more roar and overdrive."
+  ],
+  "Inv/Wet": [
+   "Blend",
+   "Right gives a huge bassy overdrive; left thins it in a highpass way."
+  ]
+ },
+ "CrickBass": {
+  "Drive": [
+   "Drive",
+   "Turn up for more grit, mostly on the neck pickup."
+  ],
+  "Tone": [
+   "Brightness",
+   "Turn up for more clank and string attack."
+  ]
+ },
+ "CrunchCoat": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn down for a crunchier, cursed retro digital reverb."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer tail, up to endless; down cuts it short."
+  ],
+  "Select": [
+   "Room type",
+   "Picks one of the bright room flavors."
+  ]
+ },
+ "CrunchyGrooveWear": {
+  "Apply": [
+   "Amount",
+   "Turn up for more crunchy treble zing; quarter steps crunch most."
+  ],
+  "Freq": [
+   "Tone",
+   "Sets where in the highs the zing and wear happen."
+  ]
+ },
+ "Crystal": {
+  "Drive": [
+   "Drive",
+   "Turn up to push harder into the soft clipper."
+  ],
+  "Hardnss": [
+   "Hardness",
+   "Turn up for harder clipping and a roaring midrange that sticks out."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Personl": [
+   "Character",
+   "Turn up for more of its smooth, treble-taming tone color."
+  ]
+ },
+ "DCVoltage": {
+  "Voltage": [
+   "DC offset",
+   "Adds a steady offset to cancel DC; can damage speakers if cranked."
+  ]
+ },
+ "Dark": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to drop more bits and hear the dark dither at work."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks 16 bit or 24 bit output."
+  ]
+ },
+ "DarkNoise": {
+  "Dark": [
+   "Darkness",
+   "Turn up for darker, bassier noise."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Freq": [
+   "Pitch",
+   "Sets how high or low the noise sounds, from rumble to hiss."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the noise level."
+  ]
+ },
+ "Dattorro": {
+  "Freq": [
+   "Cutoff",
+   "Turn down to make the sound darker as the filter closes."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Reso": [
+   "Resonance",
+   "Turn up for a sharper, whistling peak at the cutoff."
+  ]
+ },
+ "DeBess": {
+  "Depth": [
+   "Reduction",
+   "Turn up to turn esses down further."
+  ],
+  "Filter": [
+   "Ess tone",
+   "Turn up to darken the esses instead of just ducking them."
+  ],
+  "Intense": [
+   "Strength",
+   "Turn up to catch more esses."
+  ],
+  "Sense": [
+   "Monitor",
+   "Lets you hear what is being detected as an ess."
+  ],
+  "Sharp": [
+   "Precision",
+   "Turn up so it reacts only to true esses, ignoring other sounds."
+  ]
+ },
+ "DeBez": {
+  "DeBez": [
+   "Smoothing",
+   "Right is smooth with a digital overtone; left is stepped, like a sampler."
+  ],
+  "DeRez": [
+   "Crush",
+   "Right is roaring compressed crush; left is a gated crush that cuts out."
+  ],
+  "Inv/Wet": [
+   "Blend",
+   "Center is dry; right adds the effect, left subtracts it for odd tones."
+  ]
+ },
+ "DeCrackle": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends cleaned sound; at zero you hear only the removed clicks."
+  ],
+  "Filter": [
+   "Patch tone",
+   "Sets the tone used to fill in removed clicks, bass-only to full."
+  ],
+  "Surface": [
+   "Surface hiss",
+   "Turn up to quiet the faint crackle and hiss between clicks."
+  ],
+  "Thresld": [
+   "Sensitivity",
+   "Turn down to catch more clicks; too low starts eating music."
+  ],
+  "Window": [
+   "Window",
+   "Turn up to cover more sound around each click."
+  ]
+ },
+ "DeEss": {
+  "Freq": [
+   "Ess tone",
+   "Sets how much the esses get darkened."
+  ],
+  "Intense": [
+   "Strength",
+   "Turn up until you clearly hear the esses getting caught."
+  ],
+  "Max DS": [
+   "Reduction",
+   "Sets how far esses get turned down."
+  ]
+ },
+ "DeHiss": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Thresh": [
+   "Sensitivity",
+   "Turn up to muffle more of the quiet background hiss."
+  ]
+ },
+ "DeNoise": {
+  "Bass": [
+   "Bass gate",
+   "Turn up to silence quiet bass."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends the gated sound; at zero you hear only what is removed."
+  ],
+  "HMid": [
+   "Hi-mid gate",
+   "Turn up to silence quiet upper mids."
+  ],
+  "High": [
+   "Highs gate",
+   "Turn up to silence quiet treble; more trims its tail."
+  ],
+  "LMid": [
+   "Lo-mid gate",
+   "Turn up to silence quiet low mids; tightens kicks."
+  ],
+  "Mid": [
+   "Mid gate",
+   "Turn up to silence quiet mids."
+  ],
+  "Speed": [
+   "Smoothness",
+   "Turn up for slower, smoother gating that does not chatter."
+  ],
+  "Sub": [
+   "Sub gate",
+   "Turn up to silence quiet deep lows."
+  ]
+ },
+ "DeRez": {
+  "Rate": [
+   "Sample rate",
+   "Turn down for grittier, more aliased lo-fi."
+  ],
+  "Rez": [
+   "Bit depth",
+   "Turn down for crunchier, noisier bitcrushing."
+  ]
+ },
+ "DeRez2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Hard": [
+   "Hardness",
+   "Down gives grungy vintage-sampler tone; up is cleaner crushing."
+  ],
+  "Rate": [
+   "Sample rate",
+   "Turn down for grittier, more aliased lo-fi."
+  ],
+  "Rez": [
+   "Bit depth",
+   "Turn down for crunchier bitcrushing."
+  ]
+ },
+ "DeRez3": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends dry and lo-fi; the middle gives both at full level."
+  ],
+  "Rate": [
+   "Lo-fi",
+   "Turn down for a darker, smoother retro digital sound, like a filter."
+  ],
+  "Rez": [
+   "Bit depth",
+   "Turn down for more crush; at the bottom it gates the sound."
+  ]
+ },
+ "DeRez4": {
+  "Bassis": [
+   "Low cut",
+   "Turn up to thin the lows with a slightly resonant tone."
+  ],
+  "Bright": [
+   "Brightness",
+   "Turn down to round off the sharp digital edges."
+  ],
+  "DownRez": [
+   "Lo-fi",
+   "Turn up for more retro digital glitter and edge."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "Deckwrecka": {
+  "Wreck": [
+   "Wreck",
+   "Turn up for huge, dirty, thumping bass and grit on beats."
+  ]
+ },
+ "Density": {
+  "Density": [
+   "Fatness",
+   "Right adds fat, forward saturation; left thins and pushes it back."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Highpass": [
+   "Low cut",
+   "Turn up to keep the bass out of the saturation."
+  ],
+  "Out Level": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "Density2": {
+  "Density": [
+   "Fatness",
+   "Right adds fat, forward saturation; left thins and pushes it back."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Highpass": [
+   "Low cut",
+   "Turn up to keep the bass out of the saturation."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "Density3": {
+  "Density": [
+   "Fatness",
+   "Right adds fat, forward saturation; left thins and pushes it back."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Highpas": [
+   "Low cut",
+   "Turn up to keep the bass out of the saturation."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "Desk4": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Frequency": [
+   "Sag tone",
+   "Turn up to move the sag effect lower in pitch."
+  ],
+  "Hi Choke": [
+   "Treble tame",
+   "Turn up gently to smooth the highs; cranked it misbehaves."
+  ],
+  "Output Trim": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Overdrive": [
+   "Drive",
+   "Turn up for more slam and soft, rich dirt."
+  ],
+  "Power Sag": [
+   "Sag",
+   "Turn up for the sound of a straining power supply squashing the audio."
+  ]
+ },
+ "DigitalBlack": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Thresh": [
+   "Gate level",
+   "Turn up to cut quieter sounds for tighter, choppier tracks."
+  ]
+ },
+ "Dirt": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Gain": [
+   "Drive",
+   "Turn up for more soft, tubey distortion."
+  ],
+  "Highpass": [
+   "Low cut",
+   "Turn up to thin out the low end."
+  ],
+  "Lowpass": [
+   "Brightness",
+   "Turn down to darken and smooth the distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "Discontapeity": {
+  "More": [
+   "Bigness",
+   "Turn up for a fuller, blooming tape sound; max adds mild overload."
+  ]
+ },
+ "Discontinuity": {
+  "Top dB": [
+   "Loudness",
+   "Turn up to make it sound like a louder sound crackling through air."
+  ]
+ },
+ "Disintegrate": {
+  "BufSize": [
+   "Smear size",
+   "Turn up for bigger, wilder wobble and smearing."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Filter": [
+   "Brightness",
+   "Sets how bright or dark the mangled sound is."
+  ],
+  "Layers": [
+   "Layers",
+   "Turn up to stack more stages for more destruction."
+  ],
+  "Top dB": [
+   "Loudness",
+   "Turn up for more air-crackle distortion."
+  ]
+ },
+ "Distance": {
+  "Distance": [
+   "Distance",
+   "Turn up to make the sound seem farther away and duller."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ]
+ },
+ "Distance2": {
+  "Atmosph": [
+   "Hugeness",
+   "Turn up for a huge, loud, stage-like sound; too much gets nasty."
+  ],
+  "Darken": [
+   "Darkness",
+   "Turn up to roll off highs so it sounds far away and natural."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ]
+ },
+ "Distance3": {
+  "Distance": [
+   "Distance",
+   "Turn up to make the sound darker and farther away."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Top dB": [
+   "Loudness",
+   "Turn up for the crackle of a very loud sound through air."
+  ]
+ },
+ "Distortion": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Input": [
+   "Drive",
+   "Turn up for more distortion."
+  ],
+  "Mode": [
+   "Type",
+   "Picks the distortion flavor; Mojo and Dyno get strange when slammed."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "DitherFloat": {
+  "Dither": [
+   "Dither",
+   "Turn on to replace rounding grit with smooth, quiet noise."
+  ],
+  "Offset": [
+   "Test offset",
+   "Exaggerates float rounding errors for the demo; zero for normal use."
+  ]
+ },
+ "Ditherbox": {
+  "Type": [
+   "Dither type",
+   "Picks a dither for 16 or 24 bit, or a mix-checking tool."
+  ]
+ },
+ "Donut": {
+  "Attack": [
+   "Attack",
+   "Turn up for a slower, wigglier reaction to hits."
+  ],
+  "BaseFrq": [
+   "Cutoff",
+   "Turn down to make the filter darker."
+  ],
+  "BaseRes": [
+   "Resonance",
+   "Turn up for a sharper, singing filter peak."
+  ],
+  "MoveFrq": [
+   "Sweep",
+   "Away from center, hits open or close the filter more."
+  ],
+  "MoveRes": [
+   "Res sweep",
+   "Away from center, hits add or remove more resonance."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Release": [
+   "Release",
+   "Turn up for a slower fall back after each hit."
+  ]
+ },
+ "Doublelay": {
+  "Delay L": [
+   "Left delay",
+   "Turn up for a longer echo on the left."
+  ],
+  "Delay R": [
+   "Right delay",
+   "Turn up for a longer echo on the right."
+  ],
+  "Detune": [
+   "Detune",
+   "Turn up for more pitch-shifted thickening between left and right."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Feedbk": [
+   "Repeats",
+   "Turn up for more repeats; near the top they go on and on."
+  ]
+ },
+ "Drive": {
+  "Drive": [
+   "Drive",
+   "Turn up for a gritty, angry overdrive."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Highpass": [
+   "Low cut",
+   "Turn up to keep the bass out of the distortion."
+  ],
+  "Out Level": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "DrumSlam": {
+  "Drive": [
+   "Slam",
+   "Turn up for heavier tape-style squash and dirt."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the dry sound to fully processed."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "DubCenter": {
+  "BassOut": [
+   "Bass amount",
+   "Center is off; right adds mono bass boost, left takes bass away."
+  ],
+  "BsDrive": [
+   "Bass push",
+   "Pushes the bass boost harder for a fuller, thicker low end."
+  ],
+  "BsVoice": [
+   "Bass depth",
+   "Higher sounds more like an overdriven bass amp; lower is deeper."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Grd/Out": [
+   "Grit amount",
+   "Center is off; right adds the grit, left subtracts it."
+  ],
+  "SbDrive": [
+   "Sub push",
+   "Pushes the octave-down sub harder; can get wild on busy material."
+  ],
+  "SbVoice": [
+   "Sub depth",
+   "Sets how deep the octave-down sub sits; deeper is often cleaner."
+  ],
+  "SubOut": [
+   "Sub amount",
+   "Center is off; right adds a mono octave-down sub, left subtracts it."
+  ],
+  "TGrind": [
+   "Top grit",
+   "Adds a gritty bass-guitar presence edge to the upper part of the sound."
+  ],
+  "XOver": [
+   "Split point",
+   "Sets where the sound splits between the grit part and the bass parts."
+  ]
+ },
+ "DubPlate2": {
+  "Bass": [
+   "Bass",
+   "Gently lifts or cuts the lows; pushed hard it starts to saturate."
+  ],
+  "Input": [
+   "Input level",
+   "Turn down until nothing clips; this is how much signal hits the lathe."
+  ],
+  "Treble": [
+   "Treble",
+   "Gently lifts or cuts the highs; pushed hard it starts to saturate."
+  ]
+ },
+ "DubSub": {
+  "BassOut": [
+   "Bass amount",
+   "Center is off; right adds the bass boost, left takes bass away."
+  ],
+  "BsDrive": [
+   "Bass push",
+   "Pushes the bass boost harder for a fuller, thicker low end."
+  ],
+  "BsVoice": [
+   "Bass depth",
+   "Higher sounds more like an overdriven bass amp; lower is deeper."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Grd/Out": [
+   "Grit amount",
+   "Center is off; right adds the grit, left subtracts it."
+  ],
+  "SbDrive": [
+   "Sub push",
+   "Pushes the octave-down sub harder; can get wild on busy material."
+  ],
+  "SbVoice": [
+   "Sub depth",
+   "Sets how deep the octave-down sub sits; deeper is often cleaner."
+  ],
+  "SubOut": [
+   "Sub amount",
+   "Center is off; right adds the octave-down sub, left subtracts it."
+  ],
+  "TGrind": [
+   "Top grit",
+   "Adds a gritty bass-guitar presence edge to the upper part of the sound."
+  ],
+  "XOver": [
+   "Split point",
+   "Sets where the sound splits between the grit part and the bass parts."
+  ]
+ },
+ "DubSub2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "HeadBmp": [
+   "Bass bump",
+   "Adds a warm tape-style bass bump; pushed hard it gets growly."
+  ],
+  "HeadFrq": [
+   "Bump pitch",
+   "Moves the bass bump higher or lower in the low end."
+  ]
+ },
+ "Dubly": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Dubly": [
+   "Retro sheen",
+   "Half adds a soft retro glow; higher gets brighter, airier and hyped."
+  ]
+ },
+ "Dubly2": {
+  "DecAmnt": [
+   "Smoothing",
+   "Takes the bright band back out; more makes it darker and smoother."
+  ],
+  "DecFreq": [
+   "Smooth tone",
+   "Moves the band that gets taken back out higher or lower."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "EncAmnt": [
+   "Sparkle",
+   "Adds more of the bright squeezed band for extra gloss and sparkle."
+  ],
+  "EncFreq": [
+   "Sparkle tone",
+   "Moves the sparkle band higher or lower; lower pulls in more mids."
+  ],
+  "Out Pad": [
+   "Volume",
+   "Turns the output down to match levels."
+  ],
+  "TapeDrv": [
+   "Tape drive",
+   "Hits the virtual tape harder for more saturation in between."
+  ]
+ },
+ "Dubly3": {
+  "Input": [
+   "Input level",
+   "Drives more signal in for a heavier, more squeezed retro tone."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Shape": [
+   "Mid punch",
+   "Up makes mids more intense and lively; down darkens and opens them."
+  ],
+  "Tilt": [
+   "Brightness",
+   "Above center gets brighter and hyped; below center gets darker."
+  ]
+ },
+ "DustBunny": {
+  "Bunny": [
+   "Crackle",
+   "Changes the weird dusty scrunch; every setting sounds a bit different."
+  ]
+ },
+ "Dynamics": {
+  "Comp": [
+   "Squash",
+   "Turn up for more compression, evening out loud and quiet parts."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Gate": [
+   "Gate",
+   "Turn up to silence quiet bits between notes more aggressively."
+  ],
+  "Speed": [
+   "Speed",
+   "Faster compression for a tighter, more squished sound."
+  ]
+ },
+ "Dynamics2": {
+  "Attack": [
+   "Attack speed",
+   "Higher reacts faster to hits; lower lets the start of hits through."
+  ],
+  "Gate": [
+   "Gate",
+   "Turn up to cut off quiet bits cleanly between notes."
+  ],
+  "Release": [
+   "Release",
+   "Sets how fast it springs back after squashing; also sets gate speed."
+  ],
+  "Thresh": [
+   "Squash",
+   "Turn down the threshold so more of the sound gets compressed."
+  ]
+ },
+ "Dynamics3": {
+  "Attack": [
+   "Attack speed",
+   "Sets how quickly it clamps down on hits."
+  ],
+  "Inv/Wet": [
+   "Comp/expand",
+   "Right compresses more; left flips to expanding, making hits bloom."
+  ],
+  "Release": [
+   "Release",
+   "Sets how fast the volume springs back after squashing."
+  ],
+  "Thresh": [
+   "Squash",
+   "Lower makes more of the sound get compressed; full up is bypass."
+  ]
+ },
+ "Dyno": {
+  "Input": [
+   "Intensity",
+   "Turn up for more fire and intensity in the tone, not more volume."
+  ]
+ },
+ "EQ": {
+  "Bass": [
+   "Bass",
+   "Boosts or cuts the lows."
+  ],
+  "BassFrq": [
+   "Bass range",
+   "Moves where the bass band starts."
+  ],
+  "Hipass": [
+   "Low cut",
+   "Removes deep bass and rumble from the bottom."
+  ],
+  "Lowpass": [
+   "Top cut",
+   "Rolls off the highest treble for a darker, softer sound."
+  ],
+  "Mid": [
+   "Mids",
+   "Boosts or cuts the middle range."
+  ],
+  "OutGain": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "TrebFrq": [
+   "Treble range",
+   "Moves where the treble band starts."
+  ],
+  "Treble": [
+   "Treble",
+   "Boosts or cuts the highs."
+  ]
+ },
+ "EdIsDim": {
+  "ediS/diM": [
+   "Mid/side mix",
+   "Balances middle against sides before turning the signal back to stereo."
+  ]
+ },
+ "Edge": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Gain": [
+   "Gain",
+   "More gain for a brighter, harder, more distorted sound."
+  ],
+  "Highpass": [
+   "Low cut",
+   "Cuts lows going in for a tighter, more textured distortion."
+  ],
+  "Lowpass": [
+   "Top cut",
+   "Lower it to darken the distortion and tame fizzy highs."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "Elation": {
+  "Drive": [
+   "Drive",
+   "Pushes harder for more crunch."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Persnlty": [
+   "Character",
+   "Turn up to exaggerate the vintage tonal color; can thin the bass."
+  ]
+ },
+ "ElectroHat": {
+  "Bright": [
+   "Brightness",
+   "Makes the generated hi-hat brighter and sharper."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "HiHat": [
+   "Hat type",
+   "Picks the flavor of electronic hi-hat noise."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Trim": [
+   "Input level",
+   "Sets how hard the incoming sound drives the hat."
+  ]
+ },
+ "Elliptical": {
+  "Cutoff": [
+   "Side low cut",
+   "Removes bass from the stereo sides so lows stay centered and mono."
+  ],
+  "Slope": [
+   "Cut strength",
+   "Makes the side bass cut steeper and more complete."
+  ]
+ },
+ "Energy": {
+  "Chug": [
+   "Upper mids",
+   "Adds aggression in the upper mids, with extra highs along for the ride."
+  ],
+  "Fizz": [
+   "Fizz",
+   "Adds fizzy, aggressive treble energy."
+  ],
+  "Glitter": [
+   "Glitter",
+   "Adds punchy, glittery brightness just below the very top."
+  ],
+  "Hiss": [
+   "Air",
+   "Adds aggressive top-end air at the very highest treble."
+  ],
+  "I/Dr/Wt": [
+   "Effect mix",
+   "Center is clean; right adds the boosts, left subtracts them."
+  ],
+  "Rat": [
+   "Bite",
+   "Adds edgy, biting upper treble."
+  ],
+  "Scrape": [
+   "Scrape",
+   "Adds scraping brightness in the lower treble."
+  ],
+  "Snarl": [
+   "Snarl",
+   "Adds snarl in the upper mids, the lowest of the boosts."
+  ],
+  "Yowr": [
+   "Growl",
+   "Adds a growling, nasal edge in the upper mids."
+  ]
+ },
+ "Energy2": {
+  "Chug": [
+   "Upper mids",
+   "Adds aggression in the upper mids, with extra highs along for the ride."
+  ],
+  "Fizz": [
+   "Fizz",
+   "Adds fizzy, aggressive treble energy."
+  ],
+  "Glitter": [
+   "Glitter",
+   "Adds punchy, glittery brightness just below the very top."
+  ],
+  "Hiss": [
+   "Air",
+   "Adds aggressive top-end air at the very highest treble."
+  ],
+  "I/Dr/Wt": [
+   "Effect mix",
+   "Center is clean; right adds the boosts, left subtracts them."
+  ],
+  "Rat": [
+   "Bite",
+   "Adds edgy, biting upper treble."
+  ],
+  "Scrape": [
+   "Scrape",
+   "Adds scraping brightness in the lower treble."
+  ],
+  "Snarl": [
+   "Snarl",
+   "Adds snarl in the upper mids, the lowest of the boosts."
+  ],
+  "Yowr": [
+   "Growl",
+   "Adds a growling, nasal edge in the upper mids."
+  ]
+ },
+ "Ensemble": {
+  "Brighten": [
+   "Brightness",
+   "Makes the effect brighter."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Ensemble": [
+   "Thickness",
+   "More copies for a richer, wobblier 70s string-machine sound."
+  ],
+  "Fullness": [
+   "Fullness",
+   "Adds more body and bass to the effect."
+  ]
+ },
+ "EveryConsole": {
+  "ConType": [
+   "Console type",
+   "Picks which console flavor to use, and channel or mix-bus mode."
+  ],
+  "InTrim": [
+   "Input level",
+   "Sets how hard the signal drives the console stage."
+  ],
+  "OutTrim": [
+   "Volume",
+   "Sets the output level."
+  ]
+ },
+ "EverySlew": {
+  "Depth": [
+   "Stages",
+   "More stages for a richer, rounder softening effect."
+  ],
+  "Halo": [
+   "Halo",
+   "Adds odd sparkle; high settings turn into harsh industrial distortion."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Center is clean, right is full effect, left plays only what it removes."
+  ],
+  "Slew": [
+   "Softening",
+   "Tames harsh, spiky highs; full up freezes the sound, so stay low."
+  ]
+ },
+ "EveryTrim": {
+  "Left": [
+   "Left",
+   "Turns the left channel up or down."
+  ],
+  "Master": [
+   "Volume",
+   "Turns everything up or down."
+  ],
+  "Mid": [
+   "Center",
+   "Turns the middle of the stereo image up or down."
+  ],
+  "Right": [
+   "Right",
+   "Turns the right channel up or down."
+  ],
+  "Side": [
+   "Sides",
+   "Turns the stereo sides up or down; more sounds wider."
+  ]
+ },
+ "Exciter": {
+  "Excite": [
+   "Sparkle",
+   "Adds detail and pop; too much turns into gritty distortion."
+  ],
+  "Freq": [
+   "Focus tone",
+   "Picks which part of the sound gets excited and brought forward."
+  ]
+ },
+ "Facet": {
+  "Facet": [
+   "Clip shape",
+   "Low acts like hard clipping; higher is a gentler, sharper-edged bend."
+  ]
+ },
+ "FastDistance": {
+  "Distnce": [
+   "Distance",
+   "Turn up to make the sound darker and farther away."
+  ]
+ },
+ "FatEQ": {
+  "Bass": [
+   "Bass",
+   "Up pushes bass closer with saturation; down pushes it back."
+  ],
+  "HMid": [
+   "Upper mids",
+   "Up pushes upper mids closer with saturation; down pushes them back."
+  ],
+  "High": [
+   "Highs",
+   "Up pushes highs closer with saturation; down pushes them back."
+  ],
+  "LMid": [
+   "Lower mids",
+   "Up pushes lower mids closer with saturation; down pushes them back."
+  ],
+  "Out": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "FathomFive": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Frequency": [
+   "Bass range",
+   "Sets how low or high the bass that gets reinforced sits."
+  ],
+  "Root Note": [
+   "Bass push",
+   "Turn up to drive the bass bloom harder for bigger deep lows."
+  ],
+  "SubOctave": [
+   "Sub",
+   "Adds deep sub energy below the bass."
+  ]
+ },
+ "FireAmp": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends in raw amp and clean guitar for a more open sound."
+  ],
+  "Gain": [
+   "Gain",
+   "More gain for more distortion and dirt."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Tone": [
+   "Brightness",
+   "Makes the amp brighter and more cutting."
+  ]
+ },
+ "Flipity": {
+  "Flipity": [
+   "Flip mode",
+   "Picks a way to swap left and right or flip a channel's polarity."
+  ]
+ },
+ "Floor": {
+  "Drive": [
+   "Drive",
+   "Pushes the effect harder for a heavier low end."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Floor": [
+   "Fake sub",
+   "Adds a fake deeper octave so the bass seems lower and louder."
+  ]
+ },
+ "Flutter": {
+  "Flutter": [
+   "Wobble",
+   "Adds tape-like pitch wobble; subtle until it suddenly gets wild."
+  ]
+ },
+ "Flutter2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Flutter": [
+   "Wobble",
+   "More tape pitch wobble, from reel-to-reel to chewed-up cassette."
+  ],
+  "Speed": [
+   "Speed",
+   "Sets how fast the wobble moves; very slow can fake a doubled guitar."
+  ]
+ },
+ "Focus": {
+  "Boost": [
+   "Drive",
+   "Pushes more signal into the distortion."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Focus": [
+   "Focus",
+   "Low is broad overdrive; higher narrows it to a searing midrange."
+  ],
+  "Mode": [
+   "Flavor",
+   "Picks the distortion style: Density, Drive, Spiral, Mojo or Dyno."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the distorted part's level; at zero you hear only the clean rest."
+  ]
+ },
+ "Fracture": {
+  "Drive": [
+   "Drive",
+   "Pushes harder into the folding for a more intense, buzzy tone."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Fracture": [
+   "Folds",
+   "Lets the wave fold more times before it just clips."
+  ],
+  "Out Lvl": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "Fracture2": {
+  "Drive": [
+   "Drive",
+   "Pushes harder into the folding; 0.1 is roughly normal level."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Fractre": [
+   "Fold pitch",
+   "Makes the folds speed up for higher, punchier, more aggressive tones."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Thresh": [
+   "Fold amount",
+   "Low is a soft clip; higher brings out more of the folded sound."
+  ]
+ },
+ "FromTape": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Louder": [
+   "Loudness",
+   "Drives more level into the tape softening."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Softer": [
+   "Softness",
+   "Smooths and softens harsh digital treble like tape."
+  ],
+  "Weight": [
+   "Low end",
+   "Turn up to let more bass through; down thins out the lows."
+  ]
+ },
+ "Galactic": {
+  "Bigness": [
+   "Room size",
+   "Makes the space bigger; changing it while playing makes crashes."
+  ],
+  "Brightness": [
+   "Brightness",
+   "Makes the reverb brighter going in and coming out."
+  ],
+  "Detune": [
+   "Shimmer",
+   "Adds pitch drift to the reverb for a wider, chorus-like space."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Replace": [
+   "Refresh",
+   "Higher lets new sound replace the old space faster; low builds up."
+  ]
+ },
+ "Galactic2": {
+  "Darken": [
+   "Darkness",
+   "Makes the reverb mellower and more distant, darker as it decays."
+  ],
+  "Drive": [
+   "Feed in",
+   "Turn up to feed more new sound into the reverb as it plays."
+  ],
+  "Sustain": [
+   "Tail length",
+   "Longer decay; past two-thirds it rings forever, low kills it."
+  ],
+  "Wetness": [
+   "Effect mix",
+   "Blends from the clean sound to the reverb; usually full up."
+  ]
+ },
+ "Galactic3": {
+  "Bigness": [
+   "Room size",
+   "Makes the space bigger; changing it while playing makes crashes."
+  ],
+  "Brightns": [
+   "Brightness",
+   "Makes the reverb brighter going in and coming out."
+  ],
+  "Derez": [
+   "Lo-fi",
+   "Makes the reverb grainier, darker and vastly bigger."
+  ],
+  "Detune": [
+   "Shimmer",
+   "Adds pitch drift to the reverb for a wider, chorus-like space."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Replace": [
+   "Refresh",
+   "Higher lets new sound replace the old space faster; low builds up."
+  ]
+ },
+ "GalacticVibe": {
+  "Drift": [
+   "Speed",
+   "Sets how fast the swirly, Leslie-like wobble moves."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Mixing in some clean sound turns the wobble into a chorus."
+  ]
+ },
+ "Gatelope": {
+  "AttackS": [
+   "Attack speed",
+   "Sets how quickly the gate opens on a hit."
+  ],
+  "BassSus": [
+   "Bass hold",
+   "Lower makes the lows fade away sooner as the gate closes."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Lower lets some natural sound through for a gentler gate."
+  ],
+  "Thresh": [
+   "Gate level",
+   "Sets how loud a sound must be to open the gate."
+  ],
+  "TrebSus": [
+   "Treble hold",
+   "Lower makes the highs fade away sooner as the gate closes."
+  ]
+ },
+ "GlitchShifter": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Feedbck": [
+   "Repeats",
+   "Feeds the shifted sound back for stacked, unpredictable echoes."
+  ],
+  "Note": [
+   "Pitch",
+   "Shifts the pitch up or down in semitones."
+  ],
+  "Tighten": [
+   "Tightness",
+   "Up tracks tighter then glitches; down gets smooth then chopped."
+  ],
+  "Trim": [
+   "Fine tune",
+   "Nudges the pitch off the notes for detuned effects."
+  ]
+ },
+ "GoldenSlew": {
+  "Slew": [
+   "Softening",
+   "Tames loud spiky highs with a big, roaring edge; never use full up."
+  ]
+ },
+ "Golem": {
+  "Balance": [
+   "Balance",
+   "Blends more of the left or right mic into the mono mix."
+  ],
+  "Offset": [
+   "Mic delay",
+   "Tiny delay on one mic to shape tone through phase cancellation."
+  ],
+  "Phase": [
+   "Mode",
+   "Picks a wider delay range or flips one mic's polarity."
+  ]
+ },
+ "GrindAmp": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends in raw amp and clean guitar for a more open sound."
+  ],
+  "Gain": [
+   "Gain",
+   "More gain for more distortion and dirt."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Tone": [
+   "Brightness",
+   "Makes the amp brighter and more cutting."
+  ]
+ },
+ "GrooveWear": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Adds more wear stages, from clean to deeply worn record."
+  ],
+  "Wear": [
+   "Wear",
+   "Sets how strongly the needle-style wear smooths the fine detail."
+  ]
+ },
+ "HardVacuum": {
+  "Aura": [
+   "Sparkle",
+   "Brings out sparkly highs and hot, searing overtones."
+  ],
+  "Drive": [
+   "Drive",
+   "Pushes harder for more tube-style saturation."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Warmth": [
+   "Warmth",
+   "Adds warm tube harmonics; pushed far it stops sounding warm."
+  ]
+ },
+ "HermeTrim": {
+  "Left": [
+   "Left",
+   "Turns the left channel up or down in tiny steps."
+  ],
+  "Master": [
+   "Volume",
+   "Turns everything up or down in tiny steps."
+  ],
+  "Mid": [
+   "Center",
+   "Turns the middle of the stereo image up or down in tiny steps."
+  ],
+  "Right": [
+   "Right",
+   "Turns the right channel up or down in tiny steps."
+  ],
+  "Side": [
+   "Sides",
+   "Nudges the stereo sides up or down in tiny steps."
+  ]
+ },
+ "Hermepass": {
+  "Cutoff": [
+   "Low cut",
+   "Removes more of the deepest bass the higher you go."
+  ],
+  "Slope": [
+   "Cut strength",
+   "Makes the bass cut steeper; set it by ear."
+  ]
+ },
+ "HighImpact": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Impact": [
+   "Rasp",
+   "Adds raspy, punchy grit without making things fatter."
+  ],
+  "Output Level": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "Highpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Highpass": [
+   "Low cut",
+   "Removes lows; high settings sound like a small vintage radio."
+  ],
+  "Loose/Tight": [
+   "Loose/tight",
+   "Left gives a softer tubey feel; right a tighter transistor tone."
+  ]
+ },
+ "Highpass2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Hipass": [
+   "Low cut",
+   "Removes more lows; heavy settings also soften the very top."
+  ],
+  "Ls/Tite": [
+   "Loose/tight",
+   "Changes how the remaining bass moves: looser or tighter."
+  ],
+  "Poles": [
+   "Cut strength",
+   "Makes the bass cut steeper."
+  ]
+ },
+ "HipCrush": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends the original sound back in under the resonant peaks."
+  ],
+  "Hi Freq": [
+   "High pitch",
+   "Sets where the high resonant peak sits."
+  ],
+  "HiCrush": [
+   "High crush",
+   "Right adds roaring bitcrush to the high band, left a gated crush."
+  ],
+  "High": [
+   "High peak",
+   "Brings in the high peak; higher gets narrower and more wah-like."
+  ],
+  "Lo Freq": [
+   "Low pitch",
+   "Sets where the low resonant peak sits."
+  ],
+  "LoCrush": [
+   "Low crush",
+   "Right adds roaring bitcrush to the low band, left a gated crush."
+  ],
+  "Low": [
+   "Low peak",
+   "Brings in the low peak; higher gets narrower and more wah-like."
+  ],
+  "MdCrush": [
+   "Mid crush",
+   "Right adds roaring bitcrush to the mid band, left a gated crush."
+  ],
+  "Mid": [
+   "Mid peak",
+   "Brings in the middle peak; higher gets narrower and more wah-like."
+  ],
+  "MidFreq": [
+   "Mid pitch",
+   "Sets where the middle resonant peak sits."
+  ]
+ },
+ "Holt": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Freq": [
+   "Cutoff",
+   "Lower makes it darker and boomier; high is clean."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Poles": [
+   "Steepness",
+   "Morphs from clean to a steep, heavy filter."
+  ],
+  "Reso": [
+   "Resonance",
+   "Adds a ringing peak at the cutoff for a squelchy synth tone."
+  ]
+ },
+ "Holt2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Freq": [
+   "Cutoff",
+   "Lower brings huge cab-like low end; high is clean."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Poles": [
+   "Steepness",
+   "Morphs from clean to a steep, heavy filter."
+  ],
+  "Reso": [
+   "Resonance",
+   "Adds a strong bass resonance for amp-like tones; careful at high."
+  ]
+ },
+ "Hombre": {
+  "Intensity": [
+   "Thickness",
+   "Adds thick, juicy texture from very short echoes without mud."
+  ],
+  "Voicing": [
+   "Voicing",
+   "Tweaks the tiny echo timings that shape the texture."
+  ]
+ },
+ "Huge": {
+  "Huge": [
+   "Drive",
+   "Pushes harder for stupid-loud, dirty saturation; 0.2 is about normal."
+  ],
+  "Nasty": [
+   "Nastiness",
+   "Lets more harsh upper harmonics through for a dirtier edge."
+  ]
+ },
+ "Hull": {
+  "Bright": [
+   "Dark/bright",
+   "Left darkens the sound, right removes lows for an airy tone."
+  ],
+  "Freq": [
+   "Cutoff",
+   "Turn up to move the filter lower; very high uses lots of CPU."
+  ]
+ },
+ "Hull2": {
+  "Bass": [
+   "Bass",
+   "Boosts or cuts the lows, shifting the bass voicing deeper."
+  ],
+  "Mid": [
+   "Mids",
+   "Raises or lowers the middle; all three together act as volume."
+  ],
+  "Treble": [
+   "Treble",
+   "Boosts or cuts the highs, centered around 10k."
+  ]
+ },
+ "Hypersoft": {
+  "Bright": [
+   "Brightness",
+   "More gives a brighter, hyped edge; less keeps it darker."
+  ],
+  "Depth": [
+   "Intensity",
+   "Adds more folding for a more focused, colorful distortion."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes harder for grungier, punchier soft clipping."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ]
+ },
+ "HypersonX": {
+  "Q": [
+   "Filter stage",
+   "Picks which of seven stages this inaudible top-end filter is."
+  ]
+ },
+ "Infinity": {
+  "Damping": [
+   "Darkness",
+   "Adds a gentle darkening without shortening the endless tail."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Filter": [
+   "Brightness",
+   "Sweeps the reverb tone from deep and dark to bright and unreal."
+  ],
+  "Size": [
+   "Room size",
+   "Resizes the space from gong-like tones to vast galaxies."
+  ]
+ },
+ "Infinity2": {
+  "Allpass": [
+   "Smoothness",
+   "Spreads and smooths sound going in; less is brighter and punchier."
+  ],
+  "Damping": [
+   "Darkness",
+   "Rolls off more treble in the reverb; zero is full brightness."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ],
+  "Feedback": [
+   "Tail length",
+   "Full up sustains forever; turn down to shorten or stop the tail."
+  ],
+  "Filter": [
+   "Brightness",
+   "Sweeps the reverb tone from deep and dark to bright and unreal."
+  ],
+  "Size": [
+   "Room size",
+   "Resizes the space; low settings pitch it up for odd effects."
+  ]
+ },
+ "Inflamer": {
+  "Curve": [
+   "Curve",
+   "Blends between two saturation shapes for a different color."
+  ],
+  "Drive": [
+   "Drive",
+   "Pushes harder into the waveshaping, in 6 dB steps."
+  ],
+  "Effect": [
+   "Effect mix",
+   "Blends from the clean sound to the full effect."
+  ]
+ },
+ "IronOxide5": {
+  "Flutter": [
+   "Wobble",
+   "Adds tape-style pitch wobble."
+  ],
+  "Input Trim": [
+   "Drive",
+   "Hits the tape harder for more saturation and bark."
+  ],
+  "Inv/Dry/Wet": [
+   "Effect mix",
+   "Center is clean, right adds tape; left cuts fat, leaving punch."
+  ],
+  "Noise": [
+   "Grit",
+   "Adds a gritty tape-noise blur to the edges of the sound."
+  ],
+  "Output Trim": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Tape High": [
+   "Top end",
+   "Sets how much treble the tape lets through."
+  ],
+  "Tape Low": [
+   "Low end",
+   "Sets how much bass the tape lets through."
+  ]
+ },
+ "IronOxideClassic": {
+  "Input Trim": [
+   "Drive",
+   "Hits the tape harder for fatter, slammed saturation."
+  ],
+  "Output Trim": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Tape Speed": [
+   "Tape speed",
+   "Changes the tape tone; lower speeds sound darker and more boxy."
+  ]
+ },
+ "IronOxideClassic2": {
+  "Input Trim": [
+   "Drive",
+   "Hits the tape harder for fatter, slammed saturation."
+  ],
+  "Output Trim": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Tape Speed": [
+   "Tape speed",
+   "Changes the tape tone; lower speeds sound darker and more boxy."
+  ]
+ },
+ "Isolator": {
+  "Freq": [
+   "Cutoff",
+   "Sweeps the steep filter; use it for DJ-style filter sweeps."
+  ],
+  "High": [
+   "Highs",
+   "Turns the highs above the cutoff up or down."
+  ],
+  "Low": [
+   "Lows",
+   "Turns the lows below the cutoff up or down."
+  ]
+ },
+ "Isolator2": {
+  "Freq": [
+   "Cutoff",
+   "Sweeps the steep filter smoothly for DJ-style sweeps."
+  ],
+  "High": [
+   "Highs",
+   "Turns the highs above the cutoff up or down."
+  ],
+  "Low": [
+   "Lows",
+   "Turns the lows below the cutoff up or down."
+  ],
+  "Reso": [
+   "Resonance",
+   "Adds a sharp ringing edge to the filter sweep."
+  ]
+ },
+ "Isolator3": {
+  "Iso": [
+   "Filter",
+   "Center is full range; left cuts highs, right cuts lows."
+  ],
+  "Q": [
+   "Narrowness",
+   "Squeezes the sound into a narrower band; full up rings a little."
+  ]
+ },
+ "Kalman": {
+  "Inv/Wet": [
+   "Stone/fire",
+   "Right adds heavy, solid weight; left adds hot, fiery edge."
+  ],
+  "Kalman": [
+   "Range",
+   "Sets how low it reaches; lower gets heavier and more stony."
+  ]
+ },
+ "LRConvolve2": {
+  "Soar": [
+   "Intensity",
+   "Up gets more extreme and squashed; down chokes it back."
+  ]
+ },
+ "LRConvolve3": {
+  "Channel": [
+   "Gate side",
+   "Picks which side controls the gate for the other."
+  ],
+  "Smooth": [
+   "Smoothness",
+   "Makes the gating follow a smoother, longer envelope."
+  ]
+ },
+ "LRFlipTimer": {
+  "Minutes": [
+   "Minutes",
+   "Sets how many minutes pass before left and right swap."
+  ]
+ },
+ "LeadAmp": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends in raw amp and clean guitar for a more open sound."
+  ],
+  "Gain": [
+   "Gain",
+   "More gain for more distortion and dirt."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final output level."
+  ],
+  "Tone": [
+   "Brightness",
+   "Makes the amp brighter and more cutting."
+  ]
+ },
+ "LilAmp": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Back it off to clean up the amp first, then the speaker, in two stages."
+  ],
+  "Gain": [
+   "Drive",
+   "Turn up for more bark and grit from the little practice amp."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Tone": [
+   "Tone",
+   "Turn up for a brighter, more cutting sound; down for mellower."
+  ]
+ },
+ "Logical4": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "MakeupGn": [
+   "Volume boost",
+   "Turns the level back up (or down) after compressing."
+  ],
+  "Ratio": [
+   "Squash",
+   "Turn up to squeeze harder; very high settings get wild and dirty."
+  ],
+  "Speed": [
+   "Speed",
+   "Changes how the squeeze swings and springs back after loud hits."
+  ],
+  "Threshold": [
+   "Threshold",
+   "Turn down to make the compressor kick in on quieter parts too."
+  ]
+ },
+ "Longhand": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends with the original, though it doesn't behave like a normal blend here."
+  ],
+  "Input": [
+   "Drive",
+   "Turn up to round off and fold the wave; past the top it wraps around."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ]
+ },
+ "Loud": {
+  "Boost": [
+   "Loudness",
+   "Turn up for a huge, mangled-air distortion; at zero it just glues."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Output Level": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ]
+ },
+ "Lowpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Lowpass": [
+   "Darkness",
+   "Turn up to roll off more treble for a deeper, darker sound."
+  ],
+  "Soft/Hard": [
+   "Texture",
+   "Off center, loud and quiet parts get filtered differently for a new feel."
+  ]
+ },
+ "Lowpass2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Lowpass": [
+   "Brightness",
+   "Turn up to open the filter; turn down to cut treble until silent."
+  ],
+  "Poles": [
+   "Steepness",
+   "Turn up for a stronger, sharper treble cut."
+  ],
+  "Sft/Hrd": [
+   "Texture",
+   "Lets loud peaks through more, or darkens them more, for two tone colors."
+  ]
+ },
+ "Luxor": {
+  "Drive": [
+   "Drive",
+   "Turn up to push it harder into color and distortion."
+  ],
+  "Hardns": [
+   "Hardness",
+   "Turn up for a harder, edgier coloration."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Persnlty": [
+   "Character",
+   "Turn up for more of the plugin's own flavor and color."
+  ]
+ },
+ "MSFlipTimer": {
+  "Minutes": [
+   "Minutes",
+   "How many minutes between each switch from stereo to mono."
+  ]
+ },
+ "MV": {
+  "Bright": [
+   "Brightness",
+   "Turn down to soften the highs of the reverb; full up is shiny."
+  ],
+  "Depth": [
+   "Room size",
+   "Turn up for a bigger, longer wash; too low gets nasty."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for longer tails; all the way makes it ring on forever."
+  ]
+ },
+ "MV2": {
+  "Bright": [
+   "Brightness",
+   "Turn down to soften the highs of the reverb; full up is shiny."
+  ],
+  "Depth": [
+   "Room size",
+   "Turn up for a bigger, longer wash; too low gets nasty."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for longer tails; all the way makes it ring on forever."
+  ]
+ },
+ "MackEQ": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Gain": [
+   "Volume",
+   "Sets the output level; pad it down, this gets loud and ugly."
+  ],
+  "Hi": [
+   "Treble",
+   "Boost or cut the highs; boosting hard overdrives the EQ too."
+  ],
+  "Lo": [
+   "Bass",
+   "Boost or cut the lows; boosting hard overdrives the EQ too."
+  ],
+  "Trim": [
+   "Drive",
+   "Turn up to slam the cheap mixer input for more raw distortion."
+  ]
+ },
+ "Mackity": {
+  "In Trim": [
+   "Drive",
+   "Turn up for the spongy slam and roar of an old cheap mixer."
+  ],
+  "Out Pad": [
+   "Volume",
+   "Turns the output down to tame the level after driving it."
+  ]
+ },
+ "Mastering": {
+  "Dither": [
+   "Dither type",
+   "Picks the final noise flavor for 24 bit output, or Bypass for none."
+  ],
+  "Drive": [
+   "Intensity",
+   "Pushes or pulls back Scope, Skronk and Girth together, a bit louder too."
+  ],
+  "Girth": [
+   "Fatness",
+   "Turn up for a bigger, fuller low end; down for leaner bass."
+  ],
+  "Glue": [
+   "Tame highs",
+   "Turn up to calm harsh, spiky top end without losing it entirely."
+  ],
+  "Scope": [
+   "Fine detail",
+   "Turn up for more glittery detail; down to tame the sparkle."
+  ],
+  "Skronk": [
+   "Bite",
+   "Turn up for more aggressive upper mids; down for a politer sound."
+  ]
+ },
+ "Mastering2": {
+  "Dither": [
+   "Dither type",
+   "Picks the final noise flavor for 24 bit output, or Bypass for none."
+  ],
+  "Drive": [
+   "Intensity",
+   "Pushes or pulls back Scope, Skronk and Girth together, a bit louder too."
+  ],
+  "Girth": [
+   "Fatness",
+   "Turn up for a bigger, fuller low end; down for leaner bass."
+  ],
+  "Glue": [
+   "Tame highs",
+   "Turn up to calm harsh, spiky top end without losing it entirely."
+  ],
+  "Scope": [
+   "Fine detail",
+   "Turn up for more glittery detail; down to tame the sparkle."
+  ],
+  "Sidepas": [
+   "Mono bass",
+   "Turn up to cut bass from the sides so the low end stays centered."
+  ],
+  "Skronk": [
+   "Bite",
+   "Turn up for more aggressive upper mids; down for a politer sound."
+  ]
+ },
+ "MatrixVerb": {
+  "Damping": [
+   "Shorter tail",
+   "Turn up to make the reverb die away faster; down rings nearly forever."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Filter": [
+   "Brightness",
+   "Overall tone of the reverb; turn down for darker, up for brighter."
+  ],
+  "Flavor": [
+   "Plate/Spring",
+   "Toward one end sounds like a dense plate, the other a clangy spring."
+  ],
+  "RmSize": [
+   "Room size",
+   "Turn up for a bigger space; it can get unreasonably huge."
+  ],
+  "Speed": [
+   "Wobble speed",
+   "How fast the reverb's pitch wobble moves."
+  ],
+  "Vibrato": [
+   "Wobble",
+   "Turn up for more pitch wobble in the reverb tail."
+  ]
+ },
+ "Melt": {
+  "Depth": [
+   "Wobble",
+   "Turn up for more wobbly pitch shifting; it's dull without some."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Range": [
+   "Delay length",
+   "Turn up for a long, retro ambience; down for a tight chorus."
+  ]
+ },
+ "MidAmp": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Back it off to clean up the amp first, then the speaker, in two stages."
+  ],
+  "Gain": [
+   "Drive",
+   "Turn up to push the clean amp toward grit."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Tone": [
+   "Tone",
+   "Turn up for a brighter, spikier sound; down rolls it way off."
+  ]
+ },
+ "MidSide": {
+  "Mid/Side": [
+   "Center/Sides",
+   "Shifts the level between the center and the stereo sides."
+  ]
+ },
+ "MoNoam": {
+  "Monotor": [
+   "Listen mode",
+   "Picks mono, mid, side, or one-speaker versions to check your mix."
+  ]
+ },
+ "Mojo": {
+  "Input": [
+   "Drive",
+   "Turn up for a fatter, louder sound; too far and it starts folding."
+  ]
+ },
+ "Monitoring": {
+  "Monitor": [
+   "Listen mode",
+   "Picks a mix check: mono, phone, headphones, subs only, dither and more."
+  ]
+ },
+ "Monitoring2": {
+  "Monitor": [
+   "Listen mode",
+   "Picks a mix check: mono, phone, headphones, subs only, dither and more."
+  ]
+ },
+ "Monitoring3": {
+  "Monitor": [
+   "Listen mode",
+   "Picks a mix check: mono, phone, headphones, subs only, dither and more."
+  ]
+ },
+ "MultiBandDistortion": {
+  "Freqcy": [
+   "Split point",
+   "Where the sound splits into a high and a low band."
+  ],
+  "H Gain": [
+   "High drive",
+   "Turn up to distort the high band harder."
+  ],
+  "H Hard": [
+   "High edge",
+   "Turn up for harsher distortion on the high band."
+  ],
+  "H Mtrx": [
+   "High mix",
+   "How much the high band gets mixed into the other band's mangling."
+  ],
+  "L Gain": [
+   "Low drive",
+   "Turn up to distort the low band harder."
+  ],
+  "L Hard": [
+   "Low edge",
+   "Turn up for harsher distortion on the low band."
+  ],
+  "L Mtrx": [
+   "Low mix",
+   "How much the low band gets mixed into the other band's mangling."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Stable": [
+   "Stability",
+   "Turn down for a choppy, sputtering fuzz effect."
+  ]
+ },
+ "NCSeventeen": {
+  "LOUDER": [
+   "Loudness",
+   "Turn up for a louder, dirtier sound that keeps its bass."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ]
+ },
+ "Neverland": {
+  "Drive": [
+   "Drive",
+   "Turn up to push it harder into color and distortion."
+  ],
+  "Hardns": [
+   "Hardness",
+   "Turn up for a harder, edgier coloration."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Persnlty": [
+   "Character",
+   "Turn up for more of the plugin's own flavor and color."
+  ]
+ },
+ "Nikola": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Voltage": [
+   "Voltage",
+   "Low is bright and airy; high turns into a roaring, midrangey mess."
+  ]
+ },
+ "NodeDither": {
+  "Node": [
+   "Noise tone",
+   "Changes the color of the dither noise; high settings sound flangey."
+  ],
+  "Phase": [
+   "Flip",
+   "Switches between cutting and boosting the low end of the noise."
+  ]
+ },
+ "Noise": {
+  "Decay": [
+   "Decay",
+   "Turn up for a longer rumble after each hit."
+  ],
+  "Distnc": [
+   "Distance",
+   "Turn up to make both the noise and your sound darker and farther away."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "HighCut": [
+   "Darkness",
+   "Turn up to cut more highs from the rumble."
+  ],
+  "LShape": [
+   "Low shape",
+   "Changes the shape and weight of the low rumble."
+  ],
+  "LowCut": [
+   "Thinness",
+   "Turn up to cut more of the deepest lows."
+  ]
+ },
+ "NonlinearSpace": {
+  "Bass": [
+   "Bass",
+   "Turn up for a fuller, deeper reverb; down for thinner."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Livenes": [
+   "Tail length",
+   "Turn up for a livelier room with a longer tail."
+  ],
+  "Nonlin": [
+   "Gating",
+   "One way loud hits ring longer (80s gated), the other way shorter."
+  ],
+  "SmpRate": [
+   "Space size",
+   "Higher settings give bigger spaces, up to a huge stadium."
+  ],
+  "Treble": [
+   "Treble",
+   "Turn up for a brighter reverb; down for darker."
+  ]
+ },
+ "NotJustAnotherDither": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to hear fewer bits, so the noise floor gets grainy and obvious."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks 16 bit (CD) or 24 bit output."
+  ]
+ },
+ "OneCornerClip": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Input": [
+   "Drive",
+   "Turn up to slam into the clipper harder for fatter distortion."
+  ],
+  "Neg Thr": [
+   "Bottom limit",
+   "Where the bottom half of the wave gets clipped; lower clips more."
+  ],
+  "Pos Thr": [
+   "Top ceiling",
+   "Where the top half of the wave gets clipped; lower clips more."
+  ],
+  "Voicing": [
+   "Softness",
+   "Changes how rounded the clip feels going in; 0.618 is a good start."
+  ]
+ },
+ "OrbitKick": {
+  "Drop": [
+   "Pitch drop",
+   "Turn up to make the sub note fall in pitch faster."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Finish": [
+   "Cutoff",
+   "Turn up to end the note sooner; very low can click."
+  ],
+  "Shape": [
+   "Punch",
+   "Turn up for a quicker drop at the start, for a punchier hit."
+  ],
+  "Start": [
+   "Start pitch",
+   "Turn up to start the sub note higher."
+  ],
+  "Thresh": [
+   "Sensitivity",
+   "How loud a hit must be to trigger the sub note."
+  ]
+ },
+ "Overheads": {
+  "Compr": [
+   "Squash",
+   "Turn up to squeeze the drums while leaving cymbals mostly alone."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Sharp": [
+   "Focus",
+   "Higher grabs slightly deeper sounds; lower moves the effect higher."
+  ]
+ },
+ "PDBuss": {
+  "Drive": [
+   "Warmth",
+   "Turn up for more smooth, rounded saturation."
+  ],
+  "Gain": [
+   "Volume",
+   "Sets the level going through the console mix bus."
+  ]
+ },
+ "PDChannel": {
+  "Drive": [
+   "Warmth",
+   "Turn up for more smooth, rounded saturation."
+  ],
+  "Gain": [
+   "Volume",
+   "Sets the level going through the console channel."
+  ]
+ },
+ "Pafnuty2": {
+  "Eighth": [
+   "Harmonic 8",
+   "Adds (or subtracts) a tone three octaves up."
+  ],
+  "Fifth": [
+   "Harmonic 5",
+   "Adds (or subtracts) the 5th overtone."
+  ],
+  "Fourth": [
+   "Harmonic 4",
+   "Adds (or subtracts) a tone two octaves up."
+  ],
+  "Inv/Wet": [
+   "Effect mix",
+   "Up adds the harmonics; below center flips them to cancel instead."
+  ],
+  "Ninth": [
+   "Harmonic 9",
+   "Adds (or subtracts) the 9th overtone."
+  ],
+  "Second": [
+   "Harmonic 2",
+   "Adds (or subtracts) a tone one octave up, for warmth."
+  ],
+  "Seventh": [
+   "Harmonic 7",
+   "Adds (or subtracts) the 7th overtone."
+  ],
+  "Sixth": [
+   "Harmonic 6",
+   "Adds (or subtracts) the 6th overtone."
+  ],
+  "Tenth": [
+   "Harmonic 10",
+   "Adds (or subtracts) the 10th overtone, very bright."
+  ],
+  "Third": [
+   "Harmonic 3",
+   "Adds (or subtracts) the 3rd overtone, for an edgier color."
+  ]
+ },
+ "Parametric": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "HM Freq": [
+   "Hi-mid pitch",
+   "Picks which upper middle frequencies the band works on."
+  ],
+  "HM Reso": [
+   "Hi-mid focus",
+   "Turn up to make the high mid band narrower and more focused."
+  ],
+  "HighMid": [
+   "High mids",
+   "Boost or cut the upper middle, where bite and presence live."
+  ],
+  "LM Freq": [
+   "Lo-mid pitch",
+   "Picks which lower middle or bass frequencies the band works on."
+  ],
+  "LM Reso": [
+   "Lo-mid focus",
+   "Turn up to make the low mid band narrower and more focused."
+  ],
+  "LowMid": [
+   "Low mids",
+   "Boost or cut the lower middle, reaching down into the bass."
+  ],
+  "Tr Freq": [
+   "Treble pitch",
+   "Picks which high frequencies the treble band works on."
+  ],
+  "Tr Reso": [
+   "Treble focus",
+   "Turn up to make the treble band narrower and more focused."
+  ],
+  "Treble": [
+   "Treble",
+   "Boost or cut the highs."
+  ]
+ },
+ "PaulDither": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to hear fewer bits, so the noise floor gets grainy and obvious."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks 16 bit (CD) or 24 bit output."
+  ]
+ },
+ "PaulWide": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to hear fewer bits, so the noise floor gets grainy and obvious."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks 16 bit (CD) or 24 bit output."
+  ]
+ },
+ "Pear": {
+  "Inv/Wet": [
+   "Lows/Highs",
+   "One way keeps the lows (darker), the other keeps the highs (thinner)."
+  ],
+  "Poles": [
+   "Steepness",
+   "Turn up for a steeper cut; it also nudges the filter point."
+  ],
+  "bitFreq": [
+   "Filter point",
+   "Picks one of the fixed points where the filter cuts in."
+  ]
+ },
+ "Pear2": {
+  "Freq": [
+   "Filter point",
+   "Sweeps where the filter splits lows from highs."
+  ],
+  "Inv/Wet": [
+   "Lows/Highs",
+   "One way keeps the lows (darker), the other keeps the highs (thinner)."
+  ],
+  "NonLin": [
+   "Grit",
+   "Turn up for a gnarlier, more analog-sounding filter."
+  ],
+  "Poles": [
+   "Steepness",
+   "Turn up for a steeper cut and weirder grit."
+  ]
+ },
+ "PearEQ": {
+  "Bass": [
+   "Bass",
+   "Boost or cut the bass."
+  ],
+  "HMid": [
+   "High mids",
+   "Boost or cut the upper middle."
+  ],
+  "High": [
+   "Highs",
+   "Boost or cut the top end."
+  ],
+  "LMid": [
+   "Low mids",
+   "Boost or cut the lower middle."
+  ],
+  "Mid": [
+   "Mids",
+   "Boost or cut the middle."
+  ],
+  "Sub": [
+   "Sub bass",
+   "Boost or cut the deepest lows."
+  ]
+ },
+ "PearLiteEQ": {
+  "Bass": [
+   "Bass",
+   "Boost or cut the bass."
+  ],
+  "HMid": [
+   "High mids",
+   "Boost or cut the upper middle."
+  ],
+  "High": [
+   "Highs",
+   "Boost or cut the top end."
+  ],
+  "LMid": [
+   "Low mids",
+   "Boost or cut the lower middle."
+  ]
+ },
+ "PhaseNudge": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Phase Nudge": [
+   "Blur",
+   "Turn up to smear the sound more; high settings become a slapback echo."
+  ]
+ },
+ "PitchDelay": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Freq": [
+   "Echo tone",
+   "Sets the filter on the echoes, from dark to bright."
+  ],
+  "Pitch": [
+   "Pitch",
+   "Shifts the echoes up or down; near zero they run backwards."
+  ],
+  "Regen": [
+   "Repeats",
+   "Turn up for more repeats; near the top they build on and on."
+  ],
+  "Reso": [
+   "Resonance",
+   "Turn up for a sharper, ringing filter on the echoes."
+  ],
+  "Time": [
+   "Echo time",
+   "Turn up for a longer gap between echoes."
+  ]
+ },
+ "PitchNasty": {
+  "Bend": [
+   "Pitch bend",
+   "Bends pitch smoothly; stacks with the steps knob."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Feedbck": [
+   "Feedback",
+   "Turn up for denser, ringing repeats, up to constant howl."
+  ],
+  "Grind": [
+   "Glitch tone",
+   "Sets the pitch of the robotic glitch; extremes stop it working."
+  ],
+  "Note": [
+   "Pitch steps",
+   "Shifts pitch up or down in musical half steps."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ]
+ },
+ "PlatinumSlew": {
+  "Slew": [
+   "Vintage",
+   "Turn up for a darker, retro record-like sound; far up it changes the bass."
+  ]
+ },
+ "PocketVerbs": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Gating": [
+   "Gating",
+   "Turn up to cut the reverb off sooner for punchy, reinvented drums."
+  ],
+  "Size": [
+   "Room size",
+   "Turn up for a bigger space."
+  ],
+  "Type": [
+   "Reverb type",
+   "Picks the kind of space: chamber, room, spring, huge stretch and more."
+  ]
+ },
+ "Pockey": {
+  "DeFreq": [
+   "Crunch",
+   "Turn up for rowdier old-sampler artifacts; near zero stays clean."
+  ],
+  "DeRez": [
+   "Lo-fi",
+   "Turn up for fewer bits and a grainier, crunchier sound."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ]
+ },
+ "Pockey2": {
+  "DeFreq": [
+   "Crunch",
+   "Turn up for rowdier old-sampler artifacts; near zero stays clean."
+  ],
+  "DeRez": [
+   "Lo-fi",
+   "Turn up for fewer bits and a grainier, crunchier sound."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ]
+ },
+ "Podcast": {
+  "Boost": [
+   "Squash",
+   "Turn up to compress harder and push into clipping."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ]
+ },
+ "PodcastDeluxe": {
+  "Boost": [
+   "Squash",
+   "Turn up for a more processed, radio-style squeeze."
+  ]
+ },
+ "Point": {
+  "Input Trim": [
+   "Input level",
+   "Sets how hard the sound hits the effect."
+  ],
+  "Point": [
+   "Attack",
+   "Up hypes the start of hits, down softens it; center is off."
+  ],
+  "Reaction Speed": [
+   "Speed",
+   "How quickly it reacts to each hit; changes which part gets shaped."
+  ]
+ },
+ "PointyDeluxe": {
+  "Crtical": [
+   "Low mids",
+   "Boost or cut the band below the mids."
+  ],
+  "Danger": [
+   "Mids",
+   "Boost or cut the middle band."
+  ],
+  "Fizz": [
+   "Fizz",
+   "Boost or cut the upper highs; cut to tame harshness."
+  ],
+  "H Meat": [
+   "Upper body",
+   "Boost or cut the upper body of the tone."
+  ],
+  "Hell": [
+   "Top fizz",
+   "Boost or cut the very highest band; cut to tame harshness."
+  ],
+  "L Meat": [
+   "Lower body",
+   "Boost or cut the lower body of the tone."
+  ],
+  "Pick": [
+   "Chug",
+   "Boost this band until the guitar chugs."
+  ],
+  "Rarely": [
+   "Sub",
+   "Boost or cut the deepest band; zero silences the plugin."
+  ],
+  "Satan": [
+   "Upper mids",
+   "Boost or cut the band below the chug band."
+  ],
+  "Swing": [
+   "Low end",
+   "Boost or cut the low band."
+  ]
+ },
+ "PointyGuitar": {
+  "Drive": [
+   "Drive",
+   "Turn up for more overdrive."
+  ],
+  "Gate": [
+   "Gate",
+   "Turn up to silence noise between notes for tighter playing."
+  ],
+  "HSpeakr": [
+   "Speaker top",
+   "Turn down to cut highs like a darker speaker."
+  ],
+  "High": [
+   "Treble",
+   "Boost for more amp-like crunch and bite."
+  ],
+  "LSpeakr": [
+   "Speaker size",
+   "Turn down for a smaller cabinet with less low end."
+  ],
+  "Low": [
+   "Bass",
+   "Boost or cut the lows; cut it for tight high gain."
+  ],
+  "Mid": [
+   "Mids",
+   "Boost or cut the middle."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Presnce": [
+   "Presence",
+   "Boost or cut the very top for more or less edge."
+  ],
+  "Sub": [
+   "Sub",
+   "Boost or cut the deepest lows."
+  ]
+ },
+ "Pop": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Intenst": [
+   "Squash",
+   "Turn up for a huge 80s attack and more exaggerated squeeze."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ]
+ },
+ "Pop2": {
+  "Attack": [
+   "Attack",
+   "Changes how fast it grabs, and how much the start of hits pokes out."
+  ],
+  "Compres": [
+   "Squash",
+   "Turn up to compress harder."
+  ],
+  "Drive": [
+   "Drive",
+   "Turn up to clip the poking attack into a punchy splat."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Release": [
+   "Release",
+   "Changes how fast it lets go after each hit."
+  ]
+ },
+ "Pop3": {
+  "C Atk": [
+   "Grab speed",
+   "How fast the compressor grabs."
+  ],
+  "C Ratio": [
+   "Squash mix",
+   "Turn up to blend in more of the compressed sound."
+  ],
+  "C Rls": [
+   "Let-go speed",
+   "How fast the compressor lets go."
+  ],
+  "G Ratio": [
+   "Gate amount",
+   "Turn up for stronger gating that cuts quiet parts."
+  ],
+  "G Rls": [
+   "Gate release",
+   "Turn up for a faster, more brutal gate closing."
+  ],
+  "G Sust": [
+   "Gate hold",
+   "Turn up to hold the gate open longer; down for sputtery."
+  ],
+  "Thresld": [
+   "Threshold",
+   "Sets the level where the squeeze or the gate kicks in."
+  ]
+ },
+ "PowerSag": {
+  "Depth": [
+   "Sag",
+   "Turn up to starve the sound of power for a grungy, held-back feel."
+  ],
+  "Speed": [
+   "Speed",
+   "Slow sounds tubey; fast sounds like a big transistor console."
+  ]
+ },
+ "PowerSag2": {
+  "Inv/Wet": [
+   "Effect mix",
+   "Up adds the sag; below center lets you hear only what it removes."
+  ],
+  "Range": [
+   "Sag",
+   "Turn up to starve the sound of power for a grungy, held-back feel."
+  ]
+ },
+ "Precious": {
+  "Drive": [
+   "Drive",
+   "Turn up to push it harder into color and distortion."
+  ],
+  "Hardns": [
+   "Hardness",
+   "Turn up for a harder, edgier coloration."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Persnlty": [
+   "Character",
+   "Turn up for more of the plugin's own flavor and color."
+  ]
+ },
+ "Preponderant": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Start low; a little brings out the chosen bands, a lot sounds harsh."
+  ],
+  "Medium": [
+   "Band 2",
+   "Picks the frequency for the medium width band."
+  ],
+  "Narrow": [
+   "Band 1",
+   "Picks the frequency for the tightest focus band."
+  ],
+  "Resonan": [
+   "Resonance",
+   "Turn up to focus harder on the chosen bands."
+  ],
+  "Wide": [
+   "Band 3",
+   "Picks the frequency for the widest band."
+  ]
+ },
+ "Pressure4": {
+  "Mewiness": [
+   "Character",
+   "Changes how the squeeze engages, from smooth to peaky."
+  ],
+  "Output Gain": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Pressure": [
+   "Squash",
+   "Turn up to compress harder."
+  ],
+  "Speed": [
+   "Speed",
+   "Changes how fast it reacts; fast gets dense and distorted."
+  ]
+ },
+ "Pressure5": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Mewines": [
+   "Character",
+   "Changes how the squeeze engages, from smooth to peaky."
+  ],
+  "Output": [
+   "Volume",
+   "Turn up to push into a built-in clipper; down to keep it clean."
+  ],
+  "PawClaw": [
+   "Transients",
+   "One way squashes sharp hits more, the other lets them through."
+  ],
+  "Pressre": [
+   "Squash",
+   "Turn up to compress harder."
+  ],
+  "Speed": [
+   "Speed",
+   "Changes how fast it reacts; fast gets dense and distorted."
+  ]
+ },
+ "Pressure6": {
+  "Compres": [
+   "Squash",
+   "Turn up to compress harder; it's touchy, so set it carefully."
+  ],
+  "Ratio": [
+   "Effect mix",
+   "Turn down to blend in the original sound for gentler squeeze."
+  ]
+ },
+ "PrimeFIR": {
+  "Freq": [
+   "Brightness",
+   "Turn down to cut more treble with a steep, clean filter."
+  ],
+  "Prime": [
+   "Weirdness",
+   "Above halfway it turns into a phasey, diffuse shelf instead."
+  ],
+  "Window": [
+   "Reach",
+   "Turn up to let the filter reach lower frequencies."
+  ]
+ },
+ "PurestAir": {
+  "Boost": [
+   "Air",
+   "Turn up to boost the very top sparkle; down to cut it."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Limit": [
+   "Air limit",
+   "Caps how bright the boost is allowed to get."
+  ]
+ },
+ "PurestDrive": {
+  "Drive": [
+   "Drive",
+   "Turn up for subtle, smooth saturation on the body of the sound."
+  ]
+ },
+ "PurestDualPan": {
+  "L Pan": [
+   "Left pan",
+   "Where the left channel sits from left to right."
+  ],
+  "L Vol": [
+   "Left volume",
+   "Volume of the left channel; middle is unchanged."
+  ],
+  "R Pan": [
+   "Right pan",
+   "Where the right channel sits from left to right."
+  ],
+  "R Vol": [
+   "Right volume",
+   "Volume of the right channel; middle is unchanged."
+  ]
+ },
+ "PurestEcho": {
+  "Tap 1": [
+   "Echo 1",
+   "Volume of the first, shortest echo."
+  ],
+  "Tap 2": [
+   "Echo 2",
+   "Volume of the second echo."
+  ],
+  "Tap 3": [
+   "Echo 3",
+   "Volume of the third echo."
+  ],
+  "Tap 4": [
+   "Echo 4",
+   "Volume of the last, longest echo."
+  ],
+  "Time": [
+   "Echo time",
+   "Turn up for longer gaps; very short makes a robotic tone."
+  ]
+ },
+ "PurestFade": {
+  "Fade": [
+   "Smooth fade",
+   "A very smooth volume fade; dropping it to zero fades out over seconds."
+  ],
+  "Gain": [
+   "Volume",
+   "Sets the overall level."
+  ]
+ },
+ "PurestGain": {
+  "Gain": [
+   "Volume",
+   "Sets the overall level."
+  ],
+  "Slow Fade": [
+   "Smooth fader",
+   "A smoothed volume fader for rides, with no crackle while moving."
+  ]
+ },
+ "PurestSaturation": {
+  "Input": [
+   "Drive",
+   "Turn up for more soft, rounded saturation."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ]
+ },
+ "PurestSquish": {
+  "BassBlm": [
+   "Bass bloom",
+   "Turn up to let bass through uncompressed for a fuller low end."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the processed sound with the original; all the way up is fully processed."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the final loudness coming out of the plugin."
+  ],
+  "Squish": [
+   "Squash",
+   "Turn up to compress harder."
+  ]
+ },
+ "PurestWarm": {
+  "Polarity": [
+   "Warm side",
+   "Picks which half of the wave gets the warm saturation."
+  ]
+ },
+ "PurestWarm2": {
+  "Dry/Neg": [
+   "Warm bottom",
+   "Turn up to add warmth to the lower half of the wave."
+  ],
+  "Dry/Pos": [
+   "Warm top",
+   "Turn up to add warmth to the upper half of the wave."
+  ]
+ },
+ "PurestWarm3": {
+  "Asym": [
+   "Warmth",
+   "Turn up to lean the wave to one side for subtle warmth; too far makes it distort."
+  ]
+ },
+ "Pyewacket": {
+  "Input Gain": [
+   "Squash",
+   "Turn up to push harder into the compressor for more control and energy."
+  ],
+  "Output Gain": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Release": [
+   "Recovery",
+   "Sets how fast the volume comes back after each hit."
+  ]
+ },
+ "RawGlitters": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to drop to fewer bits and hear the grainy noise floor up close."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks the final output quality, such as 16 or 24 bit."
+  ]
+ },
+ "RawTimbers": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to drop to fewer bits and hear the grainy noise floor up close."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks the final output quality, such as 16 or 24 bit."
+  ]
+ },
+ "Remap": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Remap": [
+   "Punch",
+   "Turn up to bring back peaks and guts in flat, squashed audio; above half gets wild."
+  ]
+ },
+ "ResEQ": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend the ringing filtered sound back in with the original."
+  ],
+  "Reso 1": [
+   "Ring 1",
+   "Sets the pitch of ringing tone number 1 that the sound passes through."
+  ],
+  "Reso 2": [
+   "Ring 2",
+   "Sets the pitch of ringing tone number 2 that the sound passes through."
+  ],
+  "Reso 3": [
+   "Ring 3",
+   "Sets the pitch of ringing tone number 3 that the sound passes through."
+  ],
+  "Reso 4": [
+   "Ring 4",
+   "Sets the pitch of ringing tone number 4 that the sound passes through."
+  ],
+  "Reso 5": [
+   "Ring 5",
+   "Sets the pitch of ringing tone number 5 that the sound passes through."
+  ],
+  "Reso 6": [
+   "Ring 6",
+   "Sets the pitch of ringing tone number 6 that the sound passes through."
+  ],
+  "Reso 7": [
+   "Ring 7",
+   "Sets the pitch of ringing tone number 7 that the sound passes through."
+  ],
+  "Reso 8": [
+   "Ring 8",
+   "Sets the pitch of ringing tone number 8 that the sound passes through."
+  ]
+ },
+ "ResEQ2": {
+  "MBoost": [
+   "Boost",
+   "Turn up for a stronger, more ringing lift at the chosen spot."
+  ],
+  "MSweep": [
+   "Focus pitch",
+   "Moves the boosted spot from low mids up to the treble."
+  ]
+ },
+ "RetroBass": {
+  "Freq": [
+   "Bass cut",
+   "Turn up to thin out the low end like old gear, adding zing when pushed far."
+  ]
+ },
+ "Reverb": {
+  "Big": [
+   "Room size",
+   "Turn up for a bigger, longer space; turn down if it gets too cavernous."
+  ],
+  "Wet": [
+   "Reverb mix",
+   "Turn up for more reverb mixed in with your sound."
+  ]
+ },
+ "Righteous4": {
+  "BtDepth": [
+   "Bit depth",
+   "Picks the final output quality, such as 16 or 24 bit."
+  ],
+  "LTarget": [
+   "Loudness",
+   "Sets the loudness target; it breaks up audibly if you push past it."
+  ]
+ },
+ "RingModulator": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Freq": [
+   "Tone pitch",
+   "Sets the pitch of the sine tone (left and right have their own)."
+  ],
+  "Soar": [
+   "Density",
+   "Turn up for a dense, lively sound; turn down for a thin, gated one."
+  ]
+ },
+ "SampleDelay": {
+  "Inv/Wet": [
+   "Flip / Blend",
+   "Fades from flipped polarity through dry to fully delayed sound."
+  ],
+  "Samples": [
+   "Fine delay",
+   "Adds a tiny delay of 0 to 10 samples for lining up mics."
+  ],
+  "Subsamp": [
+   "Finest delay",
+   "Adds less than one sample of delay for exact timing."
+  ],
+  "ms": [
+   "Delay",
+   "Delays the sound by up to 100 milliseconds."
+  ]
+ },
+ "Shape": {
+  "Neg/Pos": [
+   "Side",
+   "Leans the effect onto the bottom or top half of the wave for warmth."
+  ],
+  "Shape": [
+   "Peak shape",
+   "Up stretches the peaks out, down squashes them; middle does nothing."
+  ]
+ },
+ "ShortBuss": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "ShortBs": [
+   "Lopsided",
+   "Up adds weight to the lopsided part of the wave; down removes it."
+  ]
+ },
+ "SideDull": {
+  "Cutoff": [
+   "Narrow highs",
+   "Turn up to pull more of the treble toward the center."
+  ]
+ },
+ "Sidepass": {
+  "Cutoff": [
+   "Mono lows",
+   "Turn up to make more of the low end mono; all the way is fully mono."
+  ]
+ },
+ "Silhouette": {
+  "Dry/Wet": [
+   "Noise amount",
+   "Turn up for more bright noise that follows the music's dynamics."
+  ]
+ },
+ "Silken": {
+  "Freq": [
+   "Brightness",
+   "Sets where the high boost starts."
+  ],
+  "Silken": [
+   "Silkiness",
+   "Turn up for a silky high boost with a soft haze around the treble."
+  ],
+  "Window": [
+   "Sharpness",
+   "Turn up for a steeper boost edge, with a bit more delay."
+  ]
+ },
+ "Sinew": {
+  "Sinew": [
+   "Tame highs",
+   "Turn up to hold back loud highs like tape; too far dulls the sound."
+  ]
+ },
+ "SingleEndedTriode": {
+  "Clas AB": [
+   "Grit",
+   "Turn up for gnarly upper-mid grit like an old tube amp."
+  ],
+  "Clas B": [
+   "Harsh grit",
+   "Turn up for brittle, edgy treble grit; use very little."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Triode": [
+   "Warmth",
+   "Turn up for smooth tube-like warmth; a little goes a long way."
+  ]
+ },
+ "Slew": {
+  "Clamping": [
+   "Darkness",
+   "Turn up to darken and grind the treble in an old-sampler way."
+  ]
+ },
+ "Slew2": {
+  "Clamping": [
+   "Tame highs",
+   "Turn up to hold back the very top highs, like a gentle de-esser."
+  ]
+ },
+ "Slew3": {
+  "Clampng": [
+   "Darkness",
+   "Turn up for a smooth, analog-style darkening of the top end."
+  ]
+ },
+ "Slew4": {
+  "Compres": [
+   "Tame highs",
+   "Turn up to wipe out harsh fizz in the very highest highs."
+  ]
+ },
+ "SlewSonic": {
+  "Bright": [
+   "Treble only",
+   "Turn up to fade toward only the extreme treble, much louder."
+  ],
+  "Mute": [
+   "Top cutoff",
+   "Sets the highest frequency kept; lower is smoother and darker."
+  ]
+ },
+ "Smooth": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Smooth": [
+   "Smoothness",
+   "A little tames spiky highs; a lot makes drums explode and thicken."
+  ]
+ },
+ "SmoothEQ": {
+  "High": [
+   "Treble",
+   "Turn up for more treble, down for less."
+  ],
+  "Low": [
+   "Bass",
+   "Turn up for more bass, down for less."
+  ],
+  "Mid": [
+   "Mids",
+   "Turn up for more midrange, down for less."
+  ],
+  "XoverH": [
+   "Treble split",
+   "Sets where the mids end and the treble band begins."
+  ],
+  "XoverL": [
+   "Bass split",
+   "Sets where the bass ends and the mids band begins."
+  ]
+ },
+ "SmoothEQ2": {
+  "Bass": [
+   "Bass",
+   "Turn up for more bass, down for less."
+  ],
+  "BassF": [
+   "Bass pitch",
+   "Moves the bass band higher or lower."
+  ],
+  "HMid": [
+   "Upper mids",
+   "Turn up for more upper midrange, down for less."
+  ],
+  "HMidF": [
+   "Up-mid pitch",
+   "Moves the upper mids band higher or lower."
+  ],
+  "High": [
+   "Treble",
+   "Turn up for more treble, down for less."
+  ],
+  "HighF": [
+   "Treble pitch",
+   "Moves the treble band higher or lower."
+  ],
+  "LMid": [
+   "Lower mids",
+   "Turn up for more lower midrange, down for less."
+  ],
+  "LMidF": [
+   "Lo-mid pitch",
+   "Moves the lower mids band higher or lower."
+  ]
+ },
+ "SmoothEQ3": {
+  "Bass": [
+   "Bass",
+   "Turn up for more bass, down for less."
+  ],
+  "High": [
+   "Treble",
+   "Turn up for more treble, down for less."
+  ],
+  "Mid": [
+   "Mids",
+   "Turn up for more midrange, down for less."
+  ]
+ },
+ "SoftClock": {
+  "Accents": [
+   "Accents",
+   "Turn up for a bigger pitch jump on the accented beats."
+  ],
+  "BigBeat": [
+   "Backbeat lag",
+   "Turn up to hold back the backbeat for a heavier, laid-back feel."
+  ],
+  "Boost": [
+   "Volume",
+   "Turns up the loudness of the guide tone."
+  ],
+  "Count": [
+   "Beats in bar",
+   "Picks the number of beats and how accents group them, odd meters too."
+  ],
+  "Speed": [
+   "Pitch",
+   "Sets the basic pitch of the guide tone."
+  ],
+  "Swing": [
+   "Swing",
+   "Turn up to delay every other beat for a shuffle feel."
+  ],
+  "Tempo": [
+   "Tempo",
+   "Sets how fast the swooping guide tone pulses."
+  ],
+  "Tuple": [
+   "Beat split",
+   "Fits this many notes into the same span, for overdubbing odd groupings."
+  ]
+ },
+ "SoftClock2": {
+  "Accents": [
+   "Accents",
+   "Turn up for a bigger pitch jump on the accented beats."
+  ],
+  "Boost": [
+   "Volume",
+   "Turns up the loudness of the guide tone."
+  ],
+  "Count": [
+   "Beats in bar",
+   "Picks the number of beats and how accents group them, odd meters too."
+  ],
+  "Peak": [
+   "Peak lag",
+   "Turn up to slow the high point of the swoop for more weight."
+  ],
+  "Speed": [
+   "Pitch",
+   "Sets the basic pitch of the guide tone."
+  ],
+  "Swing": [
+   "Swing",
+   "Turn up to delay every other beat for a shuffle feel."
+  ],
+  "Tempo": [
+   "Tempo",
+   "Sets how fast the swooping guide tone pulses."
+  ],
+  "Tuple": [
+   "Beat split",
+   "Fits this many notes into the same span, for overdubbing odd groupings."
+  ],
+  "Valley": [
+   "Valley lag",
+   "Turn up to slow the low point of the swoop, like a late backbeat."
+  ]
+ },
+ "SoftClock3": {
+  "Count": [
+   "Beats in bar",
+   "Picks the number of beats and how accents group them, odd meters too."
+  ],
+  "Flavor": [
+   "Groove feel",
+   "Turn up to add the swing and wobble that suits the chosen tempo."
+  ],
+  "Tempo": [
+   "Tempo",
+   "Sets how fast the swooping guide tone pulses."
+  ],
+  "Triplet": [
+   "Triplets",
+   "Switches the pulse toward a triplet feel."
+  ],
+  "Tuple": [
+   "Beat split",
+   "Fits this many notes into the same span, for overdubbing odd groupings."
+  ]
+ },
+ "SoftGate": {
+  "Darken": [
+   "Fade speed",
+   "Lower makes the noise fade into darkness more slowly."
+  ],
+  "Silence": [
+   "Gate amount",
+   "Turn down to blend the raw, ungated sound back in."
+  ],
+  "Thresh": [
+   "Threshold",
+   "Sets how quiet the sound must get before it fades out."
+  ]
+ },
+ "SpatializeDither": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to drop to fewer bits and hear the grainy noise floor up close."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks the final output quality, such as 16 or 24 bit."
+  ]
+ },
+ "Spiral2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Highpass": [
+   "Bass cut",
+   "Turn up to trim low end before the saturation."
+  ],
+  "Input": [
+   "Drive",
+   "Turn up to push harder into the saturation."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Presence": [
+   "Presence",
+   "Turn up to let the start of each hit punch through the distortion."
+  ]
+ },
+ "SquareRoot": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "In": [
+   "Drive",
+   "Turn up to push harder for a there-in-the-room soft saturation."
+  ],
+  "Out": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Soar": [
+   "Grit",
+   "Turn up for quirky crossover grit that makes quiet details louder."
+  ]
+ },
+ "Srsly": {
+  "Center": [
+   "Center",
+   "Sets the level of the middle of the stereo picture."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Level": [
+   "Effect level",
+   "Sets how strong the ear-shaped tone shaping is."
+  ],
+  "Q": [
+   "Sharpness",
+   "Turn up for narrower, more pronounced filter peaks."
+  ],
+  "Space": [
+   "Width",
+   "Turn up for a wider, more spacious stereo picture."
+  ]
+ },
+ "Srsly2": {
+  "Center": [
+   "Center",
+   "Sets the level of the middle of the stereo picture."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Level": [
+   "Effect level",
+   "Sets how strong the ear-shaped tone shaping is."
+  ],
+  "Q": [
+   "Sharpness",
+   "Turn up for narrower, more pronounced filter peaks."
+  ],
+  "Space": [
+   "Width",
+   "Turn up for a wider, more spacious stereo picture."
+  ]
+ },
+ "Srsly3": {
+  "Center": [
+   "Center",
+   "Sets the level of the middle of the stereo picture."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Level": [
+   "Effect level",
+   "Sets how strong the ear-shaped tone shaping is."
+  ],
+  "Nonlin": [
+   "Analog vibe",
+   "Turn up for a fuzzier, more analog texture in the filters."
+  ],
+  "Q": [
+   "Sharpness",
+   "Turn up for narrower, more pronounced filter peaks."
+  ],
+  "Space": [
+   "Width",
+   "Turn up for a wider, more spacious stereo picture."
+  ]
+ },
+ "StarChild": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Grain": [
+   "Grain",
+   "Changes how grainy and sputtery the echo taps sound."
+  ],
+  "Sustain": [
+   "Tail length",
+   "Turn up for longer, more stretched-out echo textures."
+  ]
+ },
+ "StarChild2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Grain": [
+   "Grain",
+   "Changes how grainy and sputtery the echo taps sound."
+  ],
+  "Sustain": [
+   "Tail length",
+   "Turn up for longer, more stretched-out echo textures."
+  ]
+ },
+ "StereoChorus": {
+  "Depth": [
+   "Depth",
+   "Turn up for a deeper, wider chorus wobble."
+  ],
+  "Speed": [
+   "Speed",
+   "Sets how fast the chorus wobbles."
+  ]
+ },
+ "StereoDoubler": {
+  "Detune": [
+   "Detune",
+   "Turn up to push the pitched-up and pitched-down copies further apart."
+  ],
+  "Dry/Wet": [
+   "Center blend",
+   "Blend in the original sound in the middle between the copies."
+  ]
+ },
+ "StereoEnsemble": {
+  "Depth": [
+   "Depth",
+   "Turn up for a deeper, richer ensemble wobble."
+  ],
+  "FXlevel": [
+   "Effect mix",
+   "Turn up for more of the ensemble sound mixed in."
+  ]
+ },
+ "StereoFX": {
+  "CSquish": [
+   "Mid squash",
+   "Turn up to squash the middle so the sides spread out."
+  ],
+  "MonoBs": [
+   "Mono bass",
+   "Turn up to make more of the low end mono."
+  ],
+  "Wide": [
+   "Width",
+   "Turn up for an aggressive, edgy stereo widening."
+  ]
+ },
+ "StoneFireComp": {
+  "Attack": [
+   "Attack",
+   "Sets how fast each band clamps down (each band has its own)."
+  ],
+  "Fire": [
+   "Edge level",
+   "Sets the volume of the bright, attention-grabbing part; middle is unity."
+  ],
+  "Fire Th": [
+   "Top squash",
+   "Lower to compress the bright, edgy part of the sound more."
+  ],
+  "Range": [
+   "Split point",
+   "Moves the split between the heavy and bright parts up or down."
+  ],
+  "Ratio": [
+   "Squash",
+   "Turn up for stronger compression on both parts."
+  ],
+  "Release": [
+   "Recovery",
+   "Sets how fast each band lets go again (each band has its own)."
+  ],
+  "Stone": [
+   "Weight level",
+   "Sets the volume of the heavy, low part; middle is unity."
+  ],
+  "StoneTh": [
+   "Low squash",
+   "Lower to compress the heavy, low part of the sound more."
+  ]
+ },
+ "Stonefire": {
+  "Air": [
+   "Air",
+   "Turn up for sparkle in the very highs, down to soften them naturally."
+  ],
+  "Fire": [
+   "Attitude",
+   "Turn up to make the sound command attention."
+  ],
+  "Range": [
+   "Split point",
+   "Moves the split between weight and attitude up or down."
+  ],
+  "Stone": [
+   "Weight",
+   "Turn up for a solid, heavy backbone under the sound."
+  ]
+ },
+ "StudioTan": {
+  "Quantzr": [
+   "Flavor",
+   "Picks the style and bit depth: glossy, sparky or open."
+  ]
+ },
+ "SubTight": {
+  "Steep": [
+   "Strength",
+   "Turn up to focus the effect harder on the deepest bass."
+  ],
+  "Trim": [
+   "Tightness",
+   "Turn up to suck the flab and softness out of the bass."
+  ]
+ },
+ "Surge": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Surge": [
+   "Surge",
+   "Turn up to make the beats and bass pulses pop out more."
+  ]
+ },
+ "SurgeTide": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "SurgeNode": [
+   "Surge",
+   "Turn up until it ducks on the beat, then back off a little."
+  ],
+  "SurgeRate": [
+   "Speed",
+   "Sets how fast the slow volume swell responds."
+  ]
+ },
+ "Suzan": {
+  "Freq": [
+   "Cutoff",
+   "Turn up to open the filter and let more treble through."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Reso": [
+   "Resonance",
+   "Turn up for a stronger, chunkier ringing peak at the cutoff."
+  ]
+ },
+ "SweetWide": {
+  "Soar": [
+   "Grunge",
+   "Turn up for more gnarly, squashed grit in the widening."
+  ],
+  "Un/Wide": [
+   "Narrow/Wide",
+   "Up widens the stereo with grit; down narrows it instead."
+  ]
+ },
+ "Sweeten": {
+  "Sweeten": [
+   "Sweetness",
+   "Turn up for more smooth, warm second harmonic."
+  ]
+ },
+ "Swell": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Swell": [
+   "Swell time",
+   "Turn up to soften attacks so each hit fades in slower."
+  ],
+  "Thresh": [
+   "Threshold",
+   "Sets how loud a hit must be to trigger the swell."
+  ]
+ },
+ "TPDFDither": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to drop to fewer bits and hear the grainy noise floor up close."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks the final output quality, such as 16 or 24 bit."
+  ]
+ },
+ "TPDFWide": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to drop to fewer bits and hear the grainy noise floor up close."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks the final output quality, such as 16 or 24 bit."
+  ]
+ },
+ "TakeCare": {
+  "Buffer": [
+   "Size",
+   "Sets the delay size; small is lush chorus, big is a huge space."
+  ],
+  "Depth": [
+   "Depth",
+   "Turn up for deeper pitch wobble."
+  ],
+  "Derez": [
+   "Lo-fi",
+   "Turn up for a grainier, lower-quality sound."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Rando": [
+   "Randomness",
+   "Turn up for more irregular, seasick drifting."
+  ],
+  "Regen": [
+   "Feedback",
+   "Turn up for a thicker, longer wash; full can feed back."
+  ],
+  "Speed": [
+   "Speed",
+   "Sets how fast the chorus voices drift."
+  ]
+ },
+ "Tape": {
+  "Bump": [
+   "Low bump",
+   "Turn up for more of the tape's round low-end bump."
+  ],
+  "Slam": [
+   "Tape drive",
+   "Turn up to hit the virtual tape harder for more saturation."
+  ]
+ },
+ "TapeBias": {
+  "Bias": [
+   "Tape bias",
+   "Up softens harsh highs; down dries things up and brightens; middle is off."
+  ]
+ },
+ "TapeDelay": {
+  "Delay": [
+   "Echo time",
+   "Sets the time between echoes; moving it bends the pitch."
+  ],
+  "Depth": [
+   "Tone amount",
+   "Turn up for a stronger tone shift on the echoes."
+  ],
+  "Dry": [
+   "Dry level",
+   "Sets the level of your original sound."
+  ],
+  "Feedbak": [
+   "Repeats",
+   "Turn up for more repeats that keep going."
+  ],
+  "Lean/Ft": [
+   "Tone",
+   "Leans the echo tone between thin and fat."
+  ],
+  "Wet": [
+   "Echo level",
+   "Sets the level of the echoes."
+  ]
+ },
+ "TapeDelay2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends in the echoes; middle keeps full dry and full echo."
+  ],
+  "Flutter": [
+   "Wobble",
+   "Turn up for warbly, dirty-tape pitch wobble."
+  ],
+  "Freq": [
+   "Echo tone",
+   "Moves the echo tone from darker to brighter."
+  ],
+  "Regen": [
+   "Repeats",
+   "Turn up for more repeats that keep going."
+  ],
+  "Reso": [
+   "Focus",
+   "Turn up to narrow the echoes into a tighter, more focused band."
+  ],
+  "Time": [
+   "Echo time",
+   "Sets the time between echoes; changing it bends the pitch like tape."
+  ]
+ },
+ "TapeDither": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to drop to fewer bits and hear the grainy noise floor up close."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks the final output quality, such as 16 or 24 bit."
+  ]
+ },
+ "TapeDust": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Dust": [
+   "Dust",
+   "Turn up for more noisy crunch on sharp treble and attacks."
+  ]
+ },
+ "TapeFat": {
+  "Depth": [
+   "Amount",
+   "Turn up for a stronger tone shift."
+  ],
+  "Lean/Ft": [
+   "Thin/Fat",
+   "Up rolls off highs for a fatter sound; down cuts lows for a lean one."
+  ]
+ },
+ "TapeHack": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Input": [
+   "Tape drive",
+   "Turn up to hit the virtual tape harder for bark and squash."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ]
+ },
+ "TapeHack2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Input": [
+   "Tape drive",
+   "Turn up to hit the virtual tape harder for squash and tamed highs."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ]
+ },
+ "Texturize": {
+  "Bright": [
+   "Brightness",
+   "Turn up to make the hidden noise follow the highs more."
+  ],
+  "Dry/Wet": [
+   "Texture",
+   "Turn up for more hidden noise; half or less stays unheard."
+  ],
+  "Punchy": [
+   "Punch",
+   "Turn up for a spiky, choppy texture; down for a soft, full one."
+  ]
+ },
+ "TexturizeMS": {
+  "BrightM": [
+   "Mid bright",
+   "Turn up to make the noise in the middle follow the highs more."
+  ],
+  "BrightS": [
+   "Side bright",
+   "Turn up to make the noise on the sides follow the highs more."
+  ],
+  "DryWetM": [
+   "Mid texture",
+   "Turn up for more hidden noise in the middle of the mix."
+  ],
+  "DryWetS": [
+   "Side texture",
+   "Turn up for more hidden noise on the sides of the mix."
+  ],
+  "PunchyM": [
+   "Mid punch",
+   "Turn up for a spikier, choppier texture in the middle."
+  ],
+  "PunchyS": [
+   "Side punch",
+   "Turn up for a spikier, choppier texture on the sides."
+  ]
+ },
+ "Thunder": {
+  "Output Trim": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Thunder": [
+   "Thunder",
+   "Turn up for more glue and a bigger, thumpier deep bass."
+  ]
+ },
+ "ToTape5": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend between your original sound and the effected sound."
+  ],
+  "Fatter": [
+   "Low bump",
+   "Turn up for more round, deep tape bass."
+  ],
+  "Flutter": [
+   "Wobble",
+   "Turn up for tape pitch wobble; keep it subtle."
+  ],
+  "Louder": [
+   "Tape drive",
+   "Turn up to hit the tape harder."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Softer": [
+   "Softness",
+   "Turn up to soften the treble like an older tape machine."
+  ]
+ },
+ "ToTape6": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blend with dry; with wobble on this makes a flange."
+  ],
+  "Flutter": [
+   "Wobble",
+   "Turn up for more tape pitch wobble; far up gets wild."
+  ],
+  "Head B": [
+   "Low bump",
+   "Turn up for more deep tape bass; past half gets very heavy."
+  ],
+  "Input": [
+   "Tape drive",
+   "Turn up to hit the tape harder."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Soften": [
+   "Softness",
+   "Turn up to soften digital edges and treble."
+  ]
+ },
+ "ToTape7": {
+  "Bias": [
+   "Tape bias",
+   "Up tames tizzy highs; down gives a drier, grittier sound."
+  ],
+  "DecAmt": [
+   "Post darken",
+   "Turn up to take back the brightening after the tape."
+  ],
+  "DecFreq": [
+   "Post tone",
+   "Sets where the darkening after the tape starts."
+  ],
+  "EncAmt": [
+   "Pre brighten",
+   "Turn up for more bright, squashed boost going into the tape."
+  ],
+  "EncFreq": [
+   "Pre tone",
+   "Sets where the brightening going into the tape starts."
+  ],
+  "FlutSpd": [
+   "Wobble speed",
+   "Sets how fast the tape wobbles."
+  ],
+  "Flutter": [
+   "Wobble",
+   "Turn up for more tape pitch wobble; zero turns it off."
+  ],
+  "HeadBmp": [
+   "Low bump",
+   "Up adds more tape bass bump; down blends back the plain bass."
+  ],
+  "HeadFrq": [
+   "Bump pitch",
+   "Sets how low or high the tape bass bump sits."
+  ],
+  "TapeDrv": [
+   "Tape drive",
+   "Turn up to hit the tape harder; middle is normal level."
+  ]
+ },
+ "ToTape8": {
+  "Bias": [
+   "Tape bias",
+   "Up tames tizzy highs; down gives a drier, grittier sound."
+  ],
+  "FlutSpd": [
+   "Wobble speed",
+   "Sets how fast the tape wobbles."
+  ],
+  "Flutter": [
+   "Wobble",
+   "Turn up for more tape pitch wobble; zero turns it off."
+  ],
+  "HeadBmp": [
+   "Low bump",
+   "Up adds more tape bass bump; down blends back the plain bass."
+  ],
+  "HeadFrq": [
+   "Bump pitch",
+   "Sets how low or high the tape bass bump sits."
+  ],
+  "Input": [
+   "Tape drive",
+   "Turn up to hit the tape harder."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the overall output level after the effect."
+  ],
+  "Shape": [
+   "Mid shape",
+   "Changes the mids from searing and lively to dark and vibey."
+  ],
+  "Tilt": [
+   "Tilt",
+   "Up leans brighter, down leans darker, like tuning the tape deck."
+  ]
+ },
+ "ToTape9": {
+  "Bias": [
+   "Tape bias",
+   "Up tames tizzy highs; down gives a drier, grittier sound."
+  ],
+  "FlutSpd": [
+   "Wobble speed",
+   "Sets how fast the tape wobbles."
+  ],
+  "Flutter": [
+   "Wobble",
+   "Turn up for more tape pitch wobble; zero turns it off."
+  ],
+  "HeadBmp": [
+   "Low bump",
+   "Up adds more tape bass bump; down blends back the plain bass."
+  ],
+  "HeadFrq": [
+   "Bump pitch",
+   "Sets how low or high the tape bass bump sits."
+  ],
+  "Input": [
+   "Tape drive",
+   "Turn up to hit the tape harder."
+  ],
+  "Output": [
+   "Volume",
+   "Middle just touches the final clipper; up slams it louder."
+  ],
+  "Shape": [
+   "Mid shape",
+   "Changes the mids from searing and lively to dark and vibey."
+  ],
+  "Tilt": [
+   "Tilt",
+   "Up leans brighter, down leans darker, like tuning the tape deck."
+  ]
+ },
+ "ToVinyl4": {
+  "Gv Wear": [
+   "Groove wear",
+   "Turn up for the dark, slightly worn highs of an old record."
+  ],
+  "H Limit": [
+   "Tame highs",
+   "Turn up to zap harsh treble spikes like a vinyl cutter."
+  ],
+  "Mid HiP": [
+   "Bass cut",
+   "Turn up to tighten the low end in the middle."
+  ],
+  "SideHiP": [
+   "Mono bass",
+   "Turn up to make more of the low end mono."
+  ]
+ },
+ "ToneSlant": {
+  "Highs": [
+   "Treble",
+   "Turn up for more highs, down for less, very gently."
+  ],
+  "Voicing": [
+   "Corner",
+   "Sets where the gentle tilt starts."
+  ]
+ },
+ "TremoSquare": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Speed",
+   "Speeds up the on-off chop; very fast turns into a gritty blur."
+  ]
+ },
+ "Tremolo": {
+  "Depth": [
+   "Depth",
+   "Turn up for stronger thick-to-thin pulsing with tube-like warmth."
+  ],
+  "Speed": [
+   "Speed",
+   "Sets how fast the sound pulses."
+  ]
+ },
+ "Trianglizer": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Tri/Fat": [
+   "Lean or fat",
+   "Low leans out and sharpens peaks; high adds punchy, dense loudness."
+  ]
+ },
+ "TripleSpread": {
+  "Dry/Wet": [
+   "Effect mix",
+   "More blends in the spread copies and fades the middle for extra width."
+  ],
+  "Spread": [
+   "Detune",
+   "Turn up to pitch the side copies further apart, up to a semitone."
+  ],
+  "Tighten": [
+   "Tightness",
+   "Up keeps copies tight to the timing; down smears them into echoes."
+  ]
+ },
+ "Tube": {
+  "TUBE": [
+   "Tube",
+   "Turn up for softer, heavier saturation and a bigger, louder sound."
+  ]
+ },
+ "Tube2": {
+  "Input": [
+   "Input level",
+   "Drives level into the tube; 0.5 is about level matched."
+  ],
+  "Tube": [
+   "Tube",
+   "Turn up for softer, more saturated tube distortion."
+  ]
+ },
+ "Ultralight": {
+  "Distnce": [
+   "Distance",
+   "Rolls off highs on everything, so the whole sound seems far away."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "Furnish": [
+   "Furnishing",
+   "Steps 0 to 4 add diffusion, like furniture smearing the echoes."
+  ],
+  "Predlay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "RT60": [
+   "Damping",
+   "Turn up to make the reverb die away faster; zero rings forever."
+  ],
+  "ReflcWl": [
+   "Bright walls",
+   "Higher keeps the walls bright; lower dulls the reverb tail."
+  ],
+  "SolidWl": [
+   "Solid walls",
+   "Higher keeps more bass in the room; lower lets lows leak out."
+  ]
+ },
+ "Ultralight2": {
+  "Damping": [
+   "Damping",
+   "Higher damps the tail shorter; at zero only a blurry slapback is left."
+  ],
+  "Distnce": [
+   "Distance",
+   "Rolls off highs on everything, so the whole sound seems far away."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "Predlay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "UnReflc": [
+   "Soft walls",
+   "Turn up to dull the reverb's highs, like soft absorbent walls."
+  ],
+  "UnSolid": [
+   "Thin walls",
+   "Turn up for a brighter tail with less bass, like thin walls."
+  ]
+ },
+ "UltrasonX": {
+  "Q": [
+   "Stage",
+   "Picks which of five filter stages (A to E) this copy applies."
+  ]
+ },
+ "UnBox": {
+  "Input": [
+   "Input level",
+   "Sets how hard the sound hits the distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "UnBox": [
+   "Thickness",
+   "Turn up for more smooth, alias-free mid thickening under clean highs."
+  ]
+ },
+ "VariMu": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Intensty": [
+   "Squash",
+   "Turn up for more compression, evening out loud and quiet parts."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "Speed": [
+   "Speed",
+   "Sets how fast the compressor lets go after loud parts."
+  ]
+ },
+ "VerbThic": {
+  "Derez": [
+   "Room scale",
+   "Turn down to darken and enlarge the reverb with a stepped texture."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "Filter": [
+   "Brightness",
+   "Turn down to make the reverb darker."
+  ],
+  "Replace": [
+   "Tail length",
+   "Turn up for a longer reverb tail."
+  ],
+  "Wider": [
+   "Width",
+   "Up to center blends in very wide reverb; past center goes hyper-wide."
+  ]
+ },
+ "VerbTiny": {
+  "Derez": [
+   "Room scale",
+   "Turn down to darken and enlarge the reverb with a stepped texture."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "Filter": [
+   "Brightness",
+   "Turn down to make the reverb darker."
+  ],
+  "Replace": [
+   "Tail length",
+   "Turn up for a longer reverb tail."
+  ],
+  "Wider": [
+   "Width",
+   "Up to center blends in very wide reverb; past center goes hyper-wide."
+  ]
+ },
+ "Verbity": {
+  "Bigness": [
+   "Room size",
+   "Turn up for a bigger reverb space."
+  ],
+  "Darkness": [
+   "Darkness",
+   "Turn up to roll off treble in the reverb; avoid the very top."
+  ],
+  "Longness": [
+   "Tail length",
+   "Turn up for a longer reverb tail."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "Verbity2": {
+  "Mulch": [
+   "Absorption",
+   "Darkens the tail and soaks up deep bass, like a wood and plaster room."
+  ],
+  "RmSize": [
+   "Room size",
+   "Turn up for a bigger reverb space."
+  ],
+  "Sustain": [
+   "Tail length",
+   "Turn up for a longer tail that washes across the stereo field."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "Vibrato": {
+  "Depth": [
+   "Depth",
+   "Turn up for a wider pitch wobble; low amounts give flange tones."
+  ],
+  "FMDepth": [
+   "Wobble depth",
+   "Turn up to vary the vibrato speed more, for metallic tones."
+  ],
+  "FMSpeed": [
+   "Wobble speed",
+   "Sets how fast the main vibrato speed itself is wobbled."
+  ],
+  "Inv/Wet": [
+   "Mix",
+   "Up blends in vibrato for chorus; down blends it inverted for flanging."
+  ],
+  "Speed": [
+   "Speed",
+   "Sets how fast the pitch wobbles; very fast makes odd overtones."
+  ]
+ },
+ "VinylDither": {
+  "DeRez": [
+   "Lo-fi",
+   "Turn up to crush resolution further, making the crackle obvious."
+  ],
+  "Quant": [
+   "Bit depth",
+   "Picks the bit depth to dither down to; lower brings more crackle."
+  ]
+ },
+ "VoiceOfTheStarship": {
+  "Algrthm": [
+   "Noise type",
+   "Changes the noise from regular noise to deep dark subsonic rumble."
+  ],
+  "Filter": [
+   "Tone",
+   "Shapes the noise from brighter hiss toward a dark rumble."
+  ]
+ },
+ "VoiceTrick": {
+  "Tone": [
+   "Tone",
+   "Turn down to roll off highs in the speakers and tame flangey bleed."
+  ]
+ },
+ "Weight": {
+  "Freq": [
+   "Bass note",
+   "Tunes the sub boost from very deep up to low bass notes."
+  ],
+  "Weight": [
+   "Sub weight",
+   "Turn up to add more resonant deep sub-bass on top of the dry sound."
+  ]
+ },
+ "Wider": {
+  "Center": [
+   "Center",
+   "Up pushes the middle forward and fatter; down sets it back."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Width": [
+   "Width",
+   "Up widens and fattens the sides; down narrows toward mono."
+  ]
+ },
+ "WoodenBox": {
+  "Depth": [
+   "Box amount",
+   "Turn up to blend in more of the wooden box around the sound."
+  ],
+  "Reso": [
+   "Resonance",
+   "Turn up for more ringing tone from the wooden box."
+  ],
+  "Select": [
+   "Box type",
+   "Picks one of several tiny wooden room sounds."
+  ]
+ },
+ "X2Buss": {
+  "Bass": [
+   "Bass",
+   "Boosts or cuts the low end."
+  ],
+  "BassF": [
+   "Bass zone",
+   "Moves where the bass control starts working."
+  ],
+  "Fader": [
+   "Volume",
+   "Output level; center leaves it unchanged."
+  ],
+  "HMid": [
+   "Upper mids",
+   "Boosts or cuts the upper midrange."
+  ],
+  "HMidF": [
+   "Hi-mid zone",
+   "Moves which upper midrange the upper mids control affects."
+  ],
+  "High": [
+   "Treble",
+   "Boosts or cuts the highs."
+  ],
+  "HighF": [
+   "Treble zone",
+   "Moves where the treble control starts working."
+  ],
+  "LMid": [
+   "Lower mids",
+   "Boosts or cuts the lower midrange."
+  ],
+  "LMidF": [
+   "Lo-mid zone",
+   "Moves which lower midrange the lower mids control affects."
+  ],
+  "Thresh": [
+   "Squash",
+   "Turn up for more buss compression, gluing the mix and making it denser."
+  ]
+ },
+ "XBandpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Picks which band of the sound is kept; the rest is cut."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Nuke": [
+   "Mangle",
+   "Adds filter stages and internal clipping for harsher, wilder tones."
+  ]
+ },
+ "XHighpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Higher cuts more low end, thinning the sound out."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Nuke": [
+   "Mangle",
+   "Adds filter stages and internal clipping for harsher, wilder tones."
+  ]
+ },
+ "XLowpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Lower makes it darker; higher lets more treble through."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Nuke": [
+   "Mangle",
+   "Adds filter stages and internal clipping for harsher, wilder tones."
+  ]
+ },
+ "XNotch": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Picks which band gets scooped out of the sound."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Nuke": [
+   "Saturation",
+   "Turn up for more distortion on everything outside the notch."
+  ]
+ },
+ "XRegion": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "First": [
+   "Start pitch",
+   "Sets the first band that gets distorted; high here sounds roaring."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Last": [
+   "End pitch",
+   "Sets the band the chain ends on; spreading them adds more grind."
+  ],
+  "Nuke": [
+   "Mangle",
+   "More stages move further from Start toward End for wilder grind."
+  ]
+ },
+ "YBandpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Picks which band of the sound is kept; the rest is cut."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "ResEdge": [
+   "Edge",
+   "0.1 is normal; lower is warmer, higher gets nasty and glitchy."
+  ],
+  "Reson8": [
+   "Resonance",
+   "Turn up for a sharper, ringing peak at the filter frequency."
+  ]
+ },
+ "YHighpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Higher cuts more low end, thinning the sound out."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "ResEdge": [
+   "Edge",
+   "0.1 is normal; lower is warmer, higher gets nasty and glitchy."
+  ],
+  "Reson8": [
+   "Resonance",
+   "Turn up for a sharper, ringing peak at the filter frequency."
+  ]
+ },
+ "YLowpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Lower makes it darker; higher lets more treble through."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "ResEdge": [
+   "Edge",
+   "0.1 is normal; lower is warmer, higher gets nasty and glitchy."
+  ],
+  "Reson8": [
+   "Resonance",
+   "Turn up for a sharper, ringing peak at the filter frequency."
+  ]
+ },
+ "YNotBandpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Picks which band of the sound is kept; the rest is cut."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "ResEdge": [
+   "Edge",
+   "0.1 is normal; lower is warmer, higher gets nasty and glitchy."
+  ],
+  "Reson8": [
+   "Resonance",
+   "Turn up for a sharper, ringing peak at the filter frequency."
+  ]
+ },
+ "YNotHighpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Higher cuts more low end, thinning the sound out."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "ResEdge": [
+   "Edge",
+   "0.1 is normal; lower is warmer, higher gets nasty and glitchy."
+  ],
+  "Reson8": [
+   "Resonance",
+   "Turn up for a sharper, ringing peak at the filter frequency."
+  ]
+ },
+ "YNotLowpass": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Lower makes it darker; higher lets more treble through."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "ResEdge": [
+   "Edge",
+   "0.1 is normal; lower is warmer, higher gets nasty and glitchy."
+  ],
+  "Reson8": [
+   "Resonance",
+   "Turn up for a sharper, ringing peak at the filter frequency."
+  ]
+ },
+ "YNotNotch": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Picks which band gets scooped out of the sound."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "ResEdge": [
+   "Edge",
+   "0.1 is normal; lower is warmer, higher gets nasty and glitchy."
+  ],
+  "Reson8": [
+   "Resonance",
+   "Low gives a gentle slope cut; higher makes a sharper notch."
+  ]
+ },
+ "YNotch": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "Freq": [
+   "Frequency",
+   "Picks which band gets scooped out of the sound."
+  ],
+  "Gain": [
+   "Drive",
+   "Pushes the sound harder into the filter for more distortion."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "ResEdge": [
+   "Edge",
+   "0.1 is normal; lower is warmer, higher gets nasty and glitchy."
+  ],
+  "Reson8": [
+   "Resonance",
+   "Low gives a gentle slope cut; higher makes a sharper notch."
+  ]
+ },
+ "ZAcidLowpass": {
+  "Cutoff": [
+   "Frequency",
+   "Sets where the resonant, ringy filter sits."
+  ],
+  "Drive": [
+   "Drive",
+   "Pushes the output stage harder for more distortion."
+  ],
+  "Meltdwn": [
+   "Chaos",
+   "Feeds raw audio into the filter for wilder, dirtier noise."
+  ],
+  "Output": [
+   "Volume",
+   "Sets the output level."
+  ],
+  "Over": [
+   "Low cut",
+   "Turn up to cut lows; with High cut also up you get the full sound."
+  ],
+  "Under": [
+   "High cut",
+   "Turn up to cut highs; with Low cut also up you get the full sound."
+  ]
+ },
+ "ZBandpass": {
+  "Freq": [
+   "Frequency",
+   "Picks which band of the sound is kept; the rest is cut."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes level into the filter; 0.1 is about even, higher distorts."
+  ],
+  "Output": [
+   "Volume",
+   "Turns the output down to tame the hot level after drive."
+  ],
+  "Poles": [
+   "Filter depth",
+   "Low blends in the filter; higher makes it steeper and stronger."
+  ]
+ },
+ "ZBandpass2": {
+  "Freq": [
+   "Frequency",
+   "Picks which band of the sound is kept; the rest is cut."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes level into the filter; 0.1 is about even, higher distorts."
+  ],
+  "Output": [
+   "Volume",
+   "Turns the output down to tame the hot level after drive."
+  ],
+  "Poles": [
+   "Filter depth",
+   "Low blends in the filter; higher makes it steeper and stronger."
+  ]
+ },
+ "ZHighpass": {
+  "Freq": [
+   "Frequency",
+   "Higher cuts more low end, thinning the sound out."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes level into the filter; 0.1 is about even, higher distorts."
+  ],
+  "Output": [
+   "Volume",
+   "Turns the output down to tame the hot level after drive."
+  ],
+  "Poles": [
+   "Filter depth",
+   "Low blends in the filter; higher makes it steeper and stronger."
+  ]
+ },
+ "ZHighpass2": {
+  "Freq": [
+   "Frequency",
+   "Higher cuts more low end, thinning the sound out."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes level into the filter; 0.1 is about even, higher distorts."
+  ],
+  "Output": [
+   "Volume",
+   "Turns the output down to tame the hot level after drive."
+  ],
+  "Poles": [
+   "Filter depth",
+   "Low blends in the filter; higher makes it steeper and stronger."
+  ]
+ },
+ "ZLowpass": {
+  "Freq": [
+   "Frequency",
+   "Lower makes it darker; higher lets more treble through."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes level into the filter; 0.1 is about even, higher distorts."
+  ],
+  "Output": [
+   "Volume",
+   "Turns the output down to tame the hot level after drive."
+  ],
+  "Poles": [
+   "Filter depth",
+   "Low blends in the filter; higher makes it steeper and stronger."
+  ]
+ },
+ "ZLowpass2": {
+  "Freq": [
+   "Frequency",
+   "Lower makes it darker; higher lets more treble through."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes level into the filter; 0.1 is about even, higher distorts."
+  ],
+  "Output": [
+   "Volume",
+   "Turns the output down to tame the hot level after drive."
+  ],
+  "Poles": [
+   "Filter depth",
+   "Low blends in the filter; higher makes it steeper and stronger."
+  ]
+ },
+ "ZNotch": {
+  "Freq": [
+   "Frequency",
+   "Picks which band gets scooped out of the sound."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes level into the filter; 0.1 is about even, higher distorts."
+  ],
+  "Output": [
+   "Volume",
+   "Turns the output down to tame the hot level after drive."
+  ],
+  "Poles": [
+   "Filter depth",
+   "Low blends in the filter; higher makes it steeper and stronger."
+  ]
+ },
+ "ZNotch2": {
+  "Freq": [
+   "Frequency",
+   "Picks which band gets scooped out of the sound."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes level into the filter; 0.1 is about even, higher distorts."
+  ],
+  "Output": [
+   "Volume",
+   "Turns the output down to tame the hot level after drive."
+  ],
+  "Poles": [
+   "Filter depth",
+   "Low blends in the filter; higher makes it steeper and stronger."
+  ]
+ },
+ "ZOutputStage": {
+  "Input": [
+   "Drive",
+   "Turn past 0.1 to distort with fizzy, sampler-style clipped edges."
+  ],
+  "Output": [
+   "Volume",
+   "Turn down to tame the very hot output."
+  ]
+ },
+ "ZRegion": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "First": [
+   "Start pitch",
+   "Sets the first band that gets distorted; high here sounds roaring."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes level into the filter; 0.1 is about even, higher distorts."
+  ],
+  "Last": [
+   "End pitch",
+   "Sets the band the chain ends on; spreading them adds more grind."
+  ],
+  "Poles": [
+   "Filter depth",
+   "More stages move further from Start toward End for thicker grind."
+  ]
+ },
+ "ZRegion2": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from your dry sound to the full effect."
+  ],
+  "First": [
+   "Start pitch",
+   "Sets the first band that gets distorted; high here sounds roaring."
+  ],
+  "Input": [
+   "Drive",
+   "Pushes level into the filter; 0.1 is about even, higher distorts."
+  ],
+  "Last": [
+   "End pitch",
+   "Sets the band the chain ends on; spreading them adds more grind."
+  ],
+  "Poles": [
+   "Filter depth",
+   "More stages move further from Start toward End for thicker grind."
+  ]
+ },
+ "Zoom": {
+  "Zoom": [
+   "Peak shape",
+   "Above middle thickens the sound; below sharpens peaks and drops quiet parts."
+  ]
+ },
+ "kAlienSpaceship": {
+  "Derez": [
+   "Room scale",
+   "Left darkens and pitches the space down, bigger; right gets edgy."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "EarlyRF": [
+   "Early echoes",
+   "Turn up for louder first reflections that bridge dry sound and tail."
+  ],
+  "Filter": [
+   "Brightness",
+   "Sets how bright the deep reverb is; past center adds odd overtones."
+  ],
+  "Positin": [
+   "Position",
+   "Moves the sound around the room, from close up to back against a wall."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ]
+ },
+ "kBeyond": {
+  "Derez": [
+   "Room scale",
+   "Turn down to darken the reverb and make the space feel huger."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "EarlyRF": [
+   "Early echoes",
+   "Turn up for louder first reflections that bridge dry sound and tail."
+  ],
+  "Filter": [
+   "Brightness",
+   "Turn down to darken the deep reverb, like a far-off space."
+  ],
+  "Predlay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ]
+ },
+ "kCathedral": {
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kCathedral2": {
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kCathedral3": {
+  "DeRez": [
+   "Room scale",
+   "Turn down to darken the reverb and make the space feel huger."
+  ],
+  "Predlay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ],
+  "Top dB": [
+   "Tail ceiling",
+   "Sets the level where the tail saturates, like a really loud space."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kCathedral4": {
+  "Derez": [
+   "Room scale",
+   "Turn down to darken the reverb and make the space feel huger."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "EarlyRF": [
+   "Early echoes",
+   "Turn up for louder first reflections that bridge dry sound and tail."
+  ],
+  "Filter": [
+   "Brightness",
+   "Turn down to darken the deep reverb, like a far-off space."
+  ],
+  "Predlay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ]
+ },
+ "kCathedral5": {
+  "Derez": [
+   "Room scale",
+   "Left darkens and pitches the space down, bigger; right gets edgy."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "EarlyRF": [
+   "Early echoes",
+   "Turn up for louder first reflections that bridge dry sound and tail."
+  ],
+  "Filter": [
+   "Brightness",
+   "Sets how bright the deep reverb is; past center adds odd overtones."
+  ],
+  "Positin": [
+   "Position",
+   "Moves the sound around the room, from close up to back against a wall."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ]
+ },
+ "kChamberAR": {
+  "Delay": [
+   "Echo time",
+   "Sets the tape echo time; moving it bends pitch, far left gets tonal."
+  ],
+  "Input": [
+   "Input level",
+   "Sets how hard the sound hits the tape echo and room."
+  ],
+  "Low Cut": [
+   "Bass cut",
+   "Turn up to filter out more low end."
+  ],
+  "Regen": [
+   "Repeats",
+   "Turn up for more echoes; cranked it distorts and repeats forever."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kCosmos": {
+  "Derez": [
+   "Room scale",
+   "Turn down to darken the reverb and make the space feel huger."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "EarlyRF": [
+   "Early echoes",
+   "Turn up for louder first reflections that bridge dry sound and tail."
+  ],
+  "Filter": [
+   "Brightness",
+   "Turn down to darken the deep reverb, like a far-off space."
+  ],
+  "Predlay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer tail; full gives endless, self-balancing ambience."
+  ]
+ },
+ "kCyberCity": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "Positin": [
+   "Position",
+   "Moves the sound around the room, from close up to back against a wall."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer tail and more of the live air in the room."
+  ]
+ },
+ "kGuitarHall": {
+  "DeRez": [
+   "Room scale",
+   "Turn down to darken the reverb and make the space feel huger."
+  ],
+  "Predlay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ],
+  "Top dB": [
+   "Tail ceiling",
+   "Sets the level where the tail saturates, like a really loud space."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kGuitarHall2": {
+  "Derez": [
+   "Room scale",
+   "Left darkens and pitches the space down, bigger; right gets edgy."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "EarlyRF": [
+   "Early echoes",
+   "Turn up for louder first reflections that bridge dry sound and tail."
+  ],
+  "Filter": [
+   "Brightness",
+   "Sets how bright the deep reverb is; past center adds odd overtones."
+  ],
+  "Positin": [
+   "Position",
+   "Moves the sound around the room, from close up to back against a wall."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ]
+ },
+ "kPlate140": {
+  "DeRez": [
+   "Room scale",
+   "Turn down to darken the reverb and make the space feel huger."
+  ],
+  "Input": [
+   "Input level",
+   "Sets how hard the sound hits the plate."
+  ],
+  "Predlay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kPlate240": {
+  "DeRez": [
+   "Room scale",
+   "Turn down to darken the reverb and make the space feel huger."
+  ],
+  "Input": [
+   "Input level",
+   "Sets how hard the sound hits the plate."
+  ],
+  "Predlay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kPlateA": {
+  "Damping": [
+   "Decay time",
+   "Higher rings longer; lower damps the plate for a shorter tail."
+  ],
+  "InputPad": [
+   "Input level",
+   "Turn down to feed the plate less level if it gets too hot."
+  ],
+  "Low Cut": [
+   "Bass cut",
+   "Turn up to remove more low end from the reverb."
+  ],
+  "Predelay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kPlateB": {
+  "Damping": [
+   "Decay time",
+   "Higher rings longer; lower damps the plate for a shorter tail."
+  ],
+  "InputPad": [
+   "Input level",
+   "Turn down to feed the plate less level if it gets too hot."
+  ],
+  "Low Cut": [
+   "Bass cut",
+   "Turn up to remove more low end from the reverb."
+  ],
+  "Predelay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kPlateC": {
+  "Damping": [
+   "Decay time",
+   "Higher rings longer; lower damps the plate for a shorter tail."
+  ],
+  "InputPad": [
+   "Input level",
+   "Turn down to feed the plate less level if it gets too hot."
+  ],
+  "Low Cut": [
+   "Bass cut",
+   "Turn up to remove more low end from the reverb."
+  ],
+  "Predelay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kPlateD": {
+  "Damping": [
+   "Decay time",
+   "Higher rings longer; lower damps the plate for a shorter tail."
+  ],
+  "InputPad": [
+   "Input level",
+   "Turn down to feed the plate less level if it gets too hot."
+  ],
+  "Low Cut": [
+   "Bass cut",
+   "Turn up to remove more low end from the reverb."
+  ],
+  "Predelay": [
+   "Reverb delay",
+   "Adds a short gap before the reverb starts, keeping the sound clear."
+  ],
+  "Wetness": [
+   "Reverb level",
+   "Adds reverb up to the middle; past that the dry sound fades out."
+  ]
+ },
+ "kRockstar": {
+  "DownRez": [
+   "Room scale",
+   "Turn down to darken the hall and make the space feel bigger."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "Positin": [
+   "Position",
+   "Sets where the music sits relative to the space behind it."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained hall."
+  ]
+ },
+ "kStation": {
+  "Derez": [
+   "Room scale",
+   "Left darkens and pitches the space down, bigger; right gets edgy."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "EarlyRF": [
+   "Early echoes",
+   "Turn up for louder first reflections that bridge dry sound and tail."
+  ],
+  "Filter": [
+   "Brightness",
+   "Sets how bright the deep reverb is; past center adds odd overtones."
+  ],
+  "Positin": [
+   "Position",
+   "Moves the sound around the room, from close up to back against a wall."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ]
+ },
+ "kWoodRoom": {
+  "Derez": [
+   "Room scale",
+   "Left darkens and pitches the space down, bigger; right gets edgy."
+  ],
+  "Dry/Wet": [
+   "Effect mix",
+   "Blends from dry sound to all reverb; use full on an aux send."
+  ],
+  "EarlyRF": [
+   "Early echoes",
+   "Turn up for louder first reflections that bridge dry sound and tail."
+  ],
+  "Filter": [
+   "Brightness",
+   "Sets how bright the deep reverb is; past center adds odd overtones."
+  ],
+  "Positin": [
+   "Position",
+   "Moves the sound around the room, from close up to back against a wall."
+  ],
+  "Regen": [
+   "Tail length",
+   "Turn up for a longer, more sustained reverb tail."
+  ]
+ },
+ "uLawDecode": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Best left at full; lower mixes back dry sound, which breaks the pair."
+  ],
+  "Gain": [
+   "Level",
+   "Best left at full; changing it gives unpredictable, harsh results."
+  ]
+ },
+ "uLawEncode": {
+  "Dry/Wet": [
+   "Effect mix",
+   "Best left at full; lower mixes back dry sound, which breaks the pair."
+  ],
+  "Gain": [
+   "Level",
+   "Best left at full; changing it gives unpredictable, harsh results."
+  ]
+ }
+}

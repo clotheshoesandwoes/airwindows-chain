@@ -1,4 +1,5 @@
 #include "SlotPanel.h"
+#include "../PlainWords.h"
 
 namespace awchain
 {
@@ -488,13 +489,21 @@ void SlotPanel::showSlot(int s)
     category = e->category;
     summary = e->summary;
     body.knobs = proc.getSetting("knobs", "0") == "1";
+    // "Plain words" swaps Chris's names for beginner ones; the original stays in the tooltip.
+    const bool plain = airwindows && proc.getSetting("words", "chris") == "plain";
 
     for (int i = 0; i < info.nParams; ++i)
     {
+        const auto &name = info.paramNames[(size_t)i];
         auto row = std::make_unique<ParamRow>(
-            proc.fxParam(s, i), info.paramNames[(size_t)i],
+            proc.fxParam(s, i), plain ? PlainWords::get().label(e->name, name) : name,
             [this, s, i](float v) { return proc.formatValue(s, i, v); },
             [this, s, i](const juce::String &t) { return proc.parseValue(s, i, t); }, body.knobs);
+        if (plain)
+        {
+            const auto hint = PlainWords::get().hint(e->name, name);
+            row->setTooltip(hint.isEmpty() ? name : hint + "\n\nChris calls it " + name + ".");
+        }
         body.addAndMakeVisible(*row);
         body.rows.push_back(std::move(row));
     }
@@ -510,6 +519,8 @@ void SlotPanel::showSlot(int s)
             return digits.getFloatValue() / 100.f;
         },
         body.knobs);
+    if (plain)
+        body.mix->setTooltip("How much of this effect you hear. 0% is your sound untouched.");
     body.addAndMakeVisible(*body.mix);
 
     // In a colour theme the controls take this effect's colour from the set.

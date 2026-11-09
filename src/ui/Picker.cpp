@@ -1,4 +1,5 @@
 #include "Picker.h"
+#include "../PlainWords.h"
 
 namespace awchain
 {
@@ -687,7 +688,14 @@ void Picker::updatePreview()
         }
     }
     else if (index >= 0)
-        controls = controlNames(index).joinIntoString(", ");
+    {
+        auto names = controlNames(index);
+        if (proc.getSetting("words", "chris") == "plain")
+            if (const auto *e = Catalog::get().find(index))
+                for (auto &n : names)
+                    n = PlainWords::get().label(e->name, n);
+        controls = names.joinIntoString(", ");
+    }
     preview.show(index, proc.effectLabel(index), controls, manuals);
     const auto *e = Catalog::get().find(index);
     preview.setFavourite(e != nullptr && proc.isFavourite(e->name));

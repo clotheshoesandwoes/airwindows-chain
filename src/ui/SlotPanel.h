@@ -8,7 +8,7 @@ namespace awchain
 // One control: name, a fader (or a knob), and the value the effect reports.
 // Drag anywhere on it, click the fader track to jump, hold Ctrl or Shift for
 // fine moves, double-click to reset, double-click the value to type one.
-class ParamRow : public juce::Component
+class ParamRow : public juce::Component, public juce::SettableTooltipClient
 {
   public:
     using Format = std::function<juce::String(float)>;
